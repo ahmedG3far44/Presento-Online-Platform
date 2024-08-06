@@ -12,7 +12,6 @@ model Users {
   name            String
   email           String        @unique
   picture         String?
-  layout          Int           @default(1)
   ExperiencesList Experiences[]
   ProjectsList    Projects[]
   SkillsList      Skills[]
@@ -27,6 +26,7 @@ model Bio {
   bio       String? @default("about you...")
   jobTitle  String?
   bioName   String?
+  layout    Int
   userId    Users   @relation(fields: [usersId], references: [id])
   usersId   String
 }

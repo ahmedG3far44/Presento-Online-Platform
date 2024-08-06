@@ -102,4 +102,16 @@ export const skillsSchema = z.object({
     .max(200, { message: "too long input value!!" }),
 });
 
+export const userSchema = z.object({
+  id: z.string(),
+  given_name: z.string(),
+  family_name: z.string(),
+  picture: z
+    .string()
+    .min(10, { message: "too short url " })
+    .max(300, { message: "too long url text" })
+    .url({ message: "Invalid url" }),
+  email: z.string().email({ message: "Invalid email address" }),
+});
+
 // export const contactsSchema = z.object({});

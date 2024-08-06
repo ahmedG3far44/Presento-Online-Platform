@@ -86,16 +86,13 @@ export const projectSchema = z.object({
     .string()
     .min(10, { message: "short input value!!" })
     .max(200, { message: "too long input value!!" }),
-  tags: z.array(),
-  liveLink: z
-    .string("wrong type of data!!")
-    .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" }),
+  tags: z.string().array().max(10).optional(),
+  images: z.string().array().max(4).optional(),
   sourceLink: z
     .string("wrong type of data!!")
     .min(10, { message: "short input value!!" })
     .max(200, { message: "too long input value!!" }),
-  likes: z.number("not valid type input"),
+  likes: z.number("not valid type input").int(),
   views: z.number("not valid type input"),
 });
 
@@ -110,4 +107,13 @@ export const skillsSchema = z.object({
     .max(300, { message: "too long input value!!" }),
 });
 
-// export const contactsSchema = z.object({});
+export const userSchema = z.object({
+  id: z.string(),
+  given_name: z.string(),
+  family_name: z.string(),
+  picture: z
+    .string()
+    .min(10, { message: "too short url " })
+    .max(300, { message: "too long url text" }),
+  email: z.string(),
+});
