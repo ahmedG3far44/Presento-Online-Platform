@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:@Ranaa125@localhost:3306/portfolio?schema=public"
+}
+
+model Users {
+  id              String        @id @unique
+  name            String
+  email           String        @unique
+  picture         String?
+  layout          Int           @default(1)
+  ExperiencesList Experiences[]
+  ProjectsList    Projects[]
+  SkillsList      Skills[]
+  ContactsList    Contacts[]
+  Bio             Bio[]
+  Layouts         Layouts[]
+}
+
+model Bio {
+  id        String  @id @default(uuid())
+  heroImage String? @default("")
+  bio       String? @default("about you...")
+  jobTitle  String?
+  bioName   String?
+  userId    Users   @relation(fields: [usersId], references: [id])
+  usersId   String
+}
+
+model Experiences {
+  id       String   @id @default(uuid())
+  cName    String
+  cLogo    String?
+  position String?
+  start    DateTime
+  end      DateTime
+  role     String
+  location String
+  userId   Users    @relation(fields: [usersId], references: [id])
+  usersId  String
+}
+
+model Layouts {
+  id          String @id @default(uuid())
+  layoutStyle Int
+  sectionName String
+  userId      Users  @relation(fields: [usersId], references: [id])
+  usersId     String
+}
+
+//=========================================
+model Projects {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  thumbnail   String?
+  tags        Tags[]
+  ImagesList  ImagesList[]
+  likes       Int          @default(0)
+  views       Float        @default(0.0)
+  userId      Users        @relation(fields: [usersId], references: [id])
+  usersId     String
+}
+
+model Tags {
+  id         String    @id @default(uuid())
+  tagName    String
+  Projects   Projects? @relation(fields: [projectsId], references: [id])
+  projectsId String?
+}
+
+model ImagesList {
+  id         String   @id @default(uuid())
+  url        String
+  projectId  Projects @relation(fields: [projectsId], references: [id])
+  projectsId String
+}
+
+//=========================================
+
+model Skills {
+  id        String  @id @default(uuid())
+  skillName String
+  skillLogo String?
+  userId    Users   @relation(fields: [usersId], references: [id])
+  usersId   String
+}
+
+model Contacts {
+  id        String  @id @default(uuid())
+  linkedin  String?
+  github    String?
+  youtube   String?
+  dribble   String?
+  behance   String?
+  instagram String?
+  twitter   String?
+  userId    Users   @relation(fields: [usersId], references: [id])
+  usersId   String
+}
