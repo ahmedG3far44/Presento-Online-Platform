@@ -1,8 +1,8 @@
 import express from "express";
 import prisma from "../database/db.js";
+import Exceptions from "../handlers/Exceptions.js";
 import checkAccessUser from "../middlewares/checkAccessUser.js";
 import { projectSchema } from "../schemas/validationSchemas.js";
-import { tuple } from "zod";
 
 const router = express.Router();
 
@@ -12,10 +12,11 @@ router.post("/:userId/project", async (req, res) => {
     const { userId } = req.params;
     const validProjectData = projectSchema.safeParse(payload);
     if (!validProjectData.success) {
-      return res.status(403).json({
-        state: "not valid data",
-        message: validProjectData.error.flatten().fieldErrors,
-      });
+      return res
+        .status(400)
+        .json(
+          new Exceptions(400, validProjectData.error.flatten().fieldErrors)
+        );
     }
     //============================================
     const { title, description, thumbnail, likes, views, images, tags } =
@@ -57,15 +58,18 @@ router.post("/:userId/project", async (req, res) => {
     }
     //============================================
     console.log("images added to project");
-    return res.status(200).json({
-      state: "project added",
-      message: "a new project added successful",
-    });
+    return res
+      .status(201)
+      .json(new Exceptions(201, "a new project was created successfully"));
   } catch (error) {
-    return res.status(500).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res
+      .status(500)
+      .json(
+        new Exceptions(
+          500,
+          "server connection error or query parameters is missing."
+        )
+      );
   }
 });
 
@@ -99,17 +103,20 @@ router.get("/:userId/project/:projectId", async (req, res) => {
       },
     });
     if (!project) {
-      return res.status(404).json({
-        state: "not found error",
-        message: "the project doesn't found",
-      });
+      return res
+        .status(404)
+        .json(new Exceptions(404, "this project doesn't exist"));
     }
     return res.status(200).json(project);
   } catch (error) {
-    return res.status(500).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res
+      .status(500)
+      .json(
+        new Exceptions(
+          500,
+          "server connection error or query parameters is missing."
+        )
+      );
   }
 });
 
@@ -119,16 +126,17 @@ router.put("/:userId/project/:projectId", checkAccessUser, async (req, res) => {
     const payload = req.body;
     const validProjectData = projectSchema.safeParse(payload);
     if (!validProjectData.success) {
-      return res.status(404).json({
-        state: "not valid data payload",
-        message: validProjectData.error.flatten().fieldErrors,
-      });
+      return res
+        .status(404)
+        .json(
+          new Exceptions(404, validProjectData.error.flatten().fieldErrors)
+        );
     }
 
     //==============================================
     const { title, thumbnail, likes, views, description } =
       validProjectData.data;
-    const updateProject = await prisma.projects.update({
+    await prisma.projects.update({
       where: {
         id: projectId,
         usersId: userId,
@@ -142,16 +150,18 @@ router.put("/:userId/project/:projectId", checkAccessUser, async (req, res) => {
       },
     });
 
-    return res.status(200).json({
-      state: "update project",
-      message: "project updated successful ",
-      updateProject,
-    });
+    return res
+      .status(200)
+      .json(new Exceptions(200, "updated project info success."));
   } catch (error) {
-    return res.status(500).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res
+      .status(500)
+      .json(
+        new Exceptions(
+          500,
+          "connection error or query parameters db is missing "
+        )
+      );
   }
 });
 
@@ -192,16 +202,14 @@ router.delete(
           },
         });
         console.log("the project deleted successful");
-        return res.status(200).json({
-          state: 200,
-          message: "deleted project success",
-        });
+        return res
+          .status(200)
+          .json(new ErrorException(200, "project deleted successful"));
       }
     } catch (error) {
-      return res.status(400).json({
-        state: "connection error",
-        message: error.message,
-      });
+      return res
+        .status(500)
+        .json(new ErrorException(500, "query missing parameter"));
     }
   }
 );

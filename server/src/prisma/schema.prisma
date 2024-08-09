@@ -18,38 +18,33 @@ model Users {
   ContactsList    Contacts[]
   Bio             Bio[]
   Layouts         Layouts[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 model Bio {
   id        String  @id @default(uuid())
   heroImage String? @default("")
-  bio       String? @default("about you...")
-  jobTitle  String?
-  bioName   String?
-  layout    Int
+  bio       String? @default("your summary...")
+  jobTitle  String? @default("your currrent job title.... ")
+  bioName   String? @default("your name ")
   userId    Users   @relation(fields: [usersId], references: [id])
   usersId   String
 }
 
 model Experiences {
-  id       String   @id @default(uuid())
-  cName    String
-  cLogo    String?
-  position String?
-  start    DateTime
-  end      DateTime
-  role     String
-  location String
-  userId   Users    @relation(fields: [usersId], references: [id])
-  usersId  String
-}
-
-model Layouts {
-  id          String @id @default(uuid())
-  layoutStyle Int
-  sectionName String
-  userId      Users  @relation(fields: [usersId], references: [id])
-  usersId     String
+  id        String   @id @default(uuid())
+  cName     String
+  cLogo     String?
+  position  String?
+  start     DateTime
+  end       DateTime
+  role      String
+  location  String
+  userId    Users    @relation(fields: [usersId], references: [id])
+  usersId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //=========================================
@@ -64,6 +59,8 @@ model Projects {
   views       Float        @default(0.0)
   userId      Users        @relation(fields: [usersId], references: [id])
   usersId     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Tags {
@@ -83,11 +80,13 @@ model ImagesList {
 //=========================================
 
 model Skills {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   skillName String
   skillLogo String?
-  userId    Users   @relation(fields: [usersId], references: [id])
+  userId    Users    @relation(fields: [usersId], references: [id])
   usersId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Contacts {
@@ -101,4 +100,14 @@ model Contacts {
   twitter   String?
   userId    Users   @relation(fields: [usersId], references: [id])
   usersId   String
+}
+
+model Layouts {
+  id             String @id @default(uuid())
+  heroLayout     String @default("1")
+  expLayout      String @default("1")
+  skillsLayout   String @default("1")
+  projectsLayout String @default("1")
+  userId         Users  @relation(fields: [usersId], references: [id])
+  usersId        String
 }

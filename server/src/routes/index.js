@@ -6,6 +6,8 @@ import skillsRoute from "./skills.js";
 import contactsRoute from "./contacts.js";
 import bioRoute from "./bio.js";
 import projectDetailsRoute from "./projectDetails.js";
+import layoutsRoute from "./layouts.js";
+import adminRoute from "./admin.js";
 
 const rootRouter = express.Router();
 
@@ -16,5 +18,7 @@ rootRouter.use("/", projectsRoute);
 rootRouter.use("/", projectDetailsRoute);
 rootRouter.use("/", skillsRoute);
 rootRouter.use("/", contactsRoute);
+rootRouter.use("/", layoutsRoute);
+rootRouter.use("/", adminRoute);
 
 export default rootRouter;

@@ -1,7 +1,8 @@
 import express from "express";
 import prisma from "../database/db.js";
-import { skillsSchema } from "../schemas/validationSchemas.js";
+import Exceptions from "../handlers/Exceptions.js";
 import checkAccessUser from "../middlewares/checkAccessUser.js";
+import { skillsSchema } from "../schemas/validationSchemas.js";
 
 const router = express.Router();
 
@@ -10,19 +11,15 @@ router.post("/:userId/skills", checkAccessUser, async (req, res) => {
   const payload = req.body;
   const validSkillsPayload = skillsSchema.safeParse(payload);
   if (!validSkillsPayload.success) {
-    return res.json({
-      state: "not valid error",
-      message: validSkillsPayload.error.flatten().fieldErrors,
-    });
+    return res.json(new Exceptions(400, "bad client request not valid data"));
   }
   await prisma.skills.create({
     data: { ...validSkillsPayload.data, usersId: userId },
   });
   console.log("a new skill added to user", userId);
-  res.status(201).json({
-    state: "success",
-    message: "added skill successfully.",
-  });
+  return res
+    .status(201)
+    .json(new Exceptions(201, "skill was created successful"));
 });
 
 router.put("/:userId/skills/:skillId", checkAccessUser, async (req, res) => {
@@ -34,20 +31,18 @@ router.put("/:userId/skills/:skillId", checkAccessUser, async (req, res) => {
     },
   });
   if (!updateSkill) {
-    return res.status(404).json({
-      status: 404,
-      message: "skill item doesn't exist.",
-    });
+    return res.status(404).json(new Exceptions(404, "skill doesn't exist"));
   } else {
     const validSkillsPayload = skillsSchema.safeParse(payload);
     if (!validSkillsPayload.success) {
-      return res.status(400).json({
-        status: 403,
-        message: validSkillsPayload.error.flatten().fieldErrors,
-      });
+      return res
+        .status(400)
+        .json(
+          new Exceptions(400, validSkillsPayload.error.flatten().fieldErrors)
+        );
     } else {
       const { data } = validSkillsPayload;
-      const updatedSkills = await prisma.skills.update({
+      await prisma.skills.update({
         where: {
           id: skillId,
           usersId: userId,
@@ -58,11 +53,9 @@ router.put("/:userId/skills/:skillId", checkAccessUser, async (req, res) => {
         },
       });
       console.log("updated skill info ");
-      return res.status(200).json({
-        success: "done",
-        message: "updated skill info",
-        ...updatedSkills,
-      });
+      return res
+        .status(200)
+        .json(new Exceptions(200, "skill updated successfully"));
     }
   }
 });
@@ -76,10 +69,9 @@ router.delete("/:userId/skills/:id", checkAccessUser, async (req, res) => {
     },
   });
   if (!deletedSkill) {
-    return res.status(404).json({
-      state: "can't delete",
-      message: "this items doesn't exist.",
-    });
+    return res
+      .status(404)
+      .json(new Exceptions(404, "couldn't delete the skill"));
   }
   await prisma.skills.delete({
     where: {
@@ -88,10 +80,7 @@ router.delete("/:userId/skills/:id", checkAccessUser, async (req, res) => {
     },
   });
   console.log(`user ${userId} is deleted item id ${id} `);
-  return res.status(200).json({
-    state: "success",
-    message: "deleted successful",
-  });
+  return res.status(200).json(new Exceptions(200, "skills was deleted "));
 });
 
 export default router;

@@ -1,11 +1,45 @@
 import express from "express";
 import prisma from "../database/db.js";
 import checkUser from "../middlewares/checkUser.js";
+import Exceptions from "../handlers/Exceptions.js";
 
 const router = express.Router();
 
 router.post("/user", checkUser, async (req, res) => {
-  return res.status(200);
+  try {
+    const payload = req.body;
+    const userInfo = await prisma.users.findUnique({
+      where: { id: payload.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        Bio: {
+          select: {
+            bioName: true,
+            jobTitle: true,
+            heroImage: true,
+            bio: true,
+          },
+        },
+        ExperiencesList: true,
+        ProjectsList: true,
+        SkillsList: true,
+        ContactsList: true,
+        Layouts: {
+          select: {
+            heroLayout: true,
+            expLayout: true,
+            projectsLayout: true,
+            skillsLayout: true,
+          },
+        },
+      },
+    });
+    return res.status(201).json(userInfo);
+  } catch (error) {
+    return res.status(500).json(new Exceptions(500, error.message));
+  }
 });
 
 router.get("/:userId/user", async (req, res) => {
@@ -26,18 +60,21 @@ router.get("/:userId/user", async (req, res) => {
   });
   try {
     if (!user) {
-      return res.status(404).json({
-        state: "error user",
-        message: "user doesn't exist.",
-      });
+      return res
+        .status(404)
+        .json(new Exceptions(404, "this user doesn't exist"));
     } else {
       return res.json(user);
     }
   } catch (error) {
-    return res.status(500).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res
+      .status(500)
+      .json(
+        new Exceptions(
+          500,
+          "server connection error or query parameters is missing."
+        )
+      );
   }
 });
 

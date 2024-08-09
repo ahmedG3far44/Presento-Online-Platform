@@ -117,3 +117,36 @@ export const userSchema = z.object({
     .max(300, { message: "too long url text" }),
   email: z.string(),
 });
+
+export const contactsSchema = z.object({
+  linkedin: z.string().url().max(200, {
+    message: "too long url link",
+  }),
+  github: z.string().url().max(200, {
+    message: "too long url link",
+  }),
+  youtube: z.string().url().max(200, {
+    message: "too long url link",
+  }),
+  dribble: z.string().url().max(200, {
+    message: "too long url link",
+  }),
+  behance: z.string().url().max(200, {
+    message: "too long url link",
+  }),
+  instagram: z.string().url().max(200, {
+    message: "too long url link",
+  }),
+  twitter: z.string().url().max(200, {
+    message: "too long url link",
+  }),
+});
+
+export const layoutsSchema = z.object({
+  heroLayout: z.string().length(1, { message: "not valid hero layout" }),
+  expLayout: z.string().length(1, { message: "not valid experience layout" }),
+  projectsLayout: z
+    .string()
+    .length(1, { message: "not valid projects layout" }),
+  skillsLayout: z.string().length(1, { message: "not valid skills layout" }),
+});

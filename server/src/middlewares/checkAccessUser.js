@@ -1,4 +1,6 @@
 import prisma from "../database/db.js";
+import Exceptions from "../handlers/Exceptions.js";
+
 export default async function checkAccessUser(req, res, next) {
   const { userId } = req.params;
   try {
@@ -8,14 +10,10 @@ export default async function checkAccessUser(req, res, next) {
       },
     });
     if (!user) {
-      return res.status(404).json({
-        error: "user have no access to this action",
-      });
+      return res.status(404).json(new Exceptions(401, "UnAuthorized User"));
     }
     return next();
   } catch (error) {
-    return res.status(404).json({
-      error: error.message,
-    });
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 }

@@ -1,48 +1,51 @@
 import express from "express";
 import prisma from "../database/db.js";
-import { experienceSchema } from "../schemas/validationSchemas.js";
+import Exceptions from "../handlers/Exceptions.js";
 import checkAccessUser from "../middlewares/checkAccessUser.js";
+import { experienceSchema } from "../schemas/validationSchemas.js";
 
 const router = express.Router();
 
 router.post("/:userId/experiences", async (req, res) => {
-  const { userId } = req.params;
-  const payload = req.body;
-  const validExperiencePayload = experienceSchema.safeParse(payload);
-
   try {
+    const { userId } = req.params;
+    const payload = req.body;
+    const validExperiencePayload = experienceSchema.safeParse(payload);
     if (!validExperiencePayload.success) {
-      return res.status(403).json({
-        state: "error",
-        message: validExperiencePayload.error.flatten().fieldErrors,
-      });
+      return res
+        .status(400)
+        .json(
+          new Exceptions(
+            400,
+            validExperiencePayload.error.flatten().fieldErrors
+          )
+        );
     } else {
       await prisma.experiences.create({
         data: { ...validExperiencePayload.data, usersId: userId },
       });
-      return res.status(200).json({
-        state: "success",
-        message: "experience added successfully done.",
-      });
+      return res
+        .status(201)
+        .json(new Exceptions(201, "a new experience was created successful"));
     }
   } catch (error) {
-    return res.status(403).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 router.put("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
-  const { userId, id } = req.params;
-  const payload = req.body;
-  const validExperiencePayload = experienceSchema.safeParse(payload);
-
   try {
+    const { userId, id } = req.params;
+    const payload = req.body;
+    const validExperiencePayload = experienceSchema.safeParse(payload);
     if (!validExperiencePayload.success) {
-      return res.status(403).json({
-        state: "error",
-        message: validExperiencePayload.error.flatten().fieldErrors,
-      });
+      return res
+        .status(400)
+        .json(
+          new Exceptions(
+            400,
+            validExperiencePayload.error.flatten().fieldErrors
+          )
+        );
     } else {
       await prisma.experiences.update({
         where: {
@@ -51,33 +54,29 @@ router.put("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
         },
         data: { ...validExperiencePayload.data, usersId: userId },
       });
-      return res.status(200).json({
-        state: "updated success",
-        message: "experience updated successfully done.",
-      });
+      return res
+        .status(201)
+        .json(
+          new Exceptions(201, "experience information was updated successfully")
+        );
     }
   } catch (error) {
-    return res.status(403).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 router.delete("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
-  const { userId, id } = req.params;
   try {
-    // before deleting items we should check it exist or not
+    const { userId, id } = req.params;
     const deletedItem = await prisma.experiences.findUnique({
       where: { id },
     });
-    //============================================
+
     if (!deletedItem) {
-      return res.status(404).json({
-        state: "delete error",
-        message: "item doesn't exist",
-      });
+      return res
+        .status(404)
+        .json(new Exceptions(404, "this experience doesn't exist"));
     }
-    //============================================
+
     await prisma.experiences.delete({
       where: {
         id,
@@ -85,15 +84,11 @@ router.delete("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
       },
     });
     //============================================
-    return res.status(200).json({
-      state: "delete success",
-      message: "experience deleted successful.",
-    });
+    return res
+      .status(200)
+      .json(new Exceptions(200, "experience was deleted successfully."));
   } catch (error) {
-    return res.status(500).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 

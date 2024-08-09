@@ -1,5 +1,6 @@
 import express from "express";
 import prisma from "../database/db.js";
+import Exceptions from "../handlers/Exceptions.js";
 
 const projectDetailsRoute = express.Router();
 
@@ -29,18 +30,22 @@ projectDetailsRoute.get("/:userId/project", async (req, res) => {
         views: true,
       },
     });
+
     if (!userProjects) {
-      return res.status(404).json({
-        state: 404,
-        message: "not found project's",
-      });
+      return res
+        .status(404)
+        .json(new Exceptions(404, "user project doesn't exist"));
     }
     return res.status(200).json(userProjects);
   } catch (error) {
-    return res.status(200).json({
-      state: "connection error",
-      message: error.message,
-    });
+    return res
+      .status(500)
+      .json(
+        new Exceptions(
+          500,
+          "server connection error or query parameters missing."
+        )
+      );
   }
 });
 
