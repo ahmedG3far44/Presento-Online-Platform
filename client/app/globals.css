@@ -79,3 +79,7 @@
     rotate: 720deg;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}

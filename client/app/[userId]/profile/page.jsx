@@ -6,7 +6,7 @@ async function Profile() {
   {
     !isAdmin && isLogged ? (
       <div className="sticky left-0 top-0 max-w-screen max-h-screen">
-        <h1>Profile</h1>
+        <h1>profile</h1>
       </div>
     ) : (
       redirect("/api/auth/login")

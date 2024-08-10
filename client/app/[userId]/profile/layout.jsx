@@ -9,11 +9,17 @@ import User from "@/app/components/ui/cards/User";
 import credentials from "@/app/credentials/credentials";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { ModeToggle } from "@/components/dark-mode-toggle";
+import { TbSmartHome } from "react-icons/tb";
 
 async function layout({ children, params, searchParams }) {
   const { user, isAdmin } = await credentials();
   console.log(searchParams);
   const profileRoutes = [
+    {
+      path: `/${user?.id}`,
+      name: "Home",
+      icon: <TbSmartHome size={20} />,
+    },
     {
       path: `/${user?.id}/profile/bio`,
       name: "Bio",

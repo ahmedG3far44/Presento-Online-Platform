@@ -10,6 +10,8 @@ function ExperienceCard({
   end,
   location,
 }) {
+  const date = new Date();
+
   return (
     <div className="w-full flex flex-col justify-start items-start gap-4  rounded-md p-4 shadow-sm border ">
       <div className="w-full flex justify-between items-center">
@@ -30,8 +32,15 @@ function ExperienceCard({
           </div>
         </div>
         <div className="flex justify-center items-center gap-4 flex-1">
-          <h4 className="w-full flex">{start}</h4>
-          <h4 className="w-full flex">{end}</h4>
+          <h4 className="w-full flex justify-center items-center gap-2">
+            <span>{date.getFullYear(start)} </span>
+            <span>{date.getMonth(start)}</span>
+          </h4>
+          -
+          <h4 className="w-full flex justify-center items-center gap-2">
+            <span>{date.getFullYear(end)}</span>{" "}
+            <span>{date.getMonth(end)}</span>
+          </h4>
         </div>
       </div>
 

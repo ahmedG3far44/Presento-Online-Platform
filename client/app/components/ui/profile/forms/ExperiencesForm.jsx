@@ -4,7 +4,9 @@ import ExperienceCard from "../../cards/ExperienceCard";
 import Image from "next/image";
 import NoImage from "@/public/noImage.png";
 import { Button } from "@/components/ui/button";
+// import ConfirmDelete from "../../popup/ConfirmDelete";
 function ExperiencesForm() {
+  const [isOpen, setOpen] = useState(false);
   const [experienceState, setExperiences] = useState({
     cName: "Global Tech Company",
     cLogo:
@@ -94,7 +96,10 @@ function ExperiencesForm() {
           <input
             value={experienceState.position}
             onChange={(e) =>
-              setExperiences({ ...experienceState, position: e.target.value })
+              setExperiences({
+                ...experienceState,
+                position: e.target.value,
+              })
             }
             className="p-2 w-full rounded-md"
             type="text"
@@ -116,7 +121,10 @@ function ExperiencesForm() {
               <input
                 value={experienceState.start}
                 onChange={(e) =>
-                  setExperiences({ ...experienceState, start: e.target.value })
+                  setExperiences({
+                    ...experienceState,
+                    start: e.target.value,
+                  })
                 }
                 className="p-2 w-full rounded-md "
                 type="date"
@@ -128,7 +136,10 @@ function ExperiencesForm() {
               <input
                 value={experienceState.end}
                 onChange={(e) =>
-                  setExperiences({ ...experienceState, end: e.target.value })
+                  setExperiences({
+                    ...experienceState,
+                    end: e.target.value,
+                  })
                 }
                 className="p-2 w-full rounded-md "
                 type="date"
@@ -139,7 +150,10 @@ function ExperiencesForm() {
           <input
             value={experienceState.location}
             onChange={(e) =>
-              setExperiences({ ...experienceState, location: e.target.value })
+              setExperiences({
+                ...experienceState,
+                location: e.target.value,
+              })
             }
             className="p-2 w-full rounded-md "
             type="text"
@@ -160,10 +174,7 @@ function ExperiencesForm() {
       </div>
       <main className="w-full p-8">
         <h1>List of user Experiences</h1>
-        <ul
-          className="w-full rounded-md mt-10
-         flex flex-col justify-start items-start gap-2 "
-        >
+        <ul className="w-full rounded-md mt-10 flex flex-col justify-start items-start gap-2 ">
           {experiencesList.map((exp, index) => {
             return (
               <li
@@ -194,7 +205,12 @@ function ExperiencesForm() {
                     {updateState ? "updating..." : "update"}
                   </Button>
                   {updateState ? null : (
-                    <Button variant="destructive">delete</Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => confirm("are you sure about that")}
+                    >
+                      delete
+                    </Button>
                   )}
                 </div>
               </li>

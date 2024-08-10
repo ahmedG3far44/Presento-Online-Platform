@@ -12,8 +12,8 @@ function HeroLayout({ name, summary, img, layoutStyle, jobTitle }) {
   return (
     <div>
       {layoutStyle === "1" && (
-        <section className="flex justify-center  items-center gap-8 border  w-full   my-4 rounded-md  p-8">
-          <div className="p-4 flex-1 flex flex-col justify-start items-start  font-bold flex-wrap border-2 border-dashed  rounded-md h-full">
+        <section className="flex justify-center  items-center gap-8   w-full   my-4 rounded-md  p-8">
+          <div className="p-4 flex-1 flex flex-col justify-start items-start  font-bold flex-wrap  rounded-md h-full">
             <h1 className="text-2xl ">{name || "your name"}</h1>
             <h3 className="text-xl font-semibold">
               {jobTitle || "Your Job Title || Position"}
@@ -27,7 +27,7 @@ function HeroLayout({ name, summary, img, layoutStyle, jobTitle }) {
               Download CV
             </Button>
           </div>
-          <div className="flex-1 p-2 border-2 border-dashed overflow-hidden  flex justify-center items-center  rounded-md h-full">
+          <div className="flex-1 p-2 overflow-hidden  flex justify-center items-center  rounded-md h-full">
             <Image
               height={300}
               width={300}
@@ -36,7 +36,7 @@ function HeroLayout({ name, summary, img, layoutStyle, jobTitle }) {
               className="object-cover rounded-md"
             />
           </div>
-          <div className="flex-1 max-w-fit p-4 border-2 border-dashed  rounded-md h-full flex-wrap">
+          <div className="flex-1 max-w-fit p-4  rounded-md h-full flex-wrap">
             <p className="w-full overflow-hidden max-w-full max-h-full flex flex-wrap">
               {summary ||
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"}
