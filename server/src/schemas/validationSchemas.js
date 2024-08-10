@@ -119,25 +119,16 @@ export const userSchema = z.object({
 });
 
 export const contactsSchema = z.object({
-  linkedin: z.string().url().max(200, {
+  linkedin: z.string().max(200, {
     message: "too long url link",
   }),
-  github: z.string().url().max(200, {
+  github: z.string().max(200, {
     message: "too long url link",
   }),
-  youtube: z.string().url().max(200, {
+  youtube: z.string().max(200, {
     message: "too long url link",
   }),
-  dribble: z.string().url().max(200, {
-    message: "too long url link",
-  }),
-  behance: z.string().url().max(200, {
-    message: "too long url link",
-  }),
-  instagram: z.string().url().max(200, {
-    message: "too long url link",
-  }),
-  twitter: z.string().url().max(200, {
+  twitter: z.string().max(200, {
     message: "too long url link",
   }),
 });

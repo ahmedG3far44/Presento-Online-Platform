@@ -90,16 +90,13 @@ model Skills {
 }
 
 model Contacts {
-  id        String  @id @default(uuid())
-  linkedin  String?
-  github    String?
-  youtube   String?
-  dribble   String?
-  behance   String?
-  instagram String?
-  twitter   String?
-  userId    Users   @relation(fields: [usersId], references: [id])
-  usersId   String
+  id       String  @id @default(uuid())
+  linkedin String?
+  github   String?
+  youtube  String?
+  twitter  String?
+  userId   Users   @relation(fields: [usersId], references: [id])
+  usersId  String
 }
 
 model Layouts {

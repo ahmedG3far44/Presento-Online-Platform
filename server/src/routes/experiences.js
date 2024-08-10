@@ -55,9 +55,9 @@ router.put("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
         data: { ...validExperiencePayload.data, usersId: userId },
       });
       return res
-        .status(201)
+        .status(200)
         .json(
-          new Exceptions(201, "experience information was updated successfully")
+          new Exceptions(200, "experience information was updated successfully")
         );
     }
   } catch (error) {

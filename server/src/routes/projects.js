@@ -178,10 +178,9 @@ router.delete(
         },
       });
       if (!project) {
-        return res.status(404).json({
-          state: 404,
-          message: "not found item to delete!!",
-        });
+        return res
+          .status(404)
+          .json(new Exceptions(404, "this project doesn't exist"));
       } else {
         await prisma.tags.deleteMany({
           where: {
@@ -204,12 +203,17 @@ router.delete(
         console.log("the project deleted successful");
         return res
           .status(200)
-          .json(new ErrorException(200, "project deleted successful"));
+          .json(new Exceptions(200, "project deleted successful"));
       }
     } catch (error) {
       return res
         .status(500)
-        .json(new ErrorException(500, "query missing parameter"));
+        .json(
+          new Exceptions(
+            500,
+            "server connection error or query missing parameter"
+          )
+        );
     }
   }
 );
