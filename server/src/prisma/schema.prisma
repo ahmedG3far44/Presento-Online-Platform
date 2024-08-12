@@ -12,6 +12,7 @@ model Users {
   name            String
   email           String        @unique
   picture         String?
+  role            String        @default("user")
   ExperiencesList Experiences[]
   ProjectsList    Projects[]
   SkillsList      Skills[]
@@ -37,8 +38,8 @@ model Experiences {
   cName     String
   cLogo     String?
   position  String?
-  start     DateTime
-  end       DateTime
+  start     String
+  end       String
   role      String
   location  String
   userId    Users    @relation(fields: [usersId], references: [id])

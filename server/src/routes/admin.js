@@ -21,14 +21,7 @@ router.get("/admin", async (req, res) => {
       totalActions: countViews,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        new Exceptions(
-          500,
-          "server connection error or query parameters is missing."
-        )
-      );
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 

@@ -128,9 +128,7 @@ router.put("/:userId/project/:projectId", checkAccessUser, async (req, res) => {
     if (!validProjectData.success) {
       return res
         .status(404)
-        .json(
-          new Exceptions(404, validProjectData.error.flatten().fieldErrors)
-        );
+        .json(new Exceptions(404, "Bad request not a valid data."));
     }
 
     //==============================================
@@ -154,14 +152,7 @@ router.put("/:userId/project/:projectId", checkAccessUser, async (req, res) => {
       .status(200)
       .json(new Exceptions(200, "updated project info success."));
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        new Exceptions(
-          500,
-          "connection error or query parameters db is missing "
-        )
-      );
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 
@@ -206,14 +197,7 @@ router.delete(
           .json(new Exceptions(200, "project deleted successful"));
       }
     } catch (error) {
-      return res
-        .status(500)
-        .json(
-          new Exceptions(
-            500,
-            "server connection error or query missing parameter"
-          )
-        );
+      return res.status(500).json(new Exceptions(500, error.message));
     }
   }
 );

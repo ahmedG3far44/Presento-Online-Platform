@@ -34,18 +34,11 @@ projectDetailsRoute.get("/:userId/project", async (req, res) => {
     if (!userProjects) {
       return res
         .status(404)
-        .json(new Exceptions(404, "user project doesn't exist"));
+        .json(new Exceptions(404, "this user doesn't exist"));
     }
     return res.status(200).json(userProjects);
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        new Exceptions(
-          500,
-          "server connection error or query parameters missing."
-        )
-      );
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 

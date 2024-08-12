@@ -8,6 +8,7 @@ import {
 } from "react-icons/ai";
 import { RiTwitterXFill } from "react-icons/ri";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 function ContactsFrom() {
   const [contactObject, setContactObject] = useState({
@@ -56,15 +57,20 @@ function ContactsFrom() {
       value: "",
     },
   ]);
+  // 		"linkedin": "https://impolite-day.biz/",
+  // 		"github": "https://next-prostacyclin.info",
+  // 		"youtube": "https://agreeable-complex.org",
+  // 		"twitter": "https://peaceful-tiger.biz/",
+  // 		"usersId": "kp_95fdef745e5d43678ca77601e3cd3047"
 
   return (
-    <div className="w-full p-8 flex flex-col justify-start items-start gap-8">
-      <form className="w-96p-4 rounded-md flex flex-col justify-start items-center gap-2 ">
+    <div className="w-full p-4 rounded-md flex flex-col justify-start items-start gap-8 border">
+      <form className="w-full p-4 rounded-md flex flex-col justify-start items-center gap-2">
         <input
           onChange={(e) =>
             setContactObject({ ...contactObject, github: e.target.value })
           }
-          className="w-full p-2 rounded-md bg-gray-200"
+          className="w-full p-2 rounded-md"
           type="url"
           placeholder="Github profile link"
         />
@@ -72,23 +78,15 @@ function ContactsFrom() {
           onChange={(e) =>
             setContactObject({ ...contactObject, linkedin: e.target.value })
           }
-          className="w-full p-2 rounded-md bg-gray-200"
+          className="w-full p-2 rounded-md"
           type="url"
           placeholder="Linkedin profile link"
         />
         <input
           onChange={(e) =>
-            setContactObject({ ...contactObject, dribble: e.target.value })
-          }
-          className="w-full p-2 rounded-md bg-gray-200"
-          type="url"
-          placeholder="Dribble profile link"
-        />
-        <input
-          onChange={(e) =>
             setContactObject({ ...contactObject, youtube: e.target.value })
           }
-          className="w-full p-2 rounded-md bg-gray-200"
+          className="w-full p-2 rounded-md "
           type="url"
           placeholder="Youtube channel link"
         />
@@ -96,15 +94,17 @@ function ContactsFrom() {
           onChange={(e) =>
             setContactObject({ ...contactObject, twitter: e.target.value })
           }
-          className="w-full p-2 rounded-md bg-gray-200"
+          className="w-full p-2 rounded-md"
           type="url"
-          placeholder="x social medial link"
+          placeholder="twitter profile link"
         />
-        <input
+        <Button
           type="submit"
-          className="w-full px-4 py-2 rounded-md bg-purple-500 text-white "
-          value={"save links"}
-        />
+          variant="outline"
+          className="w-full px-4 py-2 rounded-md  text-white border "
+        >
+          save social links
+        </Button>
       </form>
     </div>
   );

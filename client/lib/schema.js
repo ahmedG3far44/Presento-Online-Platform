@@ -34,12 +34,12 @@ export const experienceSchema = z.object({
     .min(10, {
       message: "short input value!!",
     })
-    .max(30, {
+    .max(80, {
       message: "too long input value!!",
     }),
   cLogo: z
     .string("expected wrong type of data!!")
-    .min(10, {
+    .min(5, {
       message: "short input value!!",
     })
     .max(200, {
@@ -47,17 +47,20 @@ export const experienceSchema = z.object({
     }),
   position: z
     .string("expected wrong type of data!!")
-    .min(5, {
+    .min(3, {
       message: "short input value!!",
     })
-    .max(30, {
+    .max(80, {
       message: "too long input value!!",
     }),
-  start: z.date("expected wrong type of data!!"),
-  end: z.date("expected wrong type of data!!"),
+  start: z.string().date(),
+  end: z.string().date(),
+  location: z.string("expected type of data!!").min(3, {
+    message: "short input value!!",
+  }),
   role: z
     .string("expected wrong type of data!!")
-    .min(10, {
+    .min(5, {
       message: "short input value!!",
     })
     .max(300, {

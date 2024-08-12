@@ -5,9 +5,6 @@ import { contactsSchema } from "../schemas/validationSchemas.js";
 
 const router = express.Router();
 
-router.get("/:userId/contacts", async (req, res) => {
-  res.send("contact route");
-});
 router.post("/:userId/contacts", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -37,7 +34,9 @@ router.put("/:userId/contacts/:contactsId", async (req, res) => {
     const payload = req.body;
     const validContactsUrls = contactsSchema.safeParse(payload);
     if (!validContactsUrls.success) {
-      return res.status(400).json(new Exceptions(400, "not valid data schema"));
+      return res
+        .status(400)
+        .json(new Exceptions(400, "Bad request not a valid data"));
     }
 
     await prisma.contacts.update({
@@ -52,17 +51,10 @@ router.put("/:userId/contacts/:contactsId", async (req, res) => {
     console.log("contacts info updated");
     return res
       .status(200)
-      .json(
-        new Exceptions(200, "contact information was updated very successful.")
-      );
+      .json(new Exceptions(200, "contact information was updated successful."));
   } catch (error) {
     return res.status(500).json(new Exceptions(500, error.message));
   }
 });
-// router.delete("/contacts", async (req, res) => {
-//   res.json({
-//     delete: "contacts route",
-//   });
-// });
 
 export default router;

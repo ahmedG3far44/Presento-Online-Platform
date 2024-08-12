@@ -14,9 +14,7 @@ router.put("/:userId/layouts/:layoutId", async (req, res) => {
     if (!validLayoutsPayload.success) {
       return res
         .status(400)
-        .json(
-          new Exceptions(400, validLayoutsPayload.error.flatten().fieldErrors)
-        );
+        .json(new Exceptions(400, "Bad request not valid data"));
     }
     await prisma.layouts.update({
       where: {
@@ -30,11 +28,7 @@ router.put("/:userId/layouts/:layoutId", async (req, res) => {
       .status(200)
       .json(new Exceptions(200, "layout info was updated successfully"));
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        new Exceptions(500, "connections errors or query parameters missing ")
-      );
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 

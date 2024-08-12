@@ -1,11 +1,15 @@
+import dotenv from "dotenv";
 import { jwtVerify } from "@kinde-oss/kinde-node-express";
+import { experienceSchema } from "../schemas/validationSchemas";
 import Exceptions from "../handlers/Exceptions";
-export default async function verifyAccessUser(req, res, next) {
+dotenv.config();
+const verifier = jwtVerify("https://portfoliowebapplication.kinde.com");
+async function verifyAccessUser(req, res) {
   try {
-    const headers = req.headers;
-    const userHeaderToken = headers.split(" ")[1];
-    const verifyToken = jwtVerify(userHeaderToken);
+    const header = req.headers;
+    const token = header.split(" ")[1];
+    const payload = await jwtVerify(token);
   } catch (error) {
-    return res.status(500).json(new Exceptions(500, error.message));
+    return Exceptions(500, error.message);
   }
 }

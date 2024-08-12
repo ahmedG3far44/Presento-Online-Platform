@@ -1,7 +1,5 @@
-import Image from "next/image";
 import Container from "../components/ui/containers/Container";
 import Header from "../components/ui/nav/Header";
-import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import HeroLayout from "../components/ui/cards/HeroLayout";
 import ExperienceCard from "../components/ui/cards/ExperienceCard";
@@ -12,8 +10,20 @@ import "../globals.css";
 const getUserInfo = async (userId) => {
   try {
     const request = await fetch(`http://localhost:4000/api/${userId}/user`);
-    revalidatePath(`http://localhost:4000/api/${userId}/user`);
     const data = request.json();
+    revalidatePath(`/${userId}`);
+    return data;
+  } catch (error) {
+    return error.message;
+  }
+};
+const getExperiencesList = async (userId) => {
+  try {
+    const request = await fetch(
+      `http://localhost:4000/api/${userId}/experiences`
+    );
+    const data = request.json();
+    revalidatePath(`/${userId}`);
     return data;
   } catch (error) {
     return error.message;
@@ -31,14 +41,15 @@ async function UserPage({ params }) {
     SkillsList,
   } = userInfo;
   const { bio, jobTitle, bioName, heroImage } = Bio[0];
+  const experiencesList = await getExperiencesList(userId);
 
   return (
     <div
       className="w-full h-full
-     flex flex-col justify-start items-center gap-8 m-auto"
+     flex flex-col justify-start items-center gap-12 m-auto"
     >
-      <Header />
-      <Container className="m-auto">
+      <Header userInfo={userInfo} />
+      <Container className="w-full m-auto flex flex-col gap-8">
         <section id="hero" className="w-full h-full p-4 border">
           <HeroLayout
             name={bioName}
@@ -55,6 +66,8 @@ async function UserPage({ params }) {
                 {ExperiencesList?.map((exp) => {
                   return (
                     <ExperienceCard
+                      id={exp.id}
+                      key={exp.id}
                       cLogo={exp.cLogo}
                       cName={exp.cName}
                       start={exp.start}
@@ -62,6 +75,7 @@ async function UserPage({ params }) {
                       role={exp.role}
                       position={exp.position}
                       location={exp.location}
+                      userId={exp.usersId}
                     />
                   );
                 })}
@@ -73,9 +87,9 @@ async function UserPage({ params }) {
             )}
           </div>
         </section>
-        <section id="projects" className="w-full min-h-full p-4 border">
+        <section id="projects" className="w-full min-h-full p-4 border m-auto ">
           {ProjectsList.length > 0 ? (
-            <div className="w-full flex justify-start items-start m-auto gap-4 flex-wrap">
+            <div className="w-full flex justify-center items-start m-auto gap-4 flex-wrap">
               {ProjectsList.map((project) => {
                 return (
                   <ProjectCard

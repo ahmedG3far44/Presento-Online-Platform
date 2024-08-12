@@ -11,9 +11,7 @@ router.put("/:userId/bio/:bioId", async (req, res) => {
   try {
     const validBioPayload = bioSchema.safeParse(payload);
     if (!validBioPayload.success) {
-      return res.json(
-        new Exceptions(404, "Bad client request not valid user data")
-      );
+      return res.json(new Exceptions(404, "Bad request not valid data"));
     }
     const { heroImage, name, summary, jobTitle } = validBioPayload.data;
     await prisma.bio.update({

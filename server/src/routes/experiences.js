@@ -6,6 +6,41 @@ import { experienceSchema } from "../schemas/validationSchemas.js";
 
 const router = express.Router();
 
+router.get("/:userId/experiences", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const experiencesList = await prisma.experiences.findMany({
+      where: {
+        usersId: userId,
+      },
+    });
+    if (!experiencesList) {
+      return res.status(200).json({ experiencesList: "not items found" });
+    }
+    return res.status(200).json(experiencesList);
+  } catch (error) {
+    return res.status(500).json(new Exceptions(500, error.message));
+  }
+});
+
+router.get("/:userId/experiences/:experienceId", async (req, res) => {
+  try {
+    const { userId, experienceId } = req.params;
+    const experience = await prisma.experiences.findUnique({
+      where: {
+        usersId: userId,
+        id: experienceId,
+      },
+    });
+    if (!experience) {
+      return res.status(200).json({ experience: "not items found" });
+    }
+    return res.status(200).json(experience);
+  } catch (error) {
+    return res.status(500).json(new Exceptions(500, error.message));
+  }
+});
+
 router.post("/:userId/experiences", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -17,13 +52,14 @@ router.post("/:userId/experiences", async (req, res) => {
         .json(
           new Exceptions(
             400,
-            validExperiencePayload.error.flatten().fieldErrors
+            validExperiencePayload.error.formErrors.fieldErrors
           )
         );
     } else {
       await prisma.experiences.create({
         data: { ...validExperiencePayload.data, usersId: userId },
       });
+      console.log("a new experience add to user");
       return res
         .status(201)
         .json(new Exceptions(201, "a new experience was created successful"));
@@ -40,12 +76,7 @@ router.put("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
     if (!validExperiencePayload.success) {
       return res
         .status(400)
-        .json(
-          new Exceptions(
-            400,
-            validExperiencePayload.error.flatten().fieldErrors
-          )
-        );
+        .json(new Exceptions(400, "Bad request not a valid data."));
     } else {
       await prisma.experiences.update({
         where: {
@@ -83,7 +114,6 @@ router.delete("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
         usersId: userId,
       },
     });
-    //============================================
     return res
       .status(200)
       .json(new Exceptions(200, "experience was deleted successfully."));

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import SkillCard from "../../cards/SkillCard";
+import ItemsList from "../../nav/ItemsList";
 
 function SkillsForm() {
   const [updateState, setUpdateState] = useState(false);
@@ -78,52 +79,15 @@ function SkillsForm() {
           </Button>
         </form>
       </div>
-      <div className="w-full mt-8">
-        <h1>Skills List </h1>
-        <ul className="mt-8 flex flex-col gap-2 w-full rounded-md">
-          {skillsList.map((skill, index) => {
-            return (
-              <li
-                key={index}
-                className="flex justify-start gap-10  items-center px-8 py-4 border-b  w-full"
-              >
-                <div className="w-full flex justify-start items-center gap-4">
-                  <Image
-                    src={skill.skillLogo}
-                    width={40}
-                    height={40}
-                    className="rounded-md overflow-hidden"
-                    alt="thumbnail project"
-                  />
-                  <h1>{skill.skillName}</h1>
-                </div>
-
-                <div className="flex justify-center items-center gap-4 ml-auto">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setUpdateState(true);
-                      setSkills({ ...skill });
-                    }}
-                    className="px-2 py-1 rounded-md   disabled:bg-gray-400 disabled:cursor-not-allowed"
-                    disabled={updateState}
-                  >
-                    {updateState ? "updating..." : "update"}
-                  </Button>
-                  {!updateState && (
-                    <Button
-                      variant="destructive"
-                      className="px-2 py-1 rounded-md   "
-                    >
-                      delete
-                    </Button>
-                  )}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <main className="w-full p-8 mt-8">
+        <ItemsList
+          list={skillsList}
+          updateState={updateState}
+          setUpdateState={setUpdateState}
+          sectionName={"skills"}
+          setShowList={setSkills}
+        />
+      </main>
     </section>
   );
 }

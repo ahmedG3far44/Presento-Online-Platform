@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "../../cards/ProjectCard";
-import Image from "next/image";
+import ItemsList from "../../nav/ItemsList";
 
 function ProjectsForm() {
   const [project, setProject] = useState({
@@ -122,52 +122,15 @@ function ProjectsForm() {
         </form>
       </div>
 
-      <div className="p-8 w-full ">
-        <h1>Projects User List </h1>
-        <ul className="mt-8 flex flex-col gap-2 w-full p-4 rounded-md">
-          {projectList.map((project) => {
-            return (
-              <li
-                key={project.id}
-                className="flex justify-start gap-10 px-8  items-center py-4 border-b  w-full"
-              >
-                <div className="w-full flex justify-start items-center gap-4">
-                  <Image
-                    src={project.thumbnail}
-                    width={40}
-                    height={40}
-                    className="rounded-md overflow-hidden"
-                    alt="thumbnail project"
-                  />
-                  <h1>{project.title}</h1>
-                </div>
-
-                <div className="flex justify-center items-center gap-4 ml-auto">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setUpdateState(true);
-                      setProject({ ...project });
-                    }}
-                    className="px-2 py-1 rounded-md   disabled:bg-gray-400 disabled:cursor-not-allowed"
-                    disabled={updateState}
-                  >
-                    {updateState ? "updating..." : "update"}
-                  </Button>
-                  {!updateState && (
-                    <Button
-                      variant="destructive"
-                      className="px-2 py-1 rounded-md   "
-                    >
-                      delete
-                    </Button>
-                  )}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <main className="w-full p-8">
+        <ItemsList
+          list={projectList}
+          updateState={updateState}
+          setUpdateState={setUpdateState}
+          sectionName={"projects"}
+          setShowList={setProject}
+        />
+      </main>
     </section>
   );
 }

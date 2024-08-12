@@ -53,8 +53,8 @@ export const experienceSchema = z.object({
     .max(60, {
       message: "too long input value!!",
     }),
-  start: z.string(),
-  end: z.string(),
+  start: z.string().date(),
+  end: z.string().date(),
   role: z
     .string("expected wrong type of data!!")
     .min(10, {
@@ -116,6 +116,7 @@ export const userSchema = z.object({
     .min(10, { message: "too short url " })
     .max(300, { message: "too long url text" }),
   email: z.string(),
+  role: z.string(),
 });
 
 export const contactsSchema = z.object({

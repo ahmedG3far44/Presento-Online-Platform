@@ -11,18 +11,18 @@ router.post("/:userId/skills", checkAccessUser, async (req, res) => {
   const payload = req.body;
   const validSkillsPayload = skillsSchema.safeParse(payload);
   if (!validSkillsPayload.success) {
-    return res.json(new Exceptions(400, "bad client request not valid data"));
+    return res.json(new Exceptions(400, "Bad request the data isn't valid"));
   }
   await prisma.skills.create({
     data: { ...validSkillsPayload.data, usersId: userId },
   });
-  console.log("a new skill added to user", userId);
+  console.log("a new skill was added success");
   return res
     .status(201)
     .json(new Exceptions(201, "skill was created successful"));
 });
 
-router.put("/:userId/skills/:skillId", checkAccessUser, async (req, res) => {
+router.put("/:userId/skills/:skillId", async (req, res) => {
   const { skillId, userId } = req.params;
   const payload = req.body;
   const updateSkill = await prisma.skills.findUnique({
@@ -31,15 +31,15 @@ router.put("/:userId/skills/:skillId", checkAccessUser, async (req, res) => {
     },
   });
   if (!updateSkill) {
-    return res.status(404).json(new Exceptions(404, "skill doesn't exist"));
+    return res
+      .status(404)
+      .json(new Exceptions(404, "this skill doesn't exist"));
   } else {
     const validSkillsPayload = skillsSchema.safeParse(payload);
     if (!validSkillsPayload.success) {
       return res
         .status(400)
-        .json(
-          new Exceptions(400, validSkillsPayload.error.flatten().fieldErrors)
-        );
+        .json(new Exceptions(400, "Bad request the data isn't valid"));
     } else {
       const { data } = validSkillsPayload;
       await prisma.skills.update({
@@ -71,7 +71,7 @@ router.delete("/:userId/skills/:id", checkAccessUser, async (req, res) => {
   if (!deletedSkill) {
     return res
       .status(404)
-      .json(new Exceptions(404, "couldn't delete the skill"));
+      .json(new Exceptions(404, "this skill doesn't exist error delete"));
   }
   await prisma.skills.delete({
     where: {
@@ -79,7 +79,7 @@ router.delete("/:userId/skills/:id", checkAccessUser, async (req, res) => {
       usersId: userId,
     },
   });
-  console.log(`user ${userId} is deleted item id ${id} `);
+  console.log("skill was deleted successful");
   return res.status(200).json(new Exceptions(200, "skills was deleted "));
 });
 

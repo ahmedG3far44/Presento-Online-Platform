@@ -25,7 +25,8 @@ export default async function checkUser(req, res, next) {
         },
       });
       if (!userInfo) {
-        const { given_name, family_name, id, email, picture } = validUser.data;
+        const { given_name, family_name, id, email, picture, role } =
+          validUser.data;
         const fullName = `${given_name} ${family_name}`;
         await prisma.users.create({
           data: {
@@ -33,6 +34,7 @@ export default async function checkUser(req, res, next) {
             name: fullName,
             email,
             picture,
+            role,
           },
         });
         await prisma.layouts.create({

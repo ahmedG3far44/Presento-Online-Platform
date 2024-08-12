@@ -14,6 +14,7 @@ router.post("/user", checkUser, async (req, res) => {
         id: true,
         name: true,
         email: true,
+        role: true,
         Bio: {
           select: {
             bioName: true,
@@ -50,6 +51,7 @@ router.get("/:userId/user", async (req, res) => {
     },
     select: {
       id: true,
+      role: true,
       Bio: true,
       ExperiencesList: true,
       ProjectsList: true,
@@ -67,14 +69,7 @@ router.get("/:userId/user", async (req, res) => {
       return res.json(user);
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        new Exceptions(
-          500,
-          "server connection error or query parameters is missing."
-        )
-      );
+    return res.status(500).json(new Exceptions(500, error.message));
   }
 });
 

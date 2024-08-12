@@ -4,7 +4,7 @@ import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Image from "next/image";
 
-async function Header() {
+async function Header({ userInfo }) {
   const { user, isLogged } = await credentials();
   const { getPermission } = await getKindeServerSession();
   const admin = await getPermission("admin:create");
@@ -13,34 +13,34 @@ async function Header() {
       <div className="flex-1 ">
         <div className="w-full flex justify-center items-center gap-4">
           <Image
-            src={user?.picture}
+            src={userInfo?.Bio[0].heroImage}
             width={40}
             height={40}
             alt="profile user image"
-            className="rounded-full border "
+            className="w-10 h-10 rounded-full border-2 "
           />
           <h1>{user?.given_name}</h1>
         </div>
       </div>
       <nav className="flex-1 flex  justify-center items-center gap-4 ">
-        <Link href={`/${user.id}/#about`}>About</Link>
-        <Link href={`/${user.id}/#experiences`}>Experiences</Link>
-        <Link href={`/${user.id}/#projects`}>Projects</Link>
-        <Link href={`/${user.id}/#skills`}>Skills</Link>
+        <Link href={`/${userInfo?.id}/#about`}>About</Link>
+        <Link href={`/${userInfo?.id}/#experiences`}>Experiences</Link>
+        <Link href={`/${userInfo?.id}/#projects`}>Projects</Link>
+        <Link href={`/${userInfo?.id}/#skills`}>Skills</Link>
       </nav>
       {isLogged ? (
         <div className="flex-1 flex justify-center items-center gap-4">
-          {admin.isGranted && isLogged ? (
+          {admin?.isGranted && isLogged ? (
             <Link
               className="duration-150 bg-black text-white p-2 rounded-md"
-              href={`/${user.id}/dashboard`}
+              href={`/${userInfo?.id}/dashboard`}
             >
               Dashboard
             </Link>
           ) : (
             <Link
               className="hover:text-purple-500 duration-150"
-              href={`/${user.id}/profile`}
+              href={`/${userInfo?.id}/profile`}
             >
               Profile
             </Link>
