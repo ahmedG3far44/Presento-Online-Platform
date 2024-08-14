@@ -8,8 +8,9 @@ import {
 } from "@/lib/schema";
 export async function updateBio(fromData, id) {}
 
-export async function updateExperience(item, id) {
+export async function updateExperience(id) {
   const { user, isLogged } = await credentials();
+
   try {
     if (isLogged) {
       const updatedExperienceInfo = {
@@ -26,7 +27,6 @@ export async function updateExperience(item, id) {
       if (!validPayload.success) {
         return validPayload.error.flatten().fieldErrors;
       }
-
       const response = await fetch(
         `http://localhost:4000/api/${user.id}/experiences/${id}`,
         {
@@ -41,7 +41,6 @@ export async function updateExperience(item, id) {
       response.json().then((res) => {
         console.log(res);
       });
-      revalidatePath(`/experiences`);
       return;
     } else {
       redirect("api/auth/login");
@@ -54,4 +53,42 @@ export async function updateExperience(item, id) {
   }
 }
 export async function updateProject(fromData, id) {}
-export async function updateSkill(fromData, id) {}
+export async function updateSkill(id) {
+  const { user, isLogged } = await credentials();
+
+  try {
+    if (isLogged) {
+      const updatedSkill = {
+        skillName: fromData.get("skillName"),
+        skillLogo: fromData.get("skillLogo"),
+      };
+      const validPayload = skillsSchema.safeParse(updatedSkill);
+
+      if (!validPayload.success) {
+        return validPayload.error.flatten().fieldErrors;
+      }
+      const response = await fetch(
+        `http://localhost:4000/api/${user.id}/skills/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(validPayload.data),
+        }
+      );
+      console.log("skill updated  done");
+      response.json().then((res) => {
+        console.log(res);
+      });
+      return;
+    } else {
+      redirect("api/auth/login");
+    }
+  } catch (error) {
+    return {
+      error: "connection error can't add experience",
+      message: error.message,
+    };
+  }
+}

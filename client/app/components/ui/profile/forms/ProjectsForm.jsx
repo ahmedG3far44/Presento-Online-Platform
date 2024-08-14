@@ -1,10 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "../../cards/ProjectCard";
 import ItemsList from "../../nav/ItemsList";
 
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+
 function ProjectsForm() {
+  const { userId } = useParams();
+  const { toast } = useToast();
+  const router = useRouter();
   const [project, setProject] = useState({
     title: "",
     thumbnail: "",
@@ -21,37 +28,17 @@ function ProjectsForm() {
     liveLink: "",
   });
   const [updateState, setUpdateState] = useState(false);
-  const [projectList, setProjectList] = useState([
-    {
-      id: 1,
-      title: "Project One 1224",
-      thumbnail:
-        "https://cdn.dribbble.com/userupload/15813490/file/original-fe8750451a2d04317cf2f4d351a3aa70.jpeg?resize=1024x768",
-      description:
-        "lorem project one description style for odm lorem project one description style for odm",
-      tagsList: [
-        "next.js",
-        "react.js",
-        "tailwindCss",
-        "css3",
-        "html5",
-        "UI & Ux",
-      ],
-      demoLink: "",
-      liveLink: "",
-    },
-    {
-      id: 2,
-      title: "Project two E-commerce",
-      thumbnail:
-        "https://cdn.dribbble.com/userupload/15817647/file/original-148b0f904dd23c082d18a2a09a9cbb58.jpg?resize=1024x760",
-      description:
-        "lorem project one description style for odm lorem project one description style for odm",
-      tagsList: ["angular.js", "sass.js", "bootstrap", "svilt", "astro"],
-      demoLink: "",
-      liveLink: "",
-    },
-  ]);
+  const [projectList, setProjectList] = useState([]);
+  useEffect(() => {
+    getProjectsList(userId)
+      .catch((error) =>
+        toast({ title: "can't get projects list", description: error.message })
+      )
+      .then((projects) => {
+        setProjectList(projects);
+      });
+    router.refresh("/");
+  }, []);
 
   return (
     <section className="w-full flex flex-col justify-start items-start gap-8">
@@ -133,6 +120,19 @@ function ProjectsForm() {
       </main>
     </section>
   );
+}
+
+function getProjectsList(userId) {
+  try {
+    const request = fetch(`http://localhost:4000/api/${userId}/project`);
+    const data = request.then((res) => res.json());
+    return data;
+  } catch (error) {
+    return {
+      error: "fetch project lis error",
+      message: error.message,
+    };
+  }
 }
 
 export default ProjectsForm;

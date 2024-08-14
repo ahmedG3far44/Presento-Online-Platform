@@ -77,7 +77,11 @@ async function ExperiencesForm() {
             name="location"
             placeholder="enter the job location"
           />
-          <SubmitBtn />
+          <input
+            type="submit"
+            value={"add"}
+            className="w-full py-2  rounded-md border hover:bg-zinc-800 disabled:bg-zinc-500 disabled:cursor-not-allowed cursor-pointer"
+          />
         </form>
       </div>
       <main className="w-full m-auto ">

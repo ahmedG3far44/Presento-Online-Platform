@@ -95,18 +95,16 @@ export const projectSchema = z.object({
   likes: z.number("not valid type input").int(),
   views: z.number("not valid type input"),
 });
-
 export const skillsSchema = z.object({
   skillName: z
     .string("expected type wrong!!")
-    .min(5, { message: "short input value!!" })
-    .max(30, { message: "too long input value!!" }),
+    .min(3, { message: "short input value!!" })
+    .max(80, { message: "too long input value!!" }),
   skillLogo: z
     .string("expected type wrong!!")
     .min(10, { message: "short input value!!" })
-    .max(300, { message: "too long input value!!" }),
+    .max(200, { message: "too long input value!!" }),
 });
-
 export const userSchema = z.object({
   id: z.string(),
   given_name: z.string(),

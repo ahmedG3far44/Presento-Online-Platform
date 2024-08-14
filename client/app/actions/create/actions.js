@@ -62,4 +62,46 @@ export async function addExperience(fromData) {
   }
 }
 export async function addProject(fromData) {}
-export async function addSkill(fromData) {}
+
+export async function addSkill(fromData) {
+  const { user, isLogged } = await credentials();
+  try {
+    if (isLogged) {
+      const newSkillInfo = {
+        skillName: fromData.get("skillName"),
+        skillLogo: fromData.get("skillLogo"),
+      };
+
+      console.log(newSkillInfo);
+
+      const validPayload = skillsSchema.safeParse(newSkillInfo);
+      if (!validPayload.success) {
+        return validPayload.error.flatten().fieldErrors;
+      }
+
+      const response = await fetch(
+        `http://localhost:4000/api/${user.id}/skills`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(validPayload.data),
+        }
+      );
+      console.log("new skill added  request done");
+      response.json().then((res) => {
+        console.log(res);
+      });
+      revalidatePath(`/skills`);
+      return;
+    } else {
+      redirect("api/auth/login");
+    }
+  } catch (error) {
+    return {
+      error: "connection error can't add a new skill",
+      message: error.message,
+    };
+  }
+}

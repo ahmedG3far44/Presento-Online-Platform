@@ -5,6 +5,24 @@ import checkAccessUser from "../middlewares/checkAccessUser.js";
 import { skillsSchema } from "../schemas/validationSchemas.js";
 
 const router = express.Router();
+router.get("/:userId/skills", checkAccessUser, async (req, res) => {
+  const { userId } = req.params;
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  if (!user) {
+    return res.status(404).json(new Exceptions(404, "user not found"));
+  }
+  const skillsList = await prisma.skills.findMany({
+    where: {
+      usersId: userId,
+    },
+  });
+  console.log("get skills list");
+  return res.status(202).json(skillsList);
+});
 
 router.post("/:userId/skills", checkAccessUser, async (req, res) => {
   const { userId } = req.params;

@@ -12,20 +12,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { AiFillLike } from "react-icons/ai";
-import { deleteExperience } from "@/app/actions/delete/actions";
+import {
+  deleteExperience,
+  deleteProject,
+  deleteSkill,
+} from "@/app/actions/delete/actions";
 import DeleteBtn from "../profile/forms/DeleteBtn";
 import UpdateBtn from "../profile/forms/UpdateBtn";
-import { updateExperience } from "@/app/actions/update/actions";
 
 function ItemsList({ list, sectionName }) {
   return (
     <>
       <h1>list of {sectionName}</h1>
-      <ul className="w-full rounded-md mt-10 flex flex-col justify-start items-start gap-2 ">
+      <div className="w-full rounded-md mt-10 flex flex-col justify-start items-start gap-2 ">
         {list.length > 0 &&
           list.map((item, index) => {
             return (
-              <li
+              <div
                 key={index}
                 className="w-full flex justify-start items-center gap-8  py-4 px-2 border-b"
               >
@@ -79,7 +82,7 @@ function ItemsList({ list, sectionName }) {
                   </>
                 )}
                 <div className="ml-auto flex justify-center items-center gap-4 self-end">
-                  <UpdateBtn updateActionFunc={updateExperience(item.id)} />
+                  <UpdateBtn sectionName={sectionName} initialUpdate={item} />
                   <AlertDialog>
                     <AlertDialogTrigger className="bg-red-600 text-white p-2 rounded-md hover:bg-red-800">
                       delete
@@ -99,7 +102,15 @@ function ItemsList({ list, sectionName }) {
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction>
                           <DeleteBtn
-                            deleteFunction={deleteExperience}
+                            deleteFunction={
+                              sectionName === "experiences"
+                                ? deleteExperience
+                                : sectionName === "projects"
+                                ? deleteProject
+                                : sectionName === "skills"
+                                ? deleteSkill
+                                : null
+                            }
                             id={item.id}
                           />
                         </AlertDialogAction>
@@ -107,10 +118,10 @@ function ItemsList({ list, sectionName }) {
                     </AlertDialogContent>
                   </AlertDialog>
                 </div>
-              </li>
+              </div>
             );
           })}
-      </ul>
+      </div>
     </>
   );
 }

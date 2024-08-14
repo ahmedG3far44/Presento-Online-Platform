@@ -1,21 +1,21 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useFormStatus } from "react-dom";
 function SubmitBtn({ state }) {
   const { pending } = useFormStatus();
   return (
-    <Button
+    <input
       variant="outline"
       className={`w-full disabled:bg-gray-400`}
       type="submit"
       disabled={pending}
-    >
-      {state === "update" ? (
-        <span>{pending ? "updating..." : "update"}</span>
-      ) : (
-        <span>{pending ? "adding..." : "add"}</span>
-      )}
-    </Button>
+      value={
+        state === "update" ? (
+          <span>{pending ? "updating..." : "update"}</span>
+        ) : (
+          <span>{pending ? "adding..." : "add"}</span>
+        )
+      }
+    />
   );
 }
 export default SubmitBtn;
