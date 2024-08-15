@@ -10,10 +10,12 @@ import credentials from "@/app/credentials/credentials";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { ModeToggle } from "@/components/dark-mode-toggle";
 import { TbSmartHome } from "react-icons/tb";
+import { staticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage.external";
 
-async function layout({ children, params, searchParams }) {
+async function layout({ children, searchParams }) {
+  // console.log(path);
   const { user, isAdmin } = await credentials();
-  console.log(searchParams);
+  // console.log(searchParams);
   const profileRoutes = [
     {
       path: `/${user?.id}`,
@@ -69,7 +71,7 @@ async function layout({ children, params, searchParams }) {
                   <Link
                     className={`w-full flex gap-2
                       ${
-                        route?.name.toLocaleLowerCase() === "bio"
+                        route?.name.toLocaleLowerCase() === "experiences"
                           ? "text-purple-500"
                           : null
                       } `}

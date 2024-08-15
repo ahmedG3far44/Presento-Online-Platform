@@ -17,18 +17,18 @@ const getUserInfo = async (userId) => {
     return error.message;
   }
 };
-const getExperiencesList = async (userId) => {
-  try {
-    const request = await fetch(
-      `http://localhost:4000/api/${userId}/experiences`
-    );
-    const data = request.json();
-    revalidatePath(`/${userId}`);
-    return data;
-  } catch (error) {
-    return error.message;
-  }
-};
+// const getExperiencesList = async (userId) => {
+//   try {
+//     const request = await fetch(
+//       `http://localhost:4000/api/${userId}/experiences`
+//     );
+//     const data = request.json();
+//     revalidatePath(`/${userId}`);
+//     return data;
+//   } catch (error) {
+//     return error.message;
+//   }
+// };
 async function UserPage({ params }) {
   const { userId } = params;
   const userInfo = await getUserInfo(userId);
@@ -41,12 +41,11 @@ async function UserPage({ params }) {
     SkillsList,
   } = userInfo;
   const { bio, jobTitle, bioName, heroImage } = Bio[0];
-  const experiencesList = await getExperiencesList(userId);
 
   return (
     <div
-      className="w-full h-full
-     flex flex-col justify-start items-center gap-12 m-auto"
+      className="
+     flex flex-col justify-start items-center gap-10 m-auto w-full max-w-full overflow-x-hidden overflow-y-auto no-scrollbar"
     >
       <Header userInfo={userInfo} />
       <Container className="w-full m-auto flex flex-col gap-8">
@@ -89,7 +88,7 @@ async function UserPage({ params }) {
         </section>
         <section id="projects" className="w-full min-h-full p-4 border m-auto ">
           {ProjectsList.length > 0 ? (
-            <div className="w-full flex justify-center items-start m-auto gap-4 flex-wrap">
+            <div className="w-full m-auto grid-cols-4 grid gap-4">
               {ProjectsList.map((project) => {
                 return (
                   <ProjectCard

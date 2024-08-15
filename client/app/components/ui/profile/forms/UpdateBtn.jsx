@@ -7,16 +7,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { experienceSchema, projectSchema, skillsSchema } from "@/lib/schema";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
+import { LuFileEdit } from "react-icons/lu";
 
 function UpdateBtn({ initialUpdate, sectionName }) {
   const [updateItem, setUpdatedItem] = useState(initialUpdate);
-  const { pending } = useFormStatus();
+  const status = useFormStatus();
   const { toast } = useToast();
   const router = useRouter();
   const handleUpdateExperience = async (e) => {
@@ -116,11 +116,11 @@ function UpdateBtn({ initialUpdate, sectionName }) {
       );
       const data = request.json();
       console.log("the skill updated");
-      router.refresh();
       toast({
         title: "success action",
         description: "skill updated done",
       });
+      router.refresh();
       return data;
     } catch (error) {
       toast({
@@ -133,7 +133,9 @@ function UpdateBtn({ initialUpdate, sectionName }) {
     <>
       <Dialog>
         <DialogTrigger>
-          <Button variant="outline">update</Button>
+          <span className=" hover:text-zinc-800 duration-150">
+            <LuFileEdit size={20} />
+          </span>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -188,7 +190,7 @@ function UpdateBtn({ initialUpdate, sectionName }) {
                   setUpdatedItem({ ...updateItem, role: e.target.value })
                 }
               ></textarea>
-              <div className="w-full flex justify-start items-start gap-4 mb-1 md:flex-wrap">
+              <div className="w-full flex justify-start items-center gap-4 mb-1 sm:flex-wrap">
                 <label className="w-full text-sm">
                   Start Date
                   <input
@@ -228,8 +230,9 @@ function UpdateBtn({ initialUpdate, sectionName }) {
               />
               <input
                 type="submit"
-                className="w-full py-4 rounded-md border  hover:bg-zinc-900 duration-150 cursor-pointer disabled:bg-zinc-800 disabled:cursor-not-allowed"
-                value={pending ? "updating..." : "update"}
+                className="w-full py-2 rounded-md border  hover:bg-zinc-900 duration-150 cursor-pointer disabled:bg-zinc-600 disabled:cursor-not-allowed"
+                value={status.pending ? "updating..." : "update"}
+                disabled={status.pending}
               />
             </form>
           )}
@@ -270,8 +273,9 @@ function UpdateBtn({ initialUpdate, sectionName }) {
               ></textarea>
               <input
                 type="submit"
-                className="w-full py-4 rounded-md border hover:bg-zinc-900 duration-150 cursor-pointer disabled:bg-zinc-800 disabled:cursor-not-allowed"
-                value={pending ? "updating..." : "update"}
+                className="w-full py-4 rounded-md border hover:bg-zinc-900 duration-150 cursor-pointer disabled:bg-zinc-600 disabled:cursor-not-allowed"
+                value={status.pending ? "updating..." : "update"}
+                disabled={status.pending}
               />
             </form>
           )}
@@ -302,8 +306,9 @@ function UpdateBtn({ initialUpdate, sectionName }) {
               />
               <input
                 type="submit"
-                className="w-full py-4 rounded-md border  hover:bg-zinc-900 duration-150 cursor-pointer disabled:bg-zinc-800 disabled:cursor-not-allowed"
-                value={pending ? "updating..." : "update"}
+                className="w-full py-2 rounded-md border  hover:bg-zinc-900 duration-150 cursor-pointer disabled:bg-zinc-600 disabled:cursor-not-allowed"
+                value={status.pending ? "updating..." : "update"}
+                disabled={status.pending}
               />
             </form>
           )}

@@ -17,7 +17,7 @@ export async function deleteExperience(id) {
         }
       );
       const data = requestDelete.json();
-      revalidatePath(`/experiences`);
+      revalidatePath("/experiences");
       return data;
     } else {
       redirect("/api/auth/login");
@@ -43,7 +43,7 @@ export async function deleteProject(id) {
         }
       );
       const data = requestDelete.json();
-      revalidatePath(`/projects`);
+      revalidatePath();
       return data;
     } else {
       redirect("/api/auth/login");
@@ -69,7 +69,7 @@ export async function deleteSkill(id) {
         }
       );
       const data = requestDelete.json();
-      revalidatePath(`/skills`);
+      revalidatePath("/skills");
       return data;
     } else {
       redirect("/api/auth/login");

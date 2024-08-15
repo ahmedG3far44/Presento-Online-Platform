@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-screen ">{children}</main>
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>

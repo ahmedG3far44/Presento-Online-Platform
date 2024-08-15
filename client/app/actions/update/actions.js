@@ -6,6 +6,7 @@ import {
   projectSchema,
   skillsSchema,
 } from "@/lib/schema";
+import { revalidatePath } from "next/cache";
 export async function updateBio(fromData, id) {}
 
 export async function updateExperience(id) {
@@ -41,6 +42,7 @@ export async function updateExperience(id) {
       response.json().then((res) => {
         console.log(res);
       });
+      revalidatePath("/experiences");
       return;
     } else {
       redirect("api/auth/login");

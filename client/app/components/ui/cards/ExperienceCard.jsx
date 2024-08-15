@@ -1,12 +1,12 @@
+"use client";
 import Image from "next/image";
 import NoImage from "@/public/noImage.png";
 import { MdOutlineLocationOn } from "react-icons/md";
-import credentials from "@/app/credentials/credentials";
 import { LuFileEdit } from "react-icons/lu";
 import { LuTrash } from "react-icons/lu";
 import Link from "next/link";
 
-async function ExperienceCard({
+function ExperienceCard({
   cName,
   cLogo,
   position,
@@ -16,8 +16,21 @@ async function ExperienceCard({
   location,
   userId,
 }) {
-  const date = new Date();
-  const { isLogged } = await credentials();
+  const monthPrefix = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   return (
     <div className="w-full flex flex-col justify-start items-start gap-4  rounded-md p-4 shadow-sm border ">
       <div className="w-full flex justify-between items-center">
@@ -34,49 +47,29 @@ async function ExperienceCard({
 
           <div className="flex flex-col ">
             <h1 className="font-bold ">{cName}</h1>
-            <h3>{position}</h3>
+            <h3 className="text-fade-dark text-md">{position}</h3>
           </div>
         </div>
-        {isLogged ? (
-          <div className="flex justify-center items-center gap-2">
-            <Link
-              className="hover:bg-gray-900 duration-150 p-2 rounded-md"
-              href={`/${userId}/profile/experiences`}
-            >
-              <span>
-                <LuFileEdit size={20} />
-              </span>
-            </Link>
-            <Link
-              className="hover:bg-gray-900 duration-150 p-2 rounded-md"
-              href={`/${userId}/profile/experiences`}
-            >
-              <span>
-                <LuTrash size={20} />
-              </span>
-            </Link>
-          </div>
-        ) : (
-          <div className="flex justify-center items-center gap-4 flex-1">
-            <h4 className="w-full flex justify-center items-center gap-1">
-              <span>{date.getFullYear(start)} </span>
-              {"/"}
-              <span>{date.getMonth(start)}</span>
-            </h4>
-            -
-            <h4 className="w-full flex justify-center items-center gap-1">
-              <span>{date.getFullYear(end)}</span>
-              {"/"}
-              <span>{date.getMonth(end)}</span>
-            </h4>
-          </div>
-        )}
+
+        <div className="flex justify-center items-center gap-2 text-fade-dark flex-1">
+          <h4 className="w-full flex justify-center items-center">
+            <span className=" flex justify-center items-center">
+              {monthPrefix[new Date(start).getMonth()]}/
+            </span>
+            <span>{new Date(start).getFullYear()}</span>
+          </h4>
+          -
+          <h4 className="w-full flex justify-center items-center ">
+            <span>{monthPrefix[new Date(end).getMonth()]}</span>/
+            <span>{new Date(end).getFullYear()}</span>
+          </h4>
+        </div>
       </div>
 
-      <p className=" w-full overflow-hidden">{role}</p>
+      <p className=" w-full overflow-hidden ">{role}</p>
 
       <div className="flex gap-2">
-        <span>
+        <span className="text-secondary">
           <MdOutlineLocationOn size={20} />
         </span>{" "}
         <h6>{location}</h6>

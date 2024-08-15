@@ -1,17 +1,15 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useFormStatus } from "react-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 
 function DeleteBtn({ deleteFunction, id }) {
-  const data = useFormStatus();
+  const status = useFormStatus();
   const { toast } = useToast();
   return (
-    <Button
-      variant="destructive"
-      type="submit"
-      disabled={data.pending}
+    <span
+      disabled={status.pending}
+      className="text-white block w-20 h-full min-h-full hover:bg-destructive "
       onClick={() => {
         deleteFunction(id);
         toast({
@@ -19,12 +17,12 @@ function DeleteBtn({ deleteFunction, id }) {
         });
       }}
     >
-      {data.pending ? (
+      {status.pending ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       ) : (
         "delete"
       )}
-    </Button>
+    </span>
   );
 }
 
