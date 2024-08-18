@@ -7,7 +7,7 @@ import {
   skillsSchema,
 } from "@/lib/schema";
 import { revalidatePath } from "next/cache";
-export async function updateBio(fromData, id) {}
+import { redirect } from "next/dist/server/api-utils";
 
 export async function updateExperience(id) {
   const { user, isLogged } = await credentials();
@@ -54,7 +54,7 @@ export async function updateExperience(id) {
     };
   }
 }
-export async function updateProject(fromData, id) {}
+export async function updateProject(id) {}
 export async function updateSkill(id) {
   const { user, isLogged } = await credentials();
 

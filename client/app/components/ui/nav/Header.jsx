@@ -13,13 +13,13 @@ async function Header({ userInfo }) {
       <div className="flex-1 ">
         <div className="w-full flex justify-center items-center gap-4">
           <Image
-            src={userInfo?.Bio[0].heroImage}
+            src={user?.picture}
             width={40}
             height={40}
             alt="profile user image"
             className="w-10 h-10 rounded-full border-2 "
           />
-          <h1>{user?.given_name}</h1>
+          <h1 className="text-muted-foreground">{user?.given_name}</h1>
         </div>
       </div>
       <nav className="flex-1 flex  justify-center items-center gap-4 ">

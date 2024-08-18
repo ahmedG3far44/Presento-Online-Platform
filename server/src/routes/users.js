@@ -15,14 +15,6 @@ router.post("/user", checkUser, async (req, res) => {
         name: true,
         email: true,
         role: true,
-        Bio: {
-          select: {
-            bioName: true,
-            jobTitle: true,
-            heroImage: true,
-            bio: true,
-          },
-        },
         ExperiencesList: true,
         ProjectsList: true,
         SkillsList: true,
@@ -37,7 +29,12 @@ router.post("/user", checkUser, async (req, res) => {
         },
       },
     });
-    return res.status(201).json(userInfo);
+    const bio = await prisma.bio.findFirst({
+      where: {
+        usersId: payload.id,
+      },
+    });
+    return res.status(200).json({ ...userInfo, bio });
   } catch (error) {
     return res.status(500).json(new Exceptions(500, error.message));
   }
@@ -45,28 +42,39 @@ router.post("/user", checkUser, async (req, res) => {
 
 router.get("/:userId/user", async (req, res) => {
   const { userId } = req.params;
-  const user = await prisma.users.findFirst({
-    where: {
-      id: userId,
-    },
-    select: {
-      id: true,
-      role: true,
-      Bio: true,
-      ExperiencesList: true,
-      ProjectsList: true,
-      SkillsList: true,
-      ContactsList: true,
-      Layouts: true,
-    },
-  });
   try {
+    const user = await prisma.users.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        role: true,
+        picture: true,
+        name: true,
+        ExperiencesList: true,
+        ProjectsList: true,
+        SkillsList: true,
+        Layouts: true,
+        createdAt: true,
+      },
+    });
     if (!user) {
       return res
         .status(404)
         .json(new Exceptions(404, "this user doesn't exist"));
     } else {
-      return res.json(user);
+      const bio = await prisma.bio.findFirst({
+        where: {
+          usersId: userId,
+        },
+      });
+      const contacts = await prisma.contacts.findFirst({
+        where: {
+          usersId: userId,
+        },
+      });
+      return res.json({ ...user, bio, contacts });
     }
   } catch (error) {
     return res.status(500).json(new Exceptions(500, error.message));

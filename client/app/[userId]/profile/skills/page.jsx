@@ -5,9 +5,9 @@ async function ProfileSkillsPage({ params }) {
   const { userId } = params;
   const skillsList = await getUserSkills(userId);
   return (
-    <section className="w-full max-w-full overflow-x-hidden overflow-y-scroll flex flex-col h-screen   items-start gap-20 p-8">
+    <section className="w-full max-w-full  flex flex-col h-screen   items-start gap-20 p-8">
       <SkillsSection />
-      <main className="w-full max-w-full overflow-hidden overflow-y-scroll no-scrollbar">
+      <main className="w-full max-w-full">
         <ItemsList list={skillsList} sectionName={"skills"} />
       </main>
     </section>

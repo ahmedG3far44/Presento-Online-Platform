@@ -12,19 +12,24 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AiFillLike } from "react-icons/ai";
 import {
   deleteExperience,
   deleteProject,
   deleteSkill,
 } from "@/app/actions/delete/actions";
 import { useState } from "react";
-import { LuTrash, LuSearch } from "react-icons/lu";
 import DeleteBtn from "../profile/forms/DeleteBtn";
 import UpdateBtn from "../profile/forms/UpdateBtn";
+import { AiFillLike } from "react-icons/ai";
+import { LuTrash, LuSearch } from "react-icons/lu";
+import { MdOutlineSearchOff } from "react-icons/md";
+import { LuEye } from "react-icons/lu";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 function ItemsList({ list, sectionName }) {
   const [search, setSearch] = useState("");
+  const { userId } = useParams();
   const filteredList = list.filter((item) => {
     switch (sectionName) {
       case "experiences":
@@ -39,8 +44,8 @@ function ItemsList({ list, sectionName }) {
   });
 
   return (
-    <>
-      <div className="w-full  bg-zinc-950 shadow-md p-4   flex flex-col justify-start items-start gap-2 sticky top-0 left-0 border-b">
+    <div className="flex flex-col justify-start items-start gpa-4">
+      <div className="w-full  rounded-md py-4   flex flex-col justify-start items-start gap-2">
         <h1>List Of {sectionName.toUpperCase()}</h1>
         <label
           htmlFor="search"
@@ -49,18 +54,18 @@ function ItemsList({ list, sectionName }) {
           <input
             type="search"
             id="search"
-            className="p-2 bg-transparent  rounded-md w-full border mt-4"
+            className="p-2  rounded-md w-full border mt-4 bg-muted"
             placeholder="search for items..."
             onChange={(e) => setSearch(e.target.value)}
           />
-          <span className="text-muted absolute right-5 top-7 ">
+          <span className="text-muted-foreground absolute right-5 top-7 ">
             <LuSearch size={20} />
           </span>
         </label>
       </div>
       <div className="w-full rounded-md mt-10 flex flex-col justify-start items-start gap-2 ">
         {filteredList.length > 0 ? (
-          <div className="w-full">
+          <div className="w-full mb-10">
             {filteredList.map((item) => {
               return (
                 <div
@@ -68,8 +73,8 @@ function ItemsList({ list, sectionName }) {
                   className="w-full flex justify-start items-center gap-8  py-4 px-2 border-b"
                 >
                   {sectionName === "experiences" && (
-                    <>
-                      <div className="w-10 h-10 overflow-hidden rounded-md flex justify-center items-center border  ">
+                    <div className="flex justify-around items-center w-3/4">
+                      <div className="w-10 h-10 mr-8 overflow-hidden rounded-md flex justify-center items-center border  ">
                         <Image
                           src={item?.cLogo || NoImage}
                           className="object-cover w-full h-full rounded-md"
@@ -78,12 +83,14 @@ function ItemsList({ list, sectionName }) {
                           alt="experience company logo image"
                         />
                       </div>
-                      <h1>{item?.cName}</h1>
-                      <h1 className="ml-5 text-muted">{item?.position}</h1>
-                      <h1 className="ml-5 text-muted">
-                        {new Date(item?.updatedAt).getHours()}h
+                      <h1 className="flex-1 font-semibold">{item?.cName}</h1>
+                      <h1 className="flex-1 text-muted-foreground">
+                        {item?.position}
                       </h1>
-                    </>
+                      <h1 className="ml-5 text-sm text-muted-foreground">
+                        {new Date(item?.updatedAt).getDay()} days ago
+                      </h1>
+                    </div>
                   )}
                   {sectionName === "projects" && (
                     <>
@@ -96,13 +103,27 @@ function ItemsList({ list, sectionName }) {
                           alt="experience company logo image"
                         />
                       </div>
-                      <h1>{item?.title}</h1>
-                      <h1 className="ml-5 flex justify-center items-center gap-2">
+                      <Link
+                        href={`/${userId}/project/${item?.id}`}
+                        className="font-semibold hover:underline"
+                      >
+                        {item?.title}
+                      </Link>
+                      <div className="ml-5 flex justify-center items-center gap-2">
                         <span>
                           <AiFillLike size={20} color="gray" />
                         </span>
-                        {item?.likes || 10}K
-                      </h1>
+                        {parseInt(item?.views / 1000000000000) || 10}K
+                      </div>
+                      <div className="ml-5 flex justify-center items-center gap-2">
+                        <span>
+                          <LuEye size={20} color="gray" />
+                        </span>
+                        {parseFloat(`${item?.views}`, 4) || 10}K
+                      </div>
+                      <div className="ml-5 flex justify-center items-center gap-2">
+                        {item?.createdAt}
+                      </div>
                     </>
                   )}
                   {sectionName === "skills" && (
@@ -116,7 +137,7 @@ function ItemsList({ list, sectionName }) {
                           alt="experience company logo image"
                         />
                       </div>
-                      <h1>{item?.skillName}</h1>
+                      <h1 className="font-semibold ">{item?.skillName}</h1>
                     </>
                   )}
                   <div className="ml-auto mr-10 flex justify-center items-center gap-8 self-end">
@@ -162,10 +183,13 @@ function ItemsList({ list, sectionName }) {
             })}
           </div>
         ) : (
-          <h1>there is no items with this name</h1>
+          <div className="text-muted flex justify-center items-center gap-4">
+            <span>There is no items with this name</span>{" "}
+            <MdOutlineSearchOff size={20} />
+          </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -5,6 +5,24 @@ import { contactsSchema } from "../schemas/validationSchemas.js";
 
 const router = express.Router();
 
+router.get("/:userId/contacts", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json(new Exceptions(400, "not valid user"));
+    }
+
+    const contacts = await prisma.contacts.findFirst({
+      where: {
+        usersId: userId,
+      },
+    });
+    console.log("get user contacts");
+    return res.status(200).json(contacts);
+  } catch (error) {
+    return res.status(500).json(new Exceptions(500, error.message));
+  }
+});
 router.post("/:userId/contacts", async (req, res) => {
   try {
     const { userId } = req.params;

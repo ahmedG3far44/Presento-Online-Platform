@@ -9,18 +9,18 @@ import credentials from "@/app/credentials/credentials";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
 
-export async function addExperience(fromData) {
+export async function addExperience(formData) {
   const { user, isLogged } = await credentials();
   try {
     if (isLogged) {
       const newExperienceInfo = {
-        cName: fromData.get("cName"),
-        cLogo: fromData.get("cLogo"),
-        position: fromData.get("position"),
-        role: fromData.get("role"),
-        start: fromData.get("start"),
-        end: fromData.get("end"),
-        location: fromData.get("location"),
+        cName: formData.get("cName"),
+        cLogo: formData.get("cLogo"),
+        position: formData.get("position"),
+        role: formData.get("role"),
+        start: formData.get("start"),
+        end: formData.get("end"),
+        location: formData.get("location"),
       };
 
       console.log({
@@ -32,7 +32,10 @@ export async function addExperience(fromData) {
 
       const validPayload = experienceSchema.safeParse(newExperienceInfo);
       if (!validPayload.success) {
-        return validPayload.error.flatten().fieldErrors;
+        return {
+          error: "not valid data",
+          fieldErrors: validPayload.error.flatten().fieldErrors,
+        };
       }
 
       const response = await fetch(
@@ -50,7 +53,10 @@ export async function addExperience(fromData) {
         console.log(res);
       });
       revalidatePath(`/experiences`);
-      return;
+      return {
+        success: "success added",
+        message: "a new experiences was created successful",
+      };
     } else {
       redirect("api/auth/login");
     }
@@ -61,15 +67,30 @@ export async function addExperience(fromData) {
     };
   }
 }
-export async function addProject(fromData) {}
+export async function addProject(formData) {
+  try {
+    const project = {
+      title: formData.get("title"),
+      description: formData.get("description"),
+      thumbnail: formData.get("thumbnail"),
+      liveLink: formData.get("liveLink"),
+      sourceLink: formData.get("sourceLink"),
+    };
+  } catch (error) {
+    return {
+      state: "error adding project",
+      message: error.message,
+    };
+  }
+}
 
-export async function addSkill(fromData) {
+export async function addSkill(formData) {
   const { user, isLogged } = await credentials();
   try {
     if (isLogged) {
       const newSkillInfo = {
-        skillName: fromData.get("skillName"),
-        skillLogo: fromData.get("skillLogo"),
+        skillName: formData.get("skillName"),
+        skillLogo: formData.get("skillLogo"),
       };
 
       console.log(newSkillInfo);

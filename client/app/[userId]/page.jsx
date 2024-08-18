@@ -33,14 +33,14 @@ async function UserPage({ params }) {
   const { userId } = params;
   const userInfo = await getUserInfo(userId);
   const {
-    Bio,
+    bio,
     ExperiencesList,
-    ContactsList,
+    createdAt,
     Layouts,
     ProjectsList,
     SkillsList,
+    contacts,
   } = userInfo;
-  const { bio, jobTitle, bioName, heroImage } = Bio[0];
 
   return (
     <div
@@ -51,11 +51,13 @@ async function UserPage({ params }) {
       <Container className="w-full m-auto flex flex-col gap-8">
         <section id="hero" className="w-full h-full p-4 border">
           <HeroLayout
-            name={bioName}
-            summary={bio}
-            jobTitle={jobTitle}
-            img={heroImage}
+            name={bio?.bioName}
+            summary={bio?.bio}
+            jobTitle={bio?.jobTitle}
+            img={bio?.heroImage}
             layoutStyle={Layouts[0].heroLayout}
+            contacts={contacts}
+            edit={"preview"}
           />
         </section>
         <section id="experiences" className="w-full min-h-full p-4 border">

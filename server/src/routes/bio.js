@@ -5,6 +5,23 @@ import Exceptions from "../handlers/Exceptions.js";
 
 const router = express.Router();
 
+router.get("/:userId/bio", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    if (!userId) {
+      return res.json(new Exceptions(404, "Bad request not valid user"));
+    }
+    const bio = await prisma.bio.findFirst({
+      where: {
+        usersId: userId,
+      },
+    });
+    console.log("get bio info ");
+    return res.status(200).json(bio);
+  } catch (error) {
+    return res.status(500).json(new Exceptions(500, error.message));
+  }
+});
 router.put("/:userId/bio/:bioId", async (req, res) => {
   const payload = req.body;
   const { userId, bioId } = req.params;
@@ -26,7 +43,7 @@ router.put("/:userId/bio/:bioId", async (req, res) => {
         bio: summary,
       },
     });
-    console.log("a new bio info was updated");
+    console.log("bio info was updated");
     return res
       .status(200)
       .json(new Exceptions(200, "bio information was updated successful"));

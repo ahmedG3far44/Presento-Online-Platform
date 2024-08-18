@@ -47,32 +47,32 @@ function ExperienceCard({
 
           <div className="flex flex-col ">
             <h1 className="font-bold ">{cName}</h1>
-            <h3 className="text-fade-dark text-md">{position}</h3>
+            <h3 className="text-primary text-md">{position}</h3>
           </div>
         </div>
 
-        <div className="flex justify-center items-center gap-2 text-fade-dark flex-1">
+        <div className="flex justify-center items-center gap-2 text-secondary-foreground flex-1">
           <h4 className="w-full flex justify-center items-center">
             <span className=" flex justify-center items-center">
-              {monthPrefix[new Date(start).getMonth()]}/
+              {monthPrefix[new Date(start).getMonth()]},
             </span>
             <span>{new Date(start).getFullYear()}</span>
           </h4>
           -
           <h4 className="w-full flex justify-center items-center ">
-            <span>{monthPrefix[new Date(end).getMonth()]}</span>/
+            <span>{monthPrefix[new Date(end).getMonth()]}</span>,
             <span>{new Date(end).getFullYear()}</span>
           </h4>
         </div>
       </div>
 
-      <p className=" w-full overflow-hidden ">{role}</p>
+      <p className=" w-full text-muted-foreground overflow-hidden ">{role}</p>
 
       <div className="flex gap-2">
-        <span className="text-secondary">
+        <span className="text-muted-foreground">
           <MdOutlineLocationOn size={20} />
         </span>{" "}
-        <h6>{location}</h6>
+        <h6 className="text-muted-foreground">{location}</h6>
       </div>
     </div>
   );

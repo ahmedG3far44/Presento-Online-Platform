@@ -14,7 +14,7 @@ export const bioSchema = z.object({
     .min(5, {
       message: "short input value!!",
     })
-    .max(20, {
+    .max(70, {
       message: "too long input value!!",
     }),
   jobTitle: z.string("expected data type wrong!!"),
@@ -27,7 +27,6 @@ export const bioSchema = z.object({
       message: "too long input value!!",
     }),
 });
-
 export const experienceSchema = z.object({
   cName: z
     .string("expected wrong type of data!!")
@@ -88,12 +87,16 @@ export const projectSchema = z.object({
     .max(200, { message: "too long input value!!" }),
   tags: z.string().array().max(10).optional(),
   images: z.string().array().max(4).optional(),
-  sourceLink: z
+  sourceLinkUrl: z
     .string("wrong type of data!!")
     .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" }),
-  likes: z.number("not valid type input").int(),
-  views: z.number("not valid type input"),
+    .max(200, { message: "too long input value!!" })
+    .optional(),
+  liveLinkUrl: z
+    .string("wrong type of data!!")
+    .min(10, { message: "short input value!!" })
+    .max(200, { message: "too long input value!!" })
+    .optional(),
 });
 export const skillsSchema = z.object({
   skillName: z
@@ -118,18 +121,10 @@ export const userSchema = z.object({
 });
 
 export const contactsSchema = z.object({
-  linkedin: z.string().max(200, {
-    message: "too long url link",
-  }),
-  github: z.string().max(200, {
-    message: "too long url link",
-  }),
-  youtube: z.string().max(200, {
-    message: "too long url link",
-  }),
-  twitter: z.string().max(200, {
-    message: "too long url link",
-  }),
+  linkedin: z.string().min(0).optional(),
+  github: z.string().min(0).optional(),
+  youtube: z.string().min(0).optional(),
+  twitter: z.string().min(0).optional(),
 });
 
 export const layoutsSchema = z.object({

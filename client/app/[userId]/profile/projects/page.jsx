@@ -5,9 +5,9 @@ async function ProjectsPage({ params }) {
   const { userId } = params;
   const projectsList = await getProjectsList(userId);
   return (
-    <div className="w-full max-w-full h-screen flex justify-start items-start gap-8 flex-col p-4 overflow-x-hidden overflow-y-auto not-scrollbar">
+    <div className="w-full max-w-full h-screen flex justify-start items-start gap-8 flex-col p-4">
       <ProjectsSection />
-      <main className="w-full max-w-full  overflow-x-hidden overflow-y-auto no-scrollbar">
+      <main className="w-full max-w-full h-full">
         <ItemsList list={projectsList} sectionName={"projects"} />
       </main>
     </div>

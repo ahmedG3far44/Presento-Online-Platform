@@ -6,19 +6,19 @@ export const bioSchema = z.object({
     .min(5, {
       message: "short input value!!",
     })
-    .max(20, {
+    .max(200, {
       message: "too long input value!!",
     }),
-  name: z
+  bioName: z
     .string("expected data type wrong!!")
     .min(5, {
       message: "short input value!!",
     })
-    .max(20, {
+    .max(70, {
       message: "too long input value!!",
     }),
-  jobTittle: z.string("expected data type wrong!!"),
-  summary: z
+  jobTitle: z.string("expected data type wrong!!"),
+  bio: z
     .string("expected data type wrong!!")
     .min(10, {
       message: "short input value!!",
@@ -31,7 +31,7 @@ export const bioSchema = z.object({
 export const experienceSchema = z.object({
   cName: z
     .string("expected wrong type of data!!")
-    .min(10, {
+    .min(5, {
       message: "short input value!!",
     })
     .max(80, {
@@ -72,7 +72,7 @@ export const projectSchema = z.object({
   title: z
     .string("wrong type of data!!")
     .min(5, { message: "short input value!!" })
-    .max(30, { message: "too long input value!!" }),
+    .max(60, { message: "too long input value!!" }),
   description: z
     .string("wrong type of data")
     .min(10, { message: "short input value!!" })
@@ -81,17 +81,18 @@ export const projectSchema = z.object({
     .string()
     .min(10, { message: "short input value!!" })
     .max(200, { message: "too long input value!!" }),
-  tags: z.array([z.string("wrong value type!!")], {
-    message: "expected data  wrong !!",
-  }),
-  liveLink: z
+  tags: z.string().array().max(10).optional(),
+  images: z.string().array().max(4).optional(),
+  sourceLinkUrl: z
     .string("wrong type of data!!")
     .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" }),
-  sourceLink: z
+    .max(200, { message: "too long input value!!" })
+    .optional(),
+  liveLinkUrl: z
     .string("wrong type of data!!")
     .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" }),
+    .max(200, { message: "too long input value!!" })
+    .optional(),
 });
 
 export const skillsSchema = z.object({
@@ -117,4 +118,9 @@ export const userSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
 });
 
-// export const contactsSchema = z.object({});
+export const contactsSchema = z.object({
+  linkedin: z.string().min(0).optional(),
+  github: z.string().min(0).optional(),
+  youtube: z.string().min(0).optional(),
+  twitter: z.string().min(0).optional(),
+});

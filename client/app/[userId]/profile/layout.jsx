@@ -10,7 +10,7 @@ import credentials from "@/app/credentials/credentials";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { ModeToggle } from "@/components/dark-mode-toggle";
 import { TbSmartHome } from "react-icons/tb";
-import { staticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage.external";
+import "../../globals.css";
 
 async function layout({ children, searchParams }) {
   // console.log(path);
@@ -42,15 +42,10 @@ async function layout({ children, searchParams }) {
       name: "Skills",
       icon: <LuLaptop2 size={20} />,
     },
-    {
-      path: `/${user?.id}/profile/contacts`,
-      name: "Contacts",
-      icon: <LuMail size={20} />,
-    },
   ];
   return (
-    <div className="max-w-screen w-screen flex justify-start items-start gap-4">
-      <aside className="flex-1 p-8  h-screen min-h-screen sticky  left-0 top-0 flex flex-col justify-between items-center gap-8  border-r">
+    <div className="max-w-full w-full flex justify-start items-start overflow-x-hidden relative">
+      <aside className="flex-1 p-8  h-screen min-h-full fixed  left-0 top-0 flex flex-col justify-between items-center gap-8 bg-primary-foreground">
         <div className="w-full flex flex-col justify-center items-center gap-20">
           <div className="w-full self-center mx-auto">
             <User
@@ -66,17 +61,9 @@ async function layout({ children, searchParams }) {
               return (
                 <li
                   key={index}
-                  className="w-full flex justify-start items-center gap-10 p-2 hover:text-purple-500 duration-150"
+                  className="w-full flex justify-start items-center gap-10 p-2 hover:text-muted-foreground duration-150"
                 >
-                  <Link
-                    className={`w-full flex gap-2
-                      ${
-                        route?.name.toLocaleLowerCase() === "experiences"
-                          ? "text-purple-500"
-                          : null
-                      } `}
-                    href={route.path}
-                  >
+                  <Link className={`w-full flex gap-2`} href={route.path}>
                     <span>{route.icon}</span>
                     {route.name}
                   </Link>
@@ -85,8 +72,8 @@ async function layout({ children, searchParams }) {
             })}
           </ul>
         </div>
-        <div className="w-full flex flex-col justify-start items-start gap-8">
-          <ModeToggle />
+        <div className="w-full flex flex-col justify-start items-start gap-8 ">
+          <ModeToggle className={"bg-primary-foreground"} />
           <LogoutLink className="w-full flex gap-2 hover:text-purple-500 duration-150">
             <span>
               <LuLogOut size={20} />
@@ -96,7 +83,9 @@ async function layout({ children, searchParams }) {
         </div>
       </aside>
 
-      <main className="w-full">{children}</main>
+      <main className="w-3/4 self-end overflow-x-hidden no-scrollbar  ml-auto mr-20 ">
+        {children}
+      </main>
     </div>
   );
 }
