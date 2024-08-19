@@ -29,6 +29,7 @@ function BioPage() {
     getUserBio(userId);
     getUserContacts(userId);
     router.refresh();
+
     setLoading(false);
   }, []);
   return (

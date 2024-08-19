@@ -8,8 +8,8 @@ function ExperienceSection() {
     cName: "company name",
     cLogo: "",
     position: "position || job title",
-    start: "start date",
-    end: "end date",
+    start: "2023-09-09",
+    end: "2024-01-01",
     role: "your roles and duties in this company",
     location: "location of work",
   });

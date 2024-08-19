@@ -16,6 +16,9 @@ router.get("/:userId/bio", async (req, res) => {
         usersId: userId,
       },
     });
+    if (!bio) {
+      return res.status(404).json(Exceptions(404, "bio not found"));
+    }
     console.log("get bio info ");
     return res.status(200).json(bio);
   } catch (error) {
@@ -30,7 +33,8 @@ router.put("/:userId/bio/:bioId", async (req, res) => {
     if (!validBioPayload.success) {
       return res.json(new Exceptions(404, "Bad request not valid data"));
     }
-    const { heroImage, name, summary, jobTitle } = validBioPayload.data;
+    const { heroImage, name, summary, jobTitle, layoutStyle } =
+      validBioPayload.data;
     await prisma.bio.update({
       where: {
         id: bioId,
@@ -41,6 +45,7 @@ router.put("/:userId/bio/:bioId", async (req, res) => {
         bioName: name,
         jobTitle,
         bio: summary,
+        layoutStyle,
       },
     });
     console.log("bio info was updated");

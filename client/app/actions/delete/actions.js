@@ -43,7 +43,7 @@ export async function deleteProject(id) {
         }
       );
       const data = requestDelete.json();
-      revalidatePath();
+      revalidatePath("/projects");
       return data;
     } else {
       redirect("/api/auth/login");

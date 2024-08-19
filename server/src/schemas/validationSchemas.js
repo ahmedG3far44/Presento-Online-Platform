@@ -26,6 +26,7 @@ export const bioSchema = z.object({
     .max(400, {
       message: "too long input value!!",
     }),
+  layoutStyle: z.string().length(1, { message: "not valid hero layout" }),
 });
 export const experienceSchema = z.object({
   cName: z

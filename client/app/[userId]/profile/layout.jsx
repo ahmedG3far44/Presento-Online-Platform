@@ -1,44 +1,50 @@
+"use client";
 import Link from "next/link";
 import { TbInfoSquareRounded } from "react-icons/tb";
-import { LuMail } from "react-icons/lu";
 import { LuLayoutGrid } from "react-icons/lu";
 import { LuLayers } from "react-icons/lu";
 import { LuLaptop2 } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
 import User from "@/app/components/ui/cards/User";
-import credentials from "@/app/credentials/credentials";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { ModeToggle } from "@/components/dark-mode-toggle";
 import { TbSmartHome } from "react-icons/tb";
+import { useParams, usePathname } from "next/navigation";
 import "../../globals.css";
 
-async function layout({ children, searchParams }) {
+function layout({ children }) {
   // console.log(path);
-  const { user, isAdmin } = await credentials();
+  const { getUser, getPermission } = useKindeBrowserClient();
+  const user = getUser();
+  const isAdmin = getPermission("admin:create").isGranted;
+
+  const pathName = usePathname();
+  const { userId } = useParams();
   // console.log(searchParams);
   const profileRoutes = [
     {
-      path: `/${user?.id}`,
+      path: `/${userId}`,
       name: "Home",
       icon: <TbSmartHome size={20} />,
     },
     {
-      path: `/${user?.id}/profile/bio`,
+      path: `/${userId}/profile/bio`,
       name: "Bio",
       icon: <TbInfoSquareRounded size={20} />,
     },
     {
-      path: `/${user?.id}/profile/experiences`,
+      path: `/${userId}/profile/experiences`,
       name: "Experiences",
       icon: <LuLayers size={20} />,
     },
     {
-      path: `/${user?.id}/profile/projects`,
+      path: `/${userId}/profile/projects`,
       name: "Projects",
       icon: <LuLayoutGrid size={20} />,
     },
     {
-      path: `/${user?.id}/profile/skills`,
+      path: `/${userId}/profile/skills`,
       name: "Skills",
       icon: <LuLaptop2 size={20} />,
     },
@@ -58,12 +64,19 @@ async function layout({ children, searchParams }) {
 
           <ul className="w-full flex flex-col self-center mx-auto">
             {profileRoutes.map((route, index) => {
+              const activeRoute = pathName.split("/")[3];
               return (
                 <li
                   key={index}
                   className="w-full flex justify-start items-center gap-10 p-2 hover:text-muted-foreground duration-150"
                 >
-                  <Link className={`w-full flex gap-2`} href={route.path}>
+                  <Link
+                    className={`w-full flex gap-2 px-4 p-2 rounded-md ${
+                      activeRoute === route.name.toLocaleLowerCase() &&
+                      "bg-muted"
+                    }`}
+                    href={route.path}
+                  >
                     <span>{route.icon}</span>
                     {route.name}
                   </Link>

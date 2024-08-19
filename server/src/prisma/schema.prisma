@@ -24,13 +24,14 @@ model Users {
 }
 
 model Bio {
-  id        String  @id @default(uuid())
-  heroImage String? @default("")
-  bio       String? @default("your summary...")
-  jobTitle  String? @default("your currrent job title.... ")
-  bioName   String? @default("your name ")
-  userId    Users   @relation(fields: [usersId], references: [id])
-  usersId   String
+  id          String  @id @default(uuid())
+  heroImage   String? @default("")
+  bio         String? @default("your summary...")
+  jobTitle    String? @default("your currrent job title.... ")
+  bioName     String? @default("your name ")
+  layoutStyle String? @default("1")
+  userId      Users   @relation(fields: [usersId], references: [id])
+  usersId     String
 }
 
 model Experiences {
@@ -102,7 +103,6 @@ model Contacts {
 
 model Layouts {
   id             String @id @default(uuid())
-  heroLayout     String @default("1")
   expLayout      String @default("1")
   skillsLayout   String @default("1")
   projectsLayout String @default("1")

@@ -41,6 +41,7 @@ function ContactsForm({ contacts, setContacts }) {
           description: res.message,
         });
       });
+      setUpdateContacts(true);
       return data;
     } catch (error) {
       toast({

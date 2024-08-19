@@ -40,6 +40,7 @@ function BioForm({ bio, setBio }) {
             name: validPayload?.data?.bioName,
             jobTitle: validPayload?.data?.jobTitle,
             summary: validPayload?.data?.bio,
+            layoutStyle: validPayload?.data?.layoutStyle,
           }),
         }
       );
@@ -51,10 +52,12 @@ function BioForm({ bio, setBio }) {
           description: "bio information was updated done",
         });
         router.refresh("/bio");
+        setUpdateBioState(true);
         return data;
       } else {
         data.catch((error) => {
           toast({
+            variant: "destructive",
             title: "bad request",
             description: error.message,
           });
@@ -62,6 +65,7 @@ function BioForm({ bio, setBio }) {
       }
     } catch (error) {
       toast({
+        variant: "destructive",
         title: "connection error can't update",
         description: error.message,
       });

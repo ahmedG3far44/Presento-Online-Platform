@@ -13,16 +13,20 @@ async function Header({ userInfo }) {
       <div className="flex-1 ">
         <div className="w-full flex justify-center items-center gap-4">
           <Image
-            src={user?.picture}
+            src={userInfo?.picture}
             width={40}
             height={40}
             alt="profile user image"
             className="w-10 h-10 rounded-full border-2 "
           />
-          <h1 className="text-muted-foreground">{user?.given_name}</h1>
+          <h1 className="text-muted-foreground">{userInfo?.name}</h1>
         </div>
       </div>
-      <nav className="flex-1 flex  justify-center items-center gap-4 ">
+      <nav
+        className={`flex-1 flex  items-center gap-4 ${
+          isLogged ? "justify-end" : "justify-center"
+        }`}
+      >
         <Link href={`/${userInfo?.id}/#about`}>About</Link>
         <Link href={`/${userInfo?.id}/#experiences`}>Experiences</Link>
         <Link href={`/${userInfo?.id}/#projects`}>Projects</Link>
@@ -39,13 +43,13 @@ async function Header({ userInfo }) {
             </Link>
           ) : (
             <Link
-              className="hover:text-purple-500 duration-150"
+              className="hover:text-muted-foreground duration-150"
               href={`/${userInfo?.id}/profile`}
             >
               Profile
             </Link>
           )}
-          <LogoutLink className="hover:text-purple-500 duration-150">
+          <LogoutLink className="hover:text-muted-foreground duration-150">
             logout
           </LogoutLink>
         </div>

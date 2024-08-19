@@ -10,32 +10,47 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
   const status = useFormStatus();
   const ref = useRef(null);
 
-  const addExperienceAction = async (formData) => {
-    await addExperience(formData)
-      .then((res) => {
-        toast({
-          title: res?.success,
-          description: res?.message,
-        });
-        ref.current?.reset();
-      })
-      .catch((error) => {
-        toast({
-          variant: "destructive",
-          title: error.error,
-          description: error.message,
-        });
-      });
-  };
+  // const addExperienceAction = async (formData) => {
+  //   await addExperience(formData)
+  //     .then((res) => {
+  //       toast({
+  //         title: res?.success,
+  //         description: res?.message,
+  //       });
+  //       ref.current?.reset();
+  //     })
+  //     .catch((error) => {
+  //       toast({
+  //         variant: "destructive",
+  //         title: error.error,
+  //         description: error.message,
+  //       });
+  //     });
+  // };
 
-  const [state, serverAction] = useFormState(
-    addExperienceAction,
-    experiencesObject
-  );
+  // const [state, actionAddExperience] = useFormState(
+  //   addExperience,
+  //   experiencesObject
+  // );
   return (
     <form
       ref={ref}
-      action={serverAction}
+      action={async (formData) => {
+        await addExperience(formData);
+        toast({
+          title: "success add",
+        });
+        ref.current?.reset();
+        setExperiencesObject({
+          cName: "company name",
+          cLogo: "",
+          position: "position || job title",
+          start: "2023-09-09",
+          end: "2024-01-01",
+          role: "your roles and duties in this company",
+          location: "location of work",
+        });
+      }}
       className="lg:w-1/3  min-w-96 w-full sm:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
     >
       <input
@@ -49,11 +64,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         }
       />
 
-      {state?.error && (
+      {/* {state?.error && (
         <div className="text-destructive p-1 w-full">
           <p>{state?.fieldErrors?.cName}</p>
         </div>
-      )}
+      )} */}
 
       <input
         className="p-2 w-full rounded-md "
@@ -65,11 +80,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
           setExperiencesObject({ ...experiencesObject, cLogo: e.target.value })
         }
       />
-      {state?.error && (
+      {/* {state?.error && (
         <div className="text-destructive p-1 w-full">
           <p>{state?.fieldErrors?.cLogo}</p>
         </div>
-      )}
+      )} */}
       <input
         className="p-2 w-full rounded-md"
         type="text"
@@ -83,11 +98,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
           })
         }
       />
-      {state?.error && (
+      {/* {state?.error && (
         <div className="text-destructive p-1 w-full">
           <p>{state?.fieldErrors?.position}</p>
         </div>
-      )}
+      )} */}
       <textarea
         className="w-full  p-2 rounded-md"
         placeholder="my role "
@@ -96,11 +111,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
           setExperiencesObject({ ...experiencesObject, role: e.target.value })
         }
       ></textarea>
-      {state?.error && (
+      {/* {state?.error && (
         <div className="text-destructive p-1 w-full">
           <p>{state?.fieldErrors?.role}</p>
         </div>
-      )}
+      )} */}
       <div className="w-full flex justify-start items-start gap-4 mb-1 md:flex-wrap">
         <label className="w-full text-sm">
           Start Date
@@ -117,11 +132,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
               })
             }
           />
-          {state?.error && (
+          {/* {state?.error && (
             <div className="text-destructive p-1 w-full">
               <p>{state?.fieldErrors?.start}</p>
             </div>
-          )}
+          )} */}
         </label>
         <label className="w-full text-sm ">
           End Date
@@ -138,11 +153,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
               })
             }
           />
-          {state?.error && (
+          {/* {state?.error && (
             <div className="text-destructive p-1 w-full">
               <p>{state?.fieldErrors?.end}</p>
             </div>
-          )}
+          )} */}
         </label>
       </div>
       <input
@@ -157,11 +172,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
           })
         }
       />
-      {state?.error && (
+      {/* {state?.error && (
         <div className="text-destructive p-1 w-full">
           <p>{state?.fieldErrors?.location}</p>
         </div>
-      )}
+      )} */}
       <input
         className={`w-full hover:bg-zinc-900 duration-150 disabled:bg-gray-400 disabled:cursor-not-allowed p-2  border rounded-md`}
         type="submit"
