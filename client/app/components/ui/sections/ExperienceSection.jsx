@@ -22,12 +22,12 @@ function ExperienceSection() {
       <div className="flex-1 lg:w-3/4 max-lg:flex-col sm:w-full h-full p-8 flex justify-center items-center border-2 border-dashed gap-8 rounded-md">
         <ExperienceCard
           cLogo={experiencesObject.cLogo}
-          cName={experiencesObject.cName}
-          start={experiencesObject.start}
-          end={experiencesObject.end}
-          role={experiencesObject.role}
-          position={experiencesObject.position}
-          location={experiencesObject.location}
+          cName={experiencesObject.cName || "company name"}
+          start={experiencesObject.start || "2022"}
+          end={experiencesObject.end || "2022"}
+          role={experiencesObject.role || "your role in this company"}
+          position={experiencesObject.position || "your position"}
+          location={experiencesObject.location || "company location"}
         />
       </div>
     </div>

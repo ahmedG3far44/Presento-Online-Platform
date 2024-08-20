@@ -37,14 +37,14 @@ async function Header({ userInfo }) {
           {admin?.isGranted && isLogged ? (
             <Link
               className="duration-150 bg-black text-white p-2 rounded-md"
-              href={`/${userInfo?.id}/dashboard`}
+              href={`/${userInfo?.id}/dashboard/users`}
             >
               Dashboard
             </Link>
           ) : (
             <Link
               className="hover:text-muted-foreground duration-150"
-              href={`/${userInfo?.id}/profile`}
+              href={`/${userInfo?.id}/profile/bio`}
             >
               Profile
             </Link>

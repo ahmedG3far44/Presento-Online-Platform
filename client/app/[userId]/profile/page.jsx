@@ -5,7 +5,7 @@ async function Profile() {
   const { isAdmin, isLogged } = await credentials();
   {
     !isAdmin && isLogged ? (
-      <div className="sticky left-0 top-0 max-w-screen max-h-screen">
+      <div className="max-w-screen max-h-screen">
         <h1>profile</h1>
       </div>
     ) : (

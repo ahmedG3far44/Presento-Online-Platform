@@ -13,6 +13,11 @@ async function layout({ children }) {
   const { user, isAdmin } = await credentials();
   const dashboardRoutes = [
     {
+      path: `/${user?.id}`,
+      name: "Home",
+      icon: <LuUsers2 size={20} />,
+    },
+    {
       path: `/${user?.id}/dashboard/users`,
       name: "Users",
       icon: <LuUsers2 size={20} />,
@@ -26,11 +31,6 @@ async function layout({ children }) {
       path: `/${user?.id}/dashboard/skills`,
       name: "Skills",
       icon: <LuLaptop2 size={20} />,
-    },
-    {
-      path: `/${user?.id}/dashboard/contacts`,
-      name: "Contacts",
-      icon: <LuMailPlus size={20} />,
     },
   ];
   return (

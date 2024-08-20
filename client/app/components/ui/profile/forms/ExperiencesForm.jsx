@@ -1,56 +1,71 @@
 "use client";
 
 import { useToast } from "@/components/ui/use-toast";
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { addExperience } from "@/app/actions/create/actions";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { experienceSchema } from "@/lib/schema";
 
 function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
   const { toast } = useToast();
-  const status = useFormStatus();
   const ref = useRef(null);
+  const [isLoading, setLoading] = useState(false);
 
-  // const addExperienceAction = async (formData) => {
-  //   await addExperience(formData)
-  //     .then((res) => {
-  //       toast({
-  //         title: res?.success,
-  //         description: res?.message,
-  //       });
-  //       ref.current?.reset();
-  //     })
-  //     .catch((error) => {
-  //       toast({
-  //         variant: "destructive",
-  //         title: error.error,
-  //         description: error.message,
-  //       });
-  //     });
-  // };
+  const addExperienceAction = async () => {
+    setLoading(true);
+    const result = experienceSchema.safeParse(experiencesObject);
+    if (!result.success) {
+      console.log(result.error.flatten().fieldErrors);
+      result.error.issues.map((error) => {
+        toast({
+          variant: "destructive",
+          title: "not valid inputs",
+          description: error.message,
+        });
+      });
+      setLoading(false);
+      return;
+    }
+    // validate the data
+    const newExperience = await addExperience(result.data);
+
+    if (newExperience?.error) {
+      toast({
+        variant: "destructive",
+        title: newExperience.error,
+        description: newExperience.message,
+      });
+      setLoading(false);
+    }
+    toast({
+      title: "success added",
+      description: "a new experiences was added successful.",
+    });
+    setExperiencesObject({
+      cName: "",
+      cLogo: "",
+      position: "",
+      role: "",
+      start: "",
+      end: "",
+      location: "",
+    });
+    ref.current?.reset();
+    // success show toast message to user
+    // reset the form inputs
+    // error show toast error to user
+    setLoading(false);
+  };
 
   // const [state, actionAddExperience] = useFormState(
   //   addExperience,
   //   experiencesObject
   // );
+
   return (
     <form
       ref={ref}
-      action={async (formData) => {
-        await addExperience(formData);
-        toast({
-          title: "success add",
-        });
-        ref.current?.reset();
-        setExperiencesObject({
-          cName: "company name",
-          cLogo: "",
-          position: "position || job title",
-          start: "2023-09-09",
-          end: "2024-01-01",
-          role: "your roles and duties in this company",
-          location: "location of work",
-        });
-      }}
+      action={addExperienceAction}
       className="lg:w-1/3  min-w-96 w-full sm:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
     >
       <input
@@ -58,7 +73,6 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         type="text"
         name="cName"
         placeholder="company name"
-        required
         onChange={(e) =>
           setExperiencesObject({ ...experiencesObject, cName: e.target.value })
         }
@@ -75,7 +89,6 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         type="url"
         name="cLogo"
         placeholder="company logo url"
-        required
         onChange={(e) =>
           setExperiencesObject({ ...experiencesObject, cLogo: e.target.value })
         }
@@ -90,7 +103,6 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         type="text"
         name="position"
         placeholder="your position or Job-title"
-        required
         onChange={(e) =>
           setExperiencesObject({
             ...experiencesObject,
@@ -123,7 +135,6 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
             className="p-2 w-full rounded-md "
             type="date"
             name="start"
-            aria-required
             placeholder="start date"
             onChange={(e) =>
               setExperiencesObject({
@@ -144,7 +155,6 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
             className="p-2 w-full rounded-md "
             type="date"
             name="end"
-            aria-required
             placeholder="end date"
             onChange={(e) =>
               setExperiencesObject({
@@ -180,8 +190,8 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
       <input
         className={`w-full hover:bg-zinc-900 duration-150 disabled:bg-gray-400 disabled:cursor-not-allowed p-2  border rounded-md`}
         type="submit"
-        disabled={status.pending}
-        value={status.pending ? "loading..." : "add"}
+        disabled={isLoading}
+        value={isLoading ? "loading..." : "add"}
       />
     </form>
   );

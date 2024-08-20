@@ -2,9 +2,9 @@
 import Image from "next/image";
 import NoImage from "@/public/noImage.png";
 import { MdOutlineLocationOn } from "react-icons/md";
-import { LuFileEdit } from "react-icons/lu";
-import { LuTrash } from "react-icons/lu";
-import Link from "next/link";
+// import { LuFileEdit } from "react-icons/lu";
+// import { LuTrash } from "react-icons/lu";
+// import Link from "next/link";
 
 function ExperienceCard({
   cName,

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function User({ name, email, picture, isAdmin }) {
   return (
-    <div className="w-full p-4 flex flex-col justify-start items-start gap-4 border rounded-md">
+    <div className="w-full p-4 flex flex-col justify-start items-start gap-4 border rounded-md overflow-hidden">
       <div className="flex  justify-center items-center gap-4">
         <div className="w-10 h-10 overflow-hidden rounded-full ">
           <Image
@@ -12,15 +12,13 @@ function User({ name, email, picture, isAdmin }) {
             alt="user profile picture"
           />
         </div>
-        <div className="flex flex-col justify-start items-start gap-1">
+        <div className="flex flex-col justify-start items-start gap-1 flex-wrap ">
           <h3 className="w-full text-lsm text-nowrap font-semibold">
             {name.toUpperCase()}
           </h3>
-          {email && <h6 className="text-sm text-nowrap">{email}</h6>}
         </div>
       </div>
-      <div className="w-full flex justify-start items-center p-2 rounded-lg border">
-        Role
+      <div className="w-full flex justify-center rounded-3xl items-center p-1 border  bg-muted text-primary">
         {isAdmin ? (
           <h1 className="ml-2 "> Admin</h1>
         ) : (

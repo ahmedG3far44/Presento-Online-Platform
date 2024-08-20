@@ -9,43 +9,26 @@ import credentials from "@/app/credentials/credentials";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
 
-export async function addExperience(formData) {
+export async function addExperience(newExperience) {
   const { user, isLogged } = await credentials();
-  try {
-    if (isLogged) {
-      const newExperienceInfo = {
-        cName: formData.get("cName"),
-        cLogo: formData.get("cLogo"),
-        position: formData.get("position"),
-        role: formData.get("role"),
-        start: formData.get("start"),
-        end: formData.get("end"),
-        location: formData.get("location"),
+  const result = experienceSchema.safeParse(newExperience);
+  if (isLogged) {
+    if (!result.success) {
+      const errors = {
+        error: "invalid server schema",
+        message: "not valid data",
       };
-
-      console.log({
-        ...newExperienceInfo,
-        state: "not valid yet",
-        userId: user.id,
-        loginState: isLogged,
-      });
-
-      const validPayload = experienceSchema.safeParse(newExperienceInfo);
-      if (!validPayload.success) {
-        return {
-          error: "not valid data",
-          fieldErrors: validPayload.error.flatten().fieldErrors,
-        };
-      }
-
+      return errors;
+    }
+    try {
       const response = await fetch(
-        `http://localhost:4000/api/${user.id}/experiences`,
+        `http://localhost:4000/api/${user?.id}/experiences`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(validPayload.data),
+          body: JSON.stringify(result?.data),
         }
       );
       console.log("experience post request done");
@@ -53,18 +36,16 @@ export async function addExperience(formData) {
         console.log(res);
       });
       revalidatePath(`/experiences`);
-      return {
-        success: "success added",
-        message: "a new experiences was created successful",
+      return;
+    } catch (error) {
+      const errors = {
+        error: "can't add experiences",
+        message: error.message,
       };
-    } else {
-      redirect("api/auth/login");
+      return errors;
     }
-  } catch (error) {
-    return {
-      error: "connection error can't add experience",
-      message: error.message,
-    };
+  } else {
+    redirect("api/auth/login");
   }
 }
 export async function addProject(formData) {

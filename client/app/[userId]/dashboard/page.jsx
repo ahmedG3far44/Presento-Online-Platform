@@ -8,7 +8,7 @@ async function Dashboard() {
         <h1>Dashboard</h1>
       </div>
     ) : (
-      redirect(`/${user.id}`)
+      redirect(`/${user?.id}`)
     );
   }
 }
