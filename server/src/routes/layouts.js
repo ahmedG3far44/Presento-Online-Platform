@@ -5,6 +5,27 @@ import { layoutsSchema } from "../schemas/validationSchemas.js";
 
 const router = express.Router();
 
+router.get("/:userId/layouts", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const userLayouts = await prisma.layouts.findFirst({
+      where: {
+        usersId: userId,
+      },
+    });
+    if (!userLayouts) {
+      return res
+        .status(400)
+        .json(new Exceptions(400, "Bad request not found layouts"));
+    }
+    console.log("get user layouts");
+    return res.status(200).json(userLayouts);
+  } catch (error) {
+    return res.status(500).json(new Exceptions(500, error.message));
+  }
+});
+
 router.put("/:userId/layouts/:layoutId", async (req, res) => {
   try {
     const { userId, layoutId } = req.params;

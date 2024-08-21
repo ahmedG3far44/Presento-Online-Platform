@@ -125,3 +125,11 @@ export const contactsSchema = z.object({
   youtube: z.string().min(0).optional(),
   twitter: z.string().min(0).optional(),
 });
+
+export const layoutsSchema = z.object({
+  expLayout: z.string().length(1, { message: "not valid experience layout" }),
+  projectsLayout: z
+    .string()
+    .length(1, { message: "not valid projects layout" }),
+  skillsLayout: z.string().length(1, { message: "not valid skills layout" }),
+});

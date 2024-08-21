@@ -13,6 +13,7 @@ function ProjectCard({
   likes,
   userId,
   state,
+  layoutStyle,
 }) {
   const isLike = false;
   return (

@@ -28,6 +28,7 @@ function ExperienceSection() {
           role={experiencesObject.role || "your role in this company"}
           position={experiencesObject.position || "your position"}
           location={experiencesObject.location || "company location"}
+          layoutStyle={"1"}
         />
       </div>
     </div>

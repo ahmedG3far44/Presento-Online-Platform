@@ -129,7 +129,6 @@ export const contactsSchema = z.object({
 });
 
 export const layoutsSchema = z.object({
-  heroLayout: z.string().length(1, { message: "not valid hero layout" }),
   expLayout: z.string().length(1, { message: "not valid experience layout" }),
   projectsLayout: z
     .string()

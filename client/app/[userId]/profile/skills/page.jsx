@@ -8,7 +8,7 @@ async function ProfileSkillsPage({ params }) {
     <section className="w-full max-w-full  flex flex-col h-screen   items-start gap-20 p-8">
       <SkillsSection />
       <main className="w-full max-w-full">
-        <ItemsList list={skillsList} sectionName={"skills"} />
+        <ItemsList list={skillsList} sectionName={"skills"} layoutStyle={"3"} />
       </main>
     </section>
   );

@@ -10,6 +10,22 @@ import credentials from "../credentials/credentials";
 import Link from "next/link";
 import { LuPlus } from "react-icons/lu";
 import { MdErrorOutline } from "react-icons/md";
+import ExperiencesLayoutWrapper from "../components/ui/cards/experiencesLayouts/ExperiencesLayoutWrapper";
+import SkillLayoutsWrapper from "../components/ui/cards/skillsLayouts/SkillLayoutsWrapper";
+import ChangeLayoutForm from "../components/ui/profile/forms/ChangeLayoutForm";
+import ProjectsLayoutWrapper from "../components/ui/cards/projectsLayouts/ProjectsLayoutWrapper";
+import Footer from "../components/ui/sections/Footer";
+
+const getUserLayouts = async (userId) => {
+  try {
+    const request = await fetch(`http://localhost:4000/api/${userId}/layouts`);
+    const data = request.json();
+    revalidatePath(`/${userId}`);
+    return data;
+  } catch (error) {
+    return error.message;
+  }
+};
 
 const getUserInfo = async (userId) => {
   try {
@@ -37,21 +53,15 @@ async function UserPage({ params }) {
   const { userId } = params;
   const { isLogged } = await credentials();
   const userInfo = await getUserInfo(userId);
-  const {
-    bio,
-    ExperiencesList,
-    createdAt,
-    Layouts,
-    ProjectsList,
-    SkillsList,
-    contacts,
-  } = userInfo;
+  const layouts = await getUserLayouts(userId);
+  const { bio, ExperiencesList, ProjectsList, SkillsList, contacts } = userInfo;
 
   return (
     <div
       className="
      flex flex-col justify-start items-center gap-10 m-auto w-full max-w-full overflow-x-hidden overflow-y-auto no-scrollbar"
     >
+      <ChangeLayoutForm layoutsInfo={layouts} />
       <Header userInfo={userInfo} />
       <Container className="w-full m-auto flex flex-col gap-8">
         <section id="hero" className="w-full h-full p-4 border">
@@ -68,7 +78,10 @@ async function UserPage({ params }) {
         <>
           {ExperiencesList?.length > 0 ? (
             <section id="experiences" className="w-full min-h-full p-4 border">
-              <div className="w-3/4 m-auto flex flex-col justify-center items-center gap-4">
+              <ExperiencesLayoutWrapper
+                className={"p-4 gap-4 w-full"}
+                experienceLayoutStyle={layouts?.expLayout}
+              >
                 {ExperiencesList?.map((exp) => {
                   return (
                     <ExperienceCard
@@ -77,6 +90,7 @@ async function UserPage({ params }) {
                       cLogo={exp.cLogo}
                       cName={exp.cName}
                       start={exp.start}
+                      layoutStyle={layouts?.expLayout}
                       end={exp.end}
                       role={exp.role}
                       position={exp.position}
@@ -85,7 +99,7 @@ async function UserPage({ params }) {
                     />
                   );
                 })}
-              </div>
+              </ExperiencesLayoutWrapper>
             </section>
           ) : (
             <>
@@ -109,16 +123,17 @@ async function UserPage({ params }) {
         </>
         <>
           {ProjectsList?.length > 0 ? (
-            <section
-              id="projects"
-              className="w-full min-h-full p-4 border m-auto "
-            >
-              <div className="w-full m-auto grid-cols-4 grid gap-4">
+            <section id="projects" className="w-full min-h-full border m-auto ">
+              <ProjectsLayoutWrapper
+                className={"w-full p-4 gap-4"}
+                projectLayoutStyle={layouts?.projectsLayout}
+              >
                 {ProjectsList?.map((project) => {
                   return (
                     <ProjectCard
                       key={project.id}
                       id={project.id}
+                      layoutStyle={layouts?.projectsLayout}
                       title={project.title}
                       thumbnail={project.thumbnail}
                       description={project.description}
@@ -128,7 +143,7 @@ async function UserPage({ params }) {
                     />
                   );
                 })}
-              </div>
+              </ProjectsLayoutWrapper>
             </section>
           ) : (
             <>
@@ -153,17 +168,18 @@ async function UserPage({ params }) {
         <>
           {SkillsList?.length > 0 ? (
             <section id="skills" className="w-full min-h-full p-4 border">
-              <div className="w-full flex justify-start items-center gap-8 grayscale-1 p-4 flex-wrap">
+              <SkillLayoutsWrapper skillLayoutStyle={layouts?.skillsLayout}>
                 {SkillsList?.map((skill) => {
                   return (
                     <SkillCard
-                      key={skill.id}
-                      skillLogo={skill.skillLogo}
-                      skillName={skill.skillName}
+                      key={skill?.id}
+                      layoutStyle={layouts?.skillsLayout}
+                      skillLogo={skill?.skillLogo}
+                      skillName={skill?.skillName}
                     />
                   );
                 })}
-              </div>
+              </SkillLayoutsWrapper>
             </section>
           ) : (
             <>
@@ -186,6 +202,7 @@ async function UserPage({ params }) {
           )}
         </>
       </Container>
+      <Footer />
     </div>
   );
 }

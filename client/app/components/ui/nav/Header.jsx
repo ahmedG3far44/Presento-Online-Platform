@@ -2,6 +2,7 @@ import Link from "next/link";
 import credentials from "@/app/credentials/credentials";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { LuBell } from "react-icons/lu";
 import Image from "next/image";
 
 async function Header({ userInfo }) {
@@ -42,16 +43,40 @@ async function Header({ userInfo }) {
               Dashboard
             </Link>
           ) : (
-            <Link
-              className="hover:text-muted-foreground duration-150"
-              href={`/${userInfo?.id}/profile/bio`}
-            >
-              Profile
-            </Link>
+            <>
+              <Link
+                className="hover:text-muted-foreground duration-150"
+                href={`/${userInfo?.id}/profile/bio`}
+              >
+                Profile
+              </Link>
+            </>
           )}
           <LogoutLink className="hover:text-muted-foreground duration-150">
             logout
           </LogoutLink>
+          <div className={"relative"}>
+            <div
+              className={"text-muted-foreground relative cursor-pointer group"}
+            >
+              <LuBell size={20} />
+              <span
+                className={
+                  "w-2 h-2 rounded-full bg-purple-500 absolute top-0 right-0"
+                }
+              ></span>
+            </div>
+            <ul
+              className={
+                "p-2 rounded-md border hidden group group-hover:flex shadow-md flex-col justify-start items-start gap-2 absolute top-10 right-0"
+              }
+            >
+              <li>notifications</li>
+              <li>notifications</li>
+              <li>notifications</li>
+              <li>notifications</li>
+            </ul>
+          </div>
         </div>
       ) : (
         <button>Share</button>

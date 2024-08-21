@@ -2,6 +2,7 @@
 import Image from "next/image";
 import NoImage from "@/public/noImage.png";
 import { MdOutlineLocationOn } from "react-icons/md";
+import { undefined } from "zod";
 // import { LuFileEdit } from "react-icons/lu";
 // import { LuTrash } from "react-icons/lu";
 // import Link from "next/link";
@@ -15,7 +16,16 @@ function ExperienceCard({
   end,
   location,
   userId,
+  layoutStyle,
 }) {
+  const experiencesYears = {
+    years: new Date(end).getFullYear() - new Date(start).getFullYear(),
+    month: null,
+  };
+  if (experiencesYears.years < 1) {
+    experiencesYears.month =
+      new Date(end).getMonth() + 1 - new Date(start).getMonth() + 1;
+  }
   const monthPrefix = [
     "Jan",
     "Feb",
@@ -33,9 +43,24 @@ function ExperienceCard({
 
   return (
     <div className="w-full flex flex-col justify-start items-start gap-4  rounded-md p-4 shadow-sm border ">
-      <div className="w-full flex justify-between items-center">
-        <div className="flex justify-start items-center  w-full gap-4">
-          <div className="w-10 h-10 overflow-hidden rounded-xl border  flex justify-center items-center">
+      <div className="w-full flex justify-between items-center flex-wrap">
+        <div
+          className={` 
+          ${
+            layoutStyle === "1" &&
+            "w-full flex justify-start items-center gap-4"
+          }
+          ${
+            layoutStyle === "2" &&
+            "w-full flex justify-start items-center gap-4"
+          }
+          ${
+            layoutStyle === "3" &&
+            "w-full flex justify-start items-center gap-4"
+          }
+          `}
+        >
+          <div className="w-10 h-10 min-w-10 min-h-10 overflow-hidden rounded-xl border  flex justify-center items-center">
             <Image
               width={50}
               height={50}
@@ -45,25 +70,26 @@ function ExperienceCard({
             />
           </div>
 
-          <div className="flex flex-col ">
-            <h1 className="font-bold ">{cName}</h1>
-            <h3 className="text-primary text-md">{position}</h3>
+          <div className="flex flex-col w-full ">
+            <h1 className="font-bold  w-full">{cName}</h1>
+            <h3 className="text-primary text-sm w-full text-wrap">
+              {position}
+            </h3>
           </div>
         </div>
-
-        <div className="flex justify-center items-center gap-2 text-secondary-foreground flex-1">
-          <h4 className="w-full flex justify-center items-center">
-            <span className=" flex justify-center items-center">
-              {monthPrefix[new Date(start).getMonth()]},
-            </span>
-            <span>{new Date(start).getFullYear()}</span>
-          </h4>
-          -
-          <h4 className="w-full flex justify-center items-center ">
-            <span>{monthPrefix[new Date(end).getMonth()]}</span>,
-            <span>{new Date(end).getFullYear()}</span>
-          </h4>
-        </div>
+      </div>
+      <div className="flex justify-start  items-start gap-2 text-secondary-foreground flex-1 w-full">
+        <h4 className="w-full flex justify-start items-center text-muted-foreground gap-4">
+          {experiencesYears.month !== null &&
+            experiencesYears.years !== null && <span>Duration:</span>}
+          <span className="text-muted">
+            {experiencesYears.years > "1"
+              ? experiencesYears.years + " years"
+              : experiencesYears.month === null
+              ? ""
+              : experiencesYears.month + " months"}
+          </span>
+        </h4>
       </div>
 
       <p className=" w-full text-muted-foreground overflow-hidden ">{role}</p>
