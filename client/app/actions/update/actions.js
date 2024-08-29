@@ -5,6 +5,7 @@ import {
   experienceSchema,
   projectSchema,
   skillsSchema,
+  layoutsSchema,
 } from "@/lib/schema";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
@@ -70,7 +71,7 @@ export async function updateSkill(id) {
         return validPayload.error.flatten().fieldErrors;
       }
       const response = await fetch(
-        `http://localhost:4000/api/${user.id}/skills/${id}`,
+        `http://localhost:4000/api/${user?.id}/skills/${id}`,
         {
           method: "PUT",
           headers: {
@@ -94,3 +95,45 @@ export async function updateSkill(id) {
     };
   }
 }
+
+export const updateLayoutsAction = async (layouts, layoutId) => {
+  const { user } = await credentials();
+  const validLayouts = layoutsSchema.safeParse(layouts);
+  if (!validLayouts.success) {
+    const errors = {
+      error: "not valid data",
+      message: {
+        expLayout: validLayouts.error.flatten().fieldErrors.expLayout,
+        projectsLayout: validLayouts.error.flatten().fieldErrors.projectsLayout,
+        skillsLayout: validLayouts.error.flatten().fieldErrors.skillsLayout,
+      },
+    };
+    return errors;
+  }
+  try {
+    const request = await fetch(
+      `http://localhost:4000/api/${user.id}/layouts/${layoutId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...validLayouts?.data }),
+      }
+    );
+
+    const data = request.json();
+    if (request.ok) {
+      response.then((res) => {
+        console.log(res);
+      });
+      revalidatePath(`/${user.id}`);
+      return data;
+    }
+  } catch (error) {
+    return {
+      error: "connection error",
+      message: error.message,
+    };
+  }
+};

@@ -21,7 +21,6 @@ router.post("/user", checkUser, async (req, res) => {
         ContactsList: true,
         Layouts: {
           select: {
-            heroLayout: true,
             expLayout: true,
             projectsLayout: true,
             skillsLayout: true,
@@ -34,7 +33,17 @@ router.post("/user", checkUser, async (req, res) => {
         usersId: payload.id,
       },
     });
-    return res.status(200).json({ ...userInfo, bio });
+    const contacts = await prisma.contacts.findFirst({
+      where: {
+        usersId: userId,
+      },
+    });
+    const layouts = await prisma.layouts.findFirst({
+      where: {
+        usersId: userId,
+      },
+    });
+    return res.status(200).json({ ...userInfo, bio, contacts, layouts });
   } catch (error) {
     return res.status(500).json(new Exceptions(500, error.message));
   }
@@ -74,7 +83,12 @@ router.get("/:userId/user", async (req, res) => {
           usersId: userId,
         },
       });
-      return res.json({ ...user, bio, contacts });
+      const layouts = await prisma.layouts.findFirst({
+        where: {
+          usersId: userId,
+        },
+      });
+      return res.json({ ...user, bio, contacts, layouts });
     }
   } catch (error) {
     return res.status(500).json(new Exceptions(500, error.message));

@@ -1,0 +1,71 @@
+import { MdErrorOutline } from "react-icons/md";
+import ProjectsLayoutWrapper from "../cards/projectsLayouts/ProjectsLayoutWrapper";
+import { ChangeProjectsLayoutForm } from "../profile/forms/LayoutsForm";
+import Link from "next/link";
+import { LuPlus } from "react-icons/lu";
+import ProjectCard from "../cards/ProjectCard";
+
+function ProjectsLayout({
+  ProjectsList,
+  isLogged,
+  layouts,
+  userId,
+  setLayouts,
+  layoutsID,
+}) {
+  return (
+    <>
+      {ProjectsList?.length > 0 ? (
+        <section id="projects" className="w-full min-h-full border m-auto ">
+          {isLogged && (
+            <ChangeProjectsLayoutForm
+              setLayouts={setLayouts}
+              layouts={layouts}
+              layoutsID={layoutsID}
+            />
+          )}
+          <ProjectsLayoutWrapper
+            className={"w-full p-4 gap-4"}
+            projectLayoutStyle={layouts?.projectsLayout}
+          >
+            {ProjectsList?.map((project) => {
+              return (
+                <ProjectCard
+                  key={project.id}
+                  id={project.id}
+                  layoutStyle={layouts?.projectsLayout}
+                  title={project.title}
+                  thumbnail={project.thumbnail}
+                  description={project.description}
+                  views={project.views}
+                  likes={project.likes}
+                  userId={userId}
+                />
+              );
+            })}
+          </ProjectsLayoutWrapper>
+        </section>
+      ) : (
+        <>
+          {isLogged ? (
+            <div className="w-full p-4 flex flex-col-reverse justify-center items-center rounded-md border gap-2">
+              <h2 className="text-muted-foreground flex gap-2 justify-center items-center">
+                <MdErrorOutline size={15} />{" "}
+                <span>no projects added yet!!</span>
+              </h2>
+              <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-muted duration-150">
+                <Link href={`/${userId}/profile/projects`}>
+                  <span>
+                    <LuPlus size={50} />
+                  </span>
+                </Link>
+              </div>
+            </div>
+          ) : null}
+        </>
+      )}
+    </>
+  );
+}
+
+export default ProjectsLayout;

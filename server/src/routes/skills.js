@@ -3,8 +3,17 @@ import prisma from "../database/db.js";
 import Exceptions from "../handlers/Exceptions.js";
 import checkAccessUser from "../middlewares/checkAccessUser.js";
 import { skillsSchema } from "../schemas/validationSchemas.js";
+import s3Client from "../s3/s3Client.js";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import multer from "multer";
+import dotenv from "dotenv";
+import checkUploadImageFormat from "../middlewares/checkUploadImageFormat.js";
 
+dotenv.config();
+
+export const upload = multer({ storage: multer.memoryStorage() });
 const router = express.Router();
+
 router.get("/:userId/skills", checkAccessUser, async (req, res) => {
   const { userId } = req.params;
   const user = await prisma.users.findUnique({
@@ -24,21 +33,65 @@ router.get("/:userId/skills", checkAccessUser, async (req, res) => {
   return res.status(202).json(skillsList);
 });
 
-router.post("/:userId/skills", checkAccessUser, async (req, res) => {
-  const { userId } = req.params;
-  const payload = req.body;
-  const validSkillsPayload = skillsSchema.safeParse(payload);
-  if (!validSkillsPayload.success) {
-    return res.json(new Exceptions(400, "Bad request the data isn't valid"));
+router.post(
+  "/:userId/skills",
+  checkAccessUser,
+  upload.single("file"),
+  checkUploadImageFormat,
+  async (req, res) => {
+    const { userId } = req.params;
+    const image = req.file;
+    const payload = req.body;
+
+    let nameKey;
+
+    nameKey = `${userId}/skills/${Date.now()}-${changeToSlug(
+      image.originalname
+    )}`;
+
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Key: nameKey,
+      Body: image.buffer,
+      ContentType: image.mimetype,
+    });
+    await s3Client
+      .send(command)
+      .then(() => {
+        console.log("uploaded success");
+      })
+      .catch((error) => {
+        console.log("not uploaded");
+        return res
+          .status(200)
+          .send({ error: "not upload", message: error.message });
+      });
+
+    // const file = req.file;
+    // console.log(file);
+    // console.log(payload);
+    // console.log(req.files);
+    // res.send(payload);
+    console.log(payload.skillName);
+
+    // const validSkillsPayload = skillsSchema.safeParse(payload);
+    // if (!validSkillsPayload.success) {
+    //   return res.json(new Exceptions(400, "Bad request the data isn't valid"));
+    // }
+    const newSkill = await prisma.skills.create({
+      data: {
+        skillName: payload.skillName,
+        skillLogo: `https://presento-app.s3.amazonaws.com/${nameKey}`,
+        usersId: userId,
+      },
+    });
+
+    //https://presento-app.s3.amazonaws.com/kp_3a7d740ac35f4862837192415dc03f67/skills/1724762244203-icons8-xml-40.png
+
+    console.log("a new skill was added success");
+    return res.status(201).json({ newSkill, success: "a new skill added" });
   }
-  await prisma.skills.create({
-    data: { ...validSkillsPayload.data, usersId: userId },
-  });
-  console.log("a new skill was added success");
-  return res
-    .status(201)
-    .json(new Exceptions(201, "skill was created successful"));
-});
+);
 
 router.put("/:userId/skills/:skillId", async (req, res) => {
   const { skillId, userId } = req.params;
@@ -102,3 +155,8 @@ router.delete("/:userId/skills/:id", checkAccessUser, async (req, res) => {
 });
 
 export default router;
+
+export function changeToSlug(text) {
+  const newText = text.split(" ").join("");
+  return newText;
+}

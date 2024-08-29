@@ -14,11 +14,12 @@
     "schema": "src/prisma/schema.prisma"
   },
   "dependencies": {
-    "@kinde-oss/kinde-node-express": "^1.6.0",
+    "@aws-sdk/client-s3": "^3.637.0",
     "@prisma/client": "^5.18.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.4",
     "zod": "^3.23.8"
   },

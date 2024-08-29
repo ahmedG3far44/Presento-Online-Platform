@@ -26,10 +26,11 @@ router.get("/:userId/layouts", async (req, res) => {
   }
 });
 
-router.put("/:userId/layouts/:layoutId", async (req, res) => {
+router.put("/:userId/layouts/:id", async (req, res) => {
   try {
-    const { userId, layoutId } = req.params;
+    const { userId, id } = req.params;
     const payload = req.body;
+    console.log(payload, userId, id);
 
     const validLayoutsPayload = layoutsSchema.safeParse(payload);
     if (!validLayoutsPayload.success) {
@@ -37,10 +38,11 @@ router.put("/:userId/layouts/:layoutId", async (req, res) => {
         .status(400)
         .json(new Exceptions(400, "Bad request not valid data"));
     }
+    console.log(validLayoutsPayload.data);
     await prisma.layouts.update({
       where: {
         usersId: userId,
-        id: layoutId,
+        id,
       },
       data: { ...validLayoutsPayload.data },
     });

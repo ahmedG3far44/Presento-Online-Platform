@@ -31,18 +31,10 @@ export const bioSchema = z.object({
 export const experienceSchema = z.object({
   cName: z
     .string("expected wrong type of data!!")
-    .min(10, {
+    .min(5, {
       message: "short input value!!",
     })
     .max(70, {
-      message: "too long input value!!",
-    }),
-  cLogo: z
-    .string("expected wrong type of data!!")
-    .min(10, {
-      message: "short input value!!",
-    })
-    .max(200, {
       message: "too long input value!!",
     }),
   position: z

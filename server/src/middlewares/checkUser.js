@@ -47,6 +47,15 @@ export default async function checkUser(req, res, next) {
             usersId: validUser.data.id,
           },
         });
+        await prisma.contacts.create({
+          data: {
+            linkedin: "",
+            github: "",
+            youtube: "",
+            twitter: "",
+            usersId: validUser.data.id,
+          },
+        });
         console.log("a new user is created successfully.");
         return next();
       } else {

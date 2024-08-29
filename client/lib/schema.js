@@ -38,14 +38,6 @@ export const experienceSchema = z.object({
     .max(80, {
       message: "too long input value!!",
     }),
-  cLogo: z
-    .string("expected wrong type of data!!")
-    .min(5, {
-      message: "short input value!!",
-    })
-    .max(200, {
-      message: "too long input value!!",
-    }),
   position: z
     .string("expected wrong type of data!!")
     .min(3, {

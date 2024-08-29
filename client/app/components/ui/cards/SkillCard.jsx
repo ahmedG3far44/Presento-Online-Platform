@@ -1,5 +1,5 @@
 import Image from "next/image";
-import NoImage from "@/public/noImage.png";
+
 function SkillCard({ skillName, skillLogo, layoutStyle }) {
   return (
     <>
@@ -26,7 +26,11 @@ function SkillCard({ skillName, skillLogo, layoutStyle }) {
               ${layoutStyle === "3" && "block"}
               ${layoutStyle === "5" && "hidden"}
               `}
-          src={skillLogo || NoImage}
+          src={
+            skillLogo.length > 0
+              ? skillLogo
+              : "https://st2.depositphotos.com/1561359/12101/v/380/depositphotos_121012076-stock-illustration-blank-photo-icon.jpg"
+          }
           width={40}
           height={40}
           alt="skill logo"

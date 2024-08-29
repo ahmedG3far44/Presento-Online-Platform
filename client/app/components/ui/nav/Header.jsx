@@ -6,7 +6,7 @@ import { LuBell } from "react-icons/lu";
 import Image from "next/image";
 
 async function Header({ userInfo }) {
-  const { user, isLogged } = await credentials();
+  const { isLogged } = await credentials();
   const { getPermission } = await getKindeServerSession();
   const admin = await getPermission("admin:create");
   return (

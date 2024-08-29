@@ -23,29 +23,7 @@ router.get("/:userId/contacts", async (req, res) => {
     return res.status(500).json(new Exceptions(500, error.message));
   }
 });
-router.post("/:userId/contacts", async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const payload = req.body;
-    const validContactsUrls = contactsSchema.safeParse(payload);
-    if (!validContactsUrls.success) {
-      return res.status(400).json(new Exceptions(400, "not valid data schema"));
-    }
 
-    await prisma.contacts.create({
-      data: {
-        ...validContactsUrls.data,
-        usersId: userId,
-      },
-    });
-    console.log("a new contacts info added successful");
-    return res
-      .status(201)
-      .json(new Exceptions(201, "a new contact info was added successful."));
-  } catch (error) {
-    return res.status(500).json(new Exceptions(500, error.message));
-  }
-});
 router.put("/:userId/contacts/:contactsId", async (req, res) => {
   try {
     const { userId, contactsId } = req.params;

@@ -41,7 +41,7 @@ model Experiences {
   position  String?
   start     String
   end       String
-  role      String
+  role      String   @db.Text
   location  String
   userId    Users    @relation(fields: [usersId], references: [id])
   usersId   String

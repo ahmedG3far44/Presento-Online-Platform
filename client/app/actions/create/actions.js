@@ -67,15 +67,11 @@ export async function addProject(formData) {
 
 export async function addSkill(formData) {
   const { user, isLogged } = await credentials();
+  const data = new FormData();
+  // data.append("file", file )
+  // data.append("skillName", formData.get("skillName") )
   try {
     if (isLogged) {
-      const newSkillInfo = {
-        skillName: formData.get("skillName"),
-        skillLogo: formData.get("skillLogo"),
-      };
-
-      console.log(newSkillInfo);
-
       const validPayload = skillsSchema.safeParse(newSkillInfo);
       if (!validPayload.success) {
         return validPayload.error.flatten().fieldErrors;

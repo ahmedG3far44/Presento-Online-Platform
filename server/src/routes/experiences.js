@@ -2,7 +2,11 @@ import express from "express";
 import prisma from "../database/db.js";
 import Exceptions from "../handlers/Exceptions.js";
 import checkAccessUser from "../middlewares/checkAccessUser.js";
+import checkUploadImageFormat from "../middlewares/checkUploadImageFormat.js";
+import s3Client from "../s3/s3Client.js";
 import { experienceSchema } from "../schemas/validationSchemas.js";
+import { changeToSlug, upload } from "./skills.js";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 const router = express.Router();
 
@@ -23,51 +27,69 @@ router.get("/:userId/experiences", async (req, res) => {
   }
 });
 
-router.get("/:userId/experiences/:experienceId", async (req, res) => {
-  try {
-    const { userId, experienceId } = req.params;
-    const experience = await prisma.experiences.findUnique({
-      where: {
-        usersId: userId,
-        id: experienceId,
-      },
-    });
-    if (!experience) {
-      return res.status(200).json({ experience: "not items found" });
+router.post(
+  "/:userId/experiences",
+  upload.single("file"),
+  checkUploadImageFormat,
+  async (req, res) => {
+    try {
+      let uploadImgPath;
+      const { userId } = req.params;
+      const payload = req.body;
+      const image = req.file;
+      console.log(image);
+      console.log(payload);
+      const validExperiencePayload = experienceSchema.safeParse(payload);
+      if (!validExperiencePayload.success) {
+        return res
+          .status(400)
+          .json(
+            new Exceptions(
+              400,
+              validExperiencePayload.error.formErrors.fieldErrors
+            )
+          );
+      } else {
+        uploadImgPath = `${userId}/experiences/${Date.now()}-${changeToSlug(
+          image.originalname
+        )}`;
+        // upload img to s3
+        const command = new PutObjectCommand({
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Key: uploadImgPath,
+          Body: image.buffer,
+        });
+        await s3Client
+          .send(command)
+          .then(() => {
+            console.log("upload company logo success");
+          })
+          .catch((error) => {
+            console.log("upload error");
+            res.status(500).json({
+              error: "not upload error",
+              message: error.message,
+            });
+          });
+        // add img url to  new exp
+        // create new exp
+        await prisma.experiences.create({
+          data: {
+            ...validExperiencePayload.data,
+            cLogo: `https://presento-app.s3.amazonaws.com/${uploadImgPath}`,
+            usersId: userId,
+          },
+        });
+        console.log("created experience in db");
+        return res
+          .status(201)
+          .json(new Exceptions(201, "a new experiences was added."));
+      }
+    } catch (error) {
+      return res.status(500).json(new Exceptions(500, error.message));
     }
-    return res.status(200).json(experience);
-  } catch (error) {
-    return res.status(500).json(new Exceptions(500, error.message));
   }
-});
-
-router.post("/:userId/experiences", async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const payload = req.body;
-    const validExperiencePayload = experienceSchema.safeParse(payload);
-    if (!validExperiencePayload.success) {
-      return res
-        .status(400)
-        .json(
-          new Exceptions(
-            400,
-            validExperiencePayload.error.formErrors.fieldErrors
-          )
-        );
-    } else {
-      await prisma.experiences.create({
-        data: { ...validExperiencePayload.data, usersId: userId },
-      });
-      console.log("a new experience add to user");
-      return res
-        .status(201)
-        .json(new Exceptions(201, "a new experience was created successful"));
-    }
-  } catch (error) {
-    return res.status(500).json(new Exceptions(500, error.message));
-  }
-});
+);
 router.put("/:userId/experiences/:id", checkAccessUser, async (req, res) => {
   try {
     const { userId, id } = req.params;

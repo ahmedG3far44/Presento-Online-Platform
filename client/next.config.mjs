@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ["presento-app.s3.amazonaws.com"],
     remotePatterns: [
       {
         protocol: "https",

@@ -1,103 +1,169 @@
 "use client";
 
 import { useToast } from "@/components/ui/use-toast";
-import { useFormStatus } from "react-dom";
-import { addExperience } from "@/app/actions/create/actions";
 import { useRef, useState } from "react";
 import { experienceSchema } from "@/lib/schema";
 
+import { useParams, useRouter } from "next/navigation";
+import { FiFilePlus } from "react-icons/fi";
+import Loader from "@/app/components/loaders/Loader";
+
 function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
   const { toast } = useToast();
-  const ref = useRef(null);
-  const [isLoading, setLoading] = useState(false);
+  const { userId } = useParams();
+  const router = useRouter();
+  const experienceFormRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setErrorMessage] = useState(null);
+  const [expCompanyLogo, setExpCompanyLogo] = useState();
 
-  const addExperienceAction = async () => {
+  const handleAddExperience = async (e) => {
+    e.preventDefault();
     setLoading(true);
+    const formData = new FormData();
     const result = experienceSchema.safeParse(experiencesObject);
+    formData.append("file", expCompanyLogo);
+    formData.append("cName", result?.data.cName);
+    formData.append("start", result?.data.start);
+    formData.append("end", result?.data.end);
+    formData.append("location", result?.data.location);
+    formData.append("role", result?.data.role);
+    formData.append("position", result?.data.position);
+
+    const file = formData.get("file");
+    if (!file) {
+      setLoading(false);
+      setErrorMessage("not file found");
+    }
+    if (file.size >= 4194304) {
+      setLoading(false);
+      setErrorMessage(
+        "the file that you uploaded is too large should be less than 4MB."
+      );
+    }
+    const fileTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+
+    if (!fileTypes.includes(file.type)) {
+      setLoading(false);
+      setErrorMessage(
+        "unsupported type file, please upload file with these supported formats JPEG | PNG | JPG | GIF."
+      );
+    }
+
     if (!result.success) {
       console.log(result.error.flatten().fieldErrors);
       result.error.issues.map((error) => {
+        setLoading(false);
+        setErrorMessage("data fields that your entered are not correct");
         toast({
           variant: "destructive",
           title: "not valid inputs",
           description: error.message,
         });
       });
-      setLoading(false);
-      return;
+    } else {
+      try {
+        const request = await fetch(
+          `http://localhost:4000/api/${userId}/experiences`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        if (request.status === 201) {
+          setLoading(false);
+          setErrorMessage(null);
+          router.refresh();
+          toast({
+            title: `created success `,
+            description: `your new experience in ${experiencesObject.cName} was added successful.`,
+          });
+          experienceFormRef?.current?.reset();
+          return;
+        } else {
+          setLoading(false);
+          toast({
+            variant: "destructive",
+            title: "adding error ",
+            description: error.message,
+          });
+          setErrorMessage(error.message);
+          return;
+        }
+      } catch (error) {
+        setLoading(false);
+        toast({
+          variant: "destructive",
+          title: "adding error ",
+          description: error.message,
+        });
+        setErrorMessage(error.message);
+        return;
+      }
     }
-    // validate the data
-    const newExperience = await addExperience(result.data);
-
-    if (newExperience?.error) {
-      toast({
-        variant: "destructive",
-        title: newExperience.error,
-        description: newExperience.message,
-      });
-      setLoading(false);
-    }
-    toast({
-      title: "success added",
-      description: "a new experiences was added successful.",
-    });
-    setExperiencesObject({
-      cName: "",
-      cLogo: "",
-      position: "",
-      role: "",
-      start: "",
-      end: "",
-      location: "",
-    });
-    ref.current?.reset();
-    // success show toast message to user
-    // reset the form inputs
-    // error show toast error to user
-    setLoading(false);
   };
-
-  // const [state, actionAddExperience] = useFormState(
-  //   addExperience,
-  //   experiencesObject
-  // );
-
   return (
     <form
-      ref={ref}
-      action={addExperienceAction}
+      ref={experienceFormRef}
+      onSubmit={handleAddExperience}
       className="lg:w-1/3  min-w-96 w-full sm:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
     >
+      <label
+        className="w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
+        htmlFor="expLogo"
+      >
+        <span className="text-muted-foreground">
+          <FiFilePlus size={30} />
+        </span>
+        <h1 className="text-center w-full p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
+          <span className="font-bold">upload your image here</span>{" "}
+          <span className="w-full  text-sm font-normal">
+            supported Images formats JPEG | PNG | GIF | JPG, <br /> with max
+            size (4MB)
+          </span>{" "}
+        </h1>
+      </label>
+      <input
+        type="file"
+        onChange={(e) => setExpCompanyLogo(e.target.files[0])}
+        id="expLogo"
+        name="expLogo"
+        accept="image/png, image/jpeg, image/jpg, image/gif"
+        style={{ display: "none" }}
+        required
+      />
+
+      {error ? (
+        <div className="p-2 rounded-md  text-start">
+          <span className="text-red-500">{error}</span>
+        </div>
+      ) : (
+        <>
+          {loading && (
+            <div
+              className={
+                "w-full my-4 flex flex-col justify-start items-start gap-2"
+              }
+            >
+              <h1 className="flex gap-2 justify-center items-center">
+                <Loader />
+                <span>Uploading...</span>
+              </h1>
+            </div>
+          )}
+        </>
+      )}
       <input
         className="p-2 w-full rounded-md "
         type="text"
         name="cName"
         placeholder="company name"
+        required
         onChange={(e) =>
           setExperiencesObject({ ...experiencesObject, cName: e.target.value })
         }
       />
 
-      {/* {state?.error && (
-        <div className="text-destructive p-1 w-full">
-          <p>{state?.fieldErrors?.cName}</p>
-        </div>
-      )} */}
-
-      <input
-        className="p-2 w-full rounded-md "
-        type="url"
-        name="cLogo"
-        placeholder="company logo url"
-        onChange={(e) =>
-          setExperiencesObject({ ...experiencesObject, cLogo: e.target.value })
-        }
-      />
-      {/* {state?.error && (
-        <div className="text-destructive p-1 w-full">
-          <p>{state?.fieldErrors?.cLogo}</p>
-        </div>
-      )} */}
       <input
         className="p-2 w-full rounded-md"
         type="text"
@@ -109,25 +175,19 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
             position: e.target.value,
           })
         }
+        required
       />
-      {/* {state?.error && (
-        <div className="text-destructive p-1 w-full">
-          <p>{state?.fieldErrors?.position}</p>
-        </div>
-      )} */}
       <textarea
         className="w-full  p-2 rounded-md"
         placeholder="my role "
+        minlength="10"
+        maxlength="300"
         name="role"
         onChange={(e) =>
           setExperiencesObject({ ...experiencesObject, role: e.target.value })
         }
+        required
       ></textarea>
-      {/* {state?.error && (
-        <div className="text-destructive p-1 w-full">
-          <p>{state?.fieldErrors?.role}</p>
-        </div>
-      )} */}
       <div className="w-full flex justify-start items-start gap-4 mb-1 md:flex-wrap">
         <label className="w-full text-sm">
           Start Date
@@ -135,7 +195,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
             className="p-2 w-full rounded-md "
             type="date"
             name="start"
-            placeholder="start date"
+            required
             onChange={(e) =>
               setExperiencesObject({
                 ...experiencesObject,
@@ -155,7 +215,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
             className="p-2 w-full rounded-md "
             type="date"
             name="end"
-            placeholder="end date"
+            required
             onChange={(e) =>
               setExperiencesObject({
                 ...experiencesObject,
@@ -163,17 +223,13 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
               })
             }
           />
-          {/* {state?.error && (
-            <div className="text-destructive p-1 w-full">
-              <p>{state?.fieldErrors?.end}</p>
-            </div>
-          )} */}
         </label>
       </div>
       <input
         className="p-2 w-full rounded-md "
         type="text"
         name="location"
+        required
         placeholder="enter the job location"
         onChange={(e) =>
           setExperiencesObject({
@@ -182,16 +238,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
           })
         }
       />
-      {/* {state?.error && (
-        <div className="text-destructive p-1 w-full">
-          <p>{state?.fieldErrors?.location}</p>
-        </div>
-      )} */}
       <input
         className={`w-full hover:bg-zinc-900 duration-150 disabled:bg-gray-400 disabled:cursor-not-allowed p-2  border rounded-md`}
         type="submit"
-        disabled={isLoading}
-        value={isLoading ? "loading..." : "add"}
+        disabled={loading}
+        value={loading ? "creating..." : "add"}
       />
     </form>
   );
