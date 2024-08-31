@@ -29,6 +29,7 @@ import { useParams } from "next/navigation";
 
 function ItemsList({ list, sectionName }) {
   const [search, setSearch] = useState("");
+
   const { userId } = useParams();
   const filteredList = list.filter((item) => {
     switch (sectionName) {
@@ -44,12 +45,12 @@ function ItemsList({ list, sectionName }) {
   });
 
   return (
-    <div className="flex flex-col justify-start items-start gpa-4">
+    <div className="flex flex-col justify-start items-start gpa-4 ">
       <div className="w-full  rounded-md py-4   flex flex-col justify-start items-start gap-2">
         <h1>List Of {sectionName.toUpperCase()}</h1>
         <label
           htmlFor="search"
-          className="w-1/2 flex justify-between items-center relative "
+          className="w-1/2 max-sm:w-full max-md:w-full flex justify-between items-center relative "
         >
           <input
             type="search"
@@ -63,38 +64,45 @@ function ItemsList({ list, sectionName }) {
           </span>
         </label>
       </div>
-      <div className="w-full rounded-md mt-10 flex flex-col justify-start items-start gap-2 ">
+      <div className="w-full rounded-md mt-10 flex flex-col justify-start flex-wrap  items-start gap-2 max-sm:flex-wrap max-md:flex-wrap">
         {filteredList.length > 0 ? (
           <div className="w-full mb-10">
             {filteredList.map((item) => {
+              const lastUpdate =
+                Date.now() - new Date(item?.updatedAt).getMilliseconds();
+              const date = handleDateTime(lastUpdate);
               return (
                 <div
                   key={item.id}
-                  className="w-full flex justify-start items-center gap-8  py-4 px-2 border-b"
+                  className="w-full flex justify-start items-center gap-8  py-4 px-2 border-b "
                 >
                   {sectionName === "experiences" && (
                     <div className="flex justify-around items-center w-3/4">
-                      <div className="w-10 h-10 mr-8 overflow-hidden rounded-md flex justify-center items-center border  ">
+                      <div className="w-10 h-10 min-w-10 min-h-10 mr-8 overflow-hidden rounded-md flex justify-center items-center border  max-sm:flex-wrap max-md:flex-wrap ">
                         <Image
                           src={item?.cLogo || NoImage}
-                          className="object-cover w-full h-full rounded-md"
+                          className="object-cover rounded-md"
                           width={40}
                           height={40}
                           alt="experience company logo image"
                         />
                       </div>
-                      <h1 className="flex-1 font-semibold">{item?.cName}</h1>
-                      <h1 className="flex-1 text-muted-foreground">
-                        {item?.position}
-                      </h1>
-                      <h1 className="ml-5 text-sm text-muted-foreground">
-                        {new Date(item?.updatedAt).getDay()} days ago
-                      </h1>
+                      <div className="w-full flex justify-center items-center max-sm:flex-col max-sm:justify-start  max-sm:items-start">
+                        <h1 className="flex-1 font-semibold  max-sm:text-sm max-md:text-sm">
+                          {item?.cName}
+                        </h1>
+                        <h1 className="flex-1 text-muted-foreground max-sm:text-sm max-md:text-sm">
+                          {item?.position}
+                        </h1>
+                      </div>
+                      <span className="ml-5 text-sm text-muted-foreground">
+                        {date}
+                      </span>
                     </div>
                   )}
                   {sectionName === "projects" && (
-                    <>
-                      <div className="w-10 h-10 overflow-hidden rounded-md flex justify-center items-center border  ">
+                    <div className="w-full flex justify-start items-center gap-8 ">
+                      <div className="w-10 h-10 min-w-10 min-h-10  overflow-hidden rounded-md flex justify-center items-center border  ">
                         <Image
                           src={item?.thumbnail || NoImage}
                           className="object-cover w-full h-full rounded-md"
@@ -113,25 +121,24 @@ function ItemsList({ list, sectionName }) {
                         <span>
                           <AiFillLike size={20} color="gray" />
                         </span>
-                        {parseInt(item?.views / 1000000000000) || 10}K
+                        {parseInt(item?.likes) || 10}K
                       </div>
                       <div className="ml-5 flex justify-center items-center gap-2">
                         <span>
                           <LuEye size={20} color="gray" />
                         </span>
-                        {parseFloat(`${item?.views}`, 4) || 10}K
                       </div>
                       <div className="ml-5 flex justify-center items-center gap-2">
                         {item?.createdAt}
                       </div>
-                    </>
+                    </div>
                   )}
                   {sectionName === "skills" && (
                     <>
-                      <div className="w-10 h-10 overflow-hidden rounded-md flex justify-center items-center ">
+                      <div className="w-10 h-10 min-w-10 min-h-10 overflow-hidden rounded-md flex justify-center items-center max-sm:flex-wrap max-md:flex-wrap">
                         <Image
                           src={item?.skillLogo || NoImage}
-                          className="object-cover w-full h-full rounded-md"
+                          className="object-cover rounded-md"
                           width={40}
                           height={40}
                           alt="experience company logo image"
@@ -140,7 +147,7 @@ function ItemsList({ list, sectionName }) {
                       <h1 className="font-semibold ">{item?.skillName}</h1>
                     </>
                   )}
-                  <div className="ml-auto mr-10 flex justify-center items-center gap-8 self-end">
+                  <div className="ml-auto mr-10 flex justify-center items-center gap-8 ">
                     <UpdateBtn sectionName={sectionName} initialUpdate={item} />
                     <AlertDialog>
                       <AlertDialogTrigger>
@@ -194,3 +201,45 @@ function ItemsList({ list, sectionName }) {
 }
 
 export default ItemsList;
+
+// 5 min => 300000 ms => 5 minutes ago
+// 15 min => 900000 ms => 15 min ago
+// 30 min => 1800000 ms => 30 min ago
+// 1 hour => 3600000 ms => 1 hour ago
+// 24 hour => 86400000 ms => 1 day ago
+// 24 * 7  hour week  => 604800000 ms => 1 week ago
+// 24 * 30  hour month  => 2.5920E+9 ms  => 1 month ago
+
+// min
+// hour
+// day
+// week
+// month
+// year
+
+function handleDateTime(dateInMileSecond) {
+  const timing = {
+    minute: 60000,
+    hour: 3600000,
+    day: 86400000,
+    week: 604800000,
+    month: 2.628e9,
+  };
+
+  switch (dateInMileSecond) {
+    case dateInMileSecond <= timing.hour:
+      return dateInMileSecond;
+
+    case dateInMileSecond > timing.hour:
+      return dateInMileSecond;
+
+    case dateInMileSecond > timing.day:
+      return dateInMileSecond;
+
+    case dateInMileSecond >= timing.month:
+      return dateInMileSecond;
+
+    default:
+      break;
+  }
+}

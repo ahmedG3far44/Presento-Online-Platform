@@ -40,7 +40,7 @@ function SkillsLayout({
       ) : (
         <>
           {isLogged ? (
-            <div className="w-full p-4 rounded-md border flex flex-col-reverse justify-center items-start gap-2">
+            <div className="w-full p-4 rounded-md border flex flex-col-reverse justify-center items-center gap-2">
               <h2 className="text-muted-foreground flex gap-2 justify-center items-center">
                 <MdErrorOutline size={15} /> <span>no skills added yet!!</span>
               </h2>

@@ -42,7 +42,7 @@ function ExperienceCard({
   ];
 
   return (
-    <div className="w-full flex flex-col justify-start items-start gap-4  rounded-md p-4 shadow-sm border ">
+    <div className="min-w-[500px] max-sm:min-w-full max-md:min-w-full w-full flex flex-col justify-start items-start gap-4  rounded-md p-4 shadow-sm border ">
       <div className="w-full flex justify-between items-center flex-wrap">
         <div
           className={` 

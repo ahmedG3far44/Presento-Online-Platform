@@ -10,8 +10,8 @@ async function Header({ userInfo }) {
   const { getPermission } = await getKindeServerSession();
   const admin = await getPermission("admin:create");
   return (
-    <header className="w-3/4 m-auto p-4 flex justify-between items-center">
-      <div className="flex-1 ">
+    <header className="w-3/4 m-auto p-4 flex justify-between items-center max-sm:w-screen ">
+      <div className="flex-1 mr-10">
         <div className="w-full flex justify-center items-center gap-4">
           <Image
             src={userInfo?.picture}
@@ -24,7 +24,7 @@ async function Header({ userInfo }) {
         </div>
       </div>
       <nav
-        className={`flex-1 flex  items-center gap-4 ${
+        className={`flex-1 flex  items-center gap-4 mr-10 max-sm:hidden max-md:hidden ${
           isLogged ? "justify-end" : "justify-center"
         }`}
       >

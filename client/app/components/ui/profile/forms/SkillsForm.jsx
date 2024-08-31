@@ -86,7 +86,7 @@ function SkillsForm({ skillState, setSkill }) {
     <form
       ref={skillFormRef}
       onSubmit={handleAddNewSkill}
-      className="w-1/2 flex flex-col justify-start items-start gap-2 p-4 rounded-md border "
+      className="w-1/2 max-sm:w-full max-md:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border "
     >
       <label
         className="w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
@@ -95,12 +95,12 @@ function SkillsForm({ skillState, setSkill }) {
         <span className="text-muted-foreground">
           <FiFilePlus size={30} />
         </span>
-        <h1 className="text-center w-1/2 p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
-          <span classNam="font-bold">upload your image here</span>{" "}
-          <span className="w-full text-nowrap text-sm font-normal">
+        <h1 className="text-center text-sm w-3/4 max-sm:w-full max-md:w-full p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
+          <span className="font-bold">upload your image here</span>{" "}
+          <span className="w-full  text-sm font-normal max-sm:hidden max-md:hidden">
             make sure you upload image in these formats{" "}
           </span>{" "}
-          <span className="text-sm font-normal">
+          <span className="font-normal">
             JPEG | PNG | JPG | GIF and max size (4MB)
           </span>
         </h1>

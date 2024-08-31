@@ -24,7 +24,6 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
-          edit={edit}
         />
       )}
       {layoutStyle === "2" && (
@@ -34,7 +33,6 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
-          edit={edit}
         />
       )}
       {layoutStyle === "3" && (
@@ -44,7 +42,6 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
-          edit={edit}
         />
       )}
       {layoutStyle === "4" && (
@@ -54,7 +51,6 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
-          edit={edit}
         />
       )}
       {layoutStyle === "5" && (
@@ -64,7 +60,6 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
-          edit={edit}
         />
       )}
     </>

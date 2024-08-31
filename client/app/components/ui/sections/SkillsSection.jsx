@@ -9,10 +9,10 @@ function SkillsSection() {
     skillLogo: "",
   });
   return (
-    <section className="w-full flex justify-start items-center gap-8">
+    <section className="w-full flex justify-start items-center gap-8 max-sm:flex-col-reverse max-sm:justify-center max-md:flex-col-reverse max-md:justify-center">
       <SkillsForm skillState={skillState} setSkill={setSkill} />
-      <div className="p-4 border-2 border-dashed rounded-md flex justify-center items-center w-1/2 h-full">
-        <SkillCard skillName={skillState.skillName} />
+      <div className="p-4 border-2 border-dashed rounded-md flex justify-center items-center w-1/2 max-sm:w-full max-md:w-full max-sm:py-8 max-md:py-8 h-full">
+        <SkillCard skillName={skillState.skillName} layoutStyle="2" />
       </div>
     </section>
   );

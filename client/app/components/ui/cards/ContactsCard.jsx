@@ -28,7 +28,7 @@ function ContactsCard({ contacts }) {
             "flex justify-center items-center p-1 rounded-md border scale-90 hover:scale-100  duration-150"
           }
         >
-          <Link target="_top" href={contacts?.linkedin}>
+          <Link target="_blank" href={contacts?.linkedin}>
             <span>
               <AiOutlineLinkedin size={20} />
             </span>
@@ -41,7 +41,7 @@ function ContactsCard({ contacts }) {
             "flex justify-center items-center p-1 rounded-md border scale-90 hover:scale-100  duration-150"
           }
         >
-          <Link target="_self" href={contacts?.youtube}>
+          <Link target="_blank" href={contacts?.youtube}>
             <span>
               <AiOutlineYoutube size={20} />
             </span>
@@ -54,7 +54,7 @@ function ContactsCard({ contacts }) {
             "flex justify-center items-center p-1 rounded-md border scale-90 hover:scale-100  duration-150"
           }
         >
-          <Link target="_parent" href={contacts?.github}>
+          <Link target="_blank" href={contacts?.github}>
             <span>
               <AiOutlineGithub size={20} />
             </span>
@@ -66,9 +66,3 @@ function ContactsCard({ contacts }) {
 }
 
 export default ContactsCard;
-
-// 		"linkedin": "https://impolite-day.biz/",
-// 		"github": "https://next-prostacyclin.info",
-// 		"youtube": "https://agreeable-complex.org",
-// 		"twitter": "https://peaceful-tiger.biz/",
-// 		"usersId": "kp_95fdef745e5d43678ca77601e3cd3047"

@@ -55,7 +55,7 @@ async function UserPage({ params }) {
           contacts={contacts}
         />
       </Container>
-      <Footer />
+      <Footer userInfo={userInfo} />
     </div>
   );
 }

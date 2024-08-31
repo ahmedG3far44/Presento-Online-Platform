@@ -99,6 +99,8 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         });
         setErrorMessage(error.message);
         return;
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -106,7 +108,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
     <form
       ref={experienceFormRef}
       onSubmit={handleAddExperience}
-      className="lg:w-1/3  min-w-96 w-full sm:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
+      className="lg:flex-1 min-w-96 w-full sm:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
     >
       <label
         className="w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
@@ -115,7 +117,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         <span className="text-muted-foreground">
           <FiFilePlus size={30} />
         </span>
-        <h1 className="text-center w-full p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
+        <h1 className="text-center text-sm w-full p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
           <span className="font-bold">upload your image here</span>{" "}
           <span className="w-full  text-sm font-normal">
             supported Images formats JPEG | PNG | GIF | JPG, <br /> with max
@@ -129,7 +131,6 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         id="expLogo"
         name="expLogo"
         accept="image/png, image/jpeg, image/jpg, image/gif"
-        style={{ display: "none" }}
         required
       />
 
@@ -180,8 +181,8 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
       <textarea
         className="w-full  p-2 rounded-md"
         placeholder="my role "
-        minlength="10"
-        maxlength="300"
+        minLength="10"
+        maxLength="300"
         name="role"
         onChange={(e) =>
           setExperiencesObject({ ...experiencesObject, role: e.target.value })

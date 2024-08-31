@@ -26,7 +26,7 @@ export default async function Home() {
           <h1>{String(isAdmin)}</h1>
           <h1>{String(isLogged)}</h1>
           <h1>
-            {user?.email} {user?.given_name}
+            {user?.email} {user?.given_name} {user?.picture}
           </h1>
         </section>
       </Container>

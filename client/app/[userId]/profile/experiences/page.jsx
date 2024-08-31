@@ -6,9 +6,9 @@ async function ExperiencesPage() {
   const { user } = await credentials();
   const experiencesList = await getExperiencesList(user.id);
   return (
-    <section className="w-full h-screen flex flex-col justify-start items-start px-8 gap-8 sticky top-0 right-0 overflow-x-hidden overflow-y-auto no-scrollbar p-4">
+    <section className="w-full min-h-screen flex flex-col justify-start items-start px-8 gap-8 sticky top-0 right-0 p-4">
       <ExperienceSection />
-      <main className="w-full m-auto overflow-x-hidden overflow-y-auto no-scrollbar">
+      <main className="w-full min-h-screen m-auto overflow-x-hidden">
         <ItemsList list={experiencesList} sectionName={"experiences"} />
       </main>
     </section>

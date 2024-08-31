@@ -17,7 +17,7 @@ function ProjectCard({
 }) {
   const isLike = false;
   return (
-    <div className="max-h-96 rounded-md flex flex-col border   justify-center items-center gap-2 p-4">
+    <div className="rounded-md flex flex-col border m-auto   justify-center items-center gap-2 p-4">
       <div className="w-full flex-1 min-h-1/2 overflow-hidden rounded-md mb-4">
         <Image
           width={250}

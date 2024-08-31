@@ -8,7 +8,6 @@ import bioRoute from "./bio.js";
 import projectDetailsRoute from "./projectDetails.js";
 import layoutsRoute from "./layouts.js";
 import adminRoute from "./admin.js";
-import uploadRoute from "./upload/images.js";
 
 const rootRouter = express.Router();
 
@@ -21,6 +20,5 @@ rootRouter.use("/", skillsRoute);
 rootRouter.use("/", contactsRoute);
 rootRouter.use("/", layoutsRoute);
 rootRouter.use("/", adminRoute);
-rootRouter.use("/", uploadRoute);
 
 export default rootRouter;

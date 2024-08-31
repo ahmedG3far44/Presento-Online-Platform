@@ -14,12 +14,12 @@ function ExperienceSection() {
     location: "location of work",
   });
   return (
-    <div className="flex lg:flex-row sm:flex-col-reverse  w-full justify-start items-center gap-8">
+    <div className="w-full flex justify-start items-center flex-wrap-reverse gap-8 max-md:flex-col-reverse max-sm:flex-col-reverse">
       <ExperiencesForm
         experiencesObject={experiencesObject}
         setExperiencesObject={setExperiencesObject}
       />
-      <div className="flex-1 lg:w-3/4 max-lg:flex-col sm:w-full h-full p-8 flex justify-center items-center border-2 border-dashed gap-8 rounded-md">
+      <div className="flex-1 max-sm:w-full max-md:w-full h-full min-h-full p-8 flex justify-center items-center border-2 border-dashed gap-8 rounded-md">
         <ExperienceCard
           cLogo={experiencesObject.cLogo}
           cName={experiencesObject.cName || "company name"}

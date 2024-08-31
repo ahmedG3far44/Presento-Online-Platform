@@ -33,8 +33,8 @@ function BioPage() {
     setLoading(false);
   }, []);
   return (
-    <div className="w-full flex flex-col justify-start items-start gap-4 overflow-x-hidden overflow-y-scroll no-scrollbar">
-      <div className="w-3/4 m-auto  border-2 mt-4 border-dashed rounded-md">
+    <div className="w-full flex flex-col justify-start items-start gap-4 overflow-x-hidden overflow-y-scroll no-scrollbar p-4">
+      <div className="w-3/4 max-sm:w-full max-md:w-full  m-auto mt-4  rounded-md">
         {isLoading ? (
           <div className="w-full h-full min-w-full min-h-[600px] flex justify-center items-center p-8">
             <h1 className="text-4xl text-muted-foreground">Loading...</h1>
@@ -51,10 +51,10 @@ function BioPage() {
           />
         )}
       </div>
-      <div className="w-3/4 m-auto ">
+      <div className="w-3/4 max-sm:w-full max-md:w-full m-auto ">
         <div className="w-full m-auto py-4 rounded-md flex gap-4 ">
           <button
-            className={`px-4 py-2 w-52 min-w-52 border rounded-md text-primary cursor-pointer hover:bg-muted duration-150 ${
+            className={`px-4 py-2 w-40  max-w-40  max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-muted duration-150 ${
               switcher === "bio" && "bg-secondary"
             }`}
             onClick={() => setSwitcher("bio")}
@@ -62,7 +62,7 @@ function BioPage() {
             Bio
           </button>
           <button
-            className={`px-4 py-2 w-52 min-w-52 border rounded-md text-primary cursor-pointer hover:bg-muted duration-150 ${
+            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-muted duration-150 ${
               switcher === "contacts" && "bg-secondary"
             }`}
             onClick={() => setSwitcher("contacts")}
@@ -70,7 +70,7 @@ function BioPage() {
             Contacts
           </button>
         </div>
-        <div>
+        <div className="w-full">
           {switcher === "bio" ? (
             <BioForm bio={bio} setBio={setBio} />
           ) : (

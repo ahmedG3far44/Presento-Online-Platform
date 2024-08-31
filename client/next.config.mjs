@@ -7,6 +7,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "media.licdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.its.ac.id",
+        pathname: "/*",
+      },
     ],
   },
 };

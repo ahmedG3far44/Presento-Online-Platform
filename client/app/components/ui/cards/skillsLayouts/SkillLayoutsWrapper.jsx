@@ -1,20 +1,26 @@
 function SkillLayoutsWrapper({ skillLayoutStyle, children }) {
   return (
     <section
-      className={`w-full p-4 gap-4
-            ${skillLayoutStyle === "1" && "grid grid-cols-3  justify-center "}
-            ${skillLayoutStyle === "2" && " grid grid-cols-4 content-center "}
+      className={`w-full p-4 gap-4 m-auto
+            ${
+              skillLayoutStyle === "1" &&
+              "grid max-lg:grid-cols-4  lg:grid-cols-4  max-md:grid-cols-3  max-sm:grid-cols-2  content-center"
+            }
+            ${
+              skillLayoutStyle === "2" &&
+              " grid max-lg:grid-cols-4 lg:grid-cols-4  max-md:grid-cols-3  max-sm:grid-cols-2 content-center"
+            }
             ${
               skillLayoutStyle === "3" &&
-              " flex justify-start items-center  flex-wrap"
+              " flex justify-start items-center gap-4 flex-wrap"
             }
             ${
               skillLayoutStyle === "4" &&
-              " flex justify-start items-start flex-wrap"
+              " flex justify-start items-start  gap-4 flex-wrap"
             }
             ${
               skillLayoutStyle === "5" &&
-              " flex justify-start items-start   flex-wrap"
+              " flex justify-start items-start  gap-4  flex-wrap"
             }
         `}
     >

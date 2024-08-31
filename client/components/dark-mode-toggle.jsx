@@ -19,7 +19,9 @@ export function ModeToggle({ toggleStyle }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className={"w-full flex justify-start items-center gap-2 p-2"}
+          className={
+            "w-full flex justify-start items-start bg-muted gap-2 p-2 hover:bg-primary-foreground"
+          }
           variant="outline"
           size="icon"
         >

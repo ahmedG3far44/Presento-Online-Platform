@@ -27,7 +27,7 @@ function SkillCard({ skillName, skillLogo, layoutStyle }) {
               ${layoutStyle === "5" && "hidden"}
               `}
           src={
-            skillLogo.length > 0
+            skillLogo
               ? skillLogo
               : "https://st2.depositphotos.com/1561359/12101/v/380/depositphotos_121012076-stock-illustration-blank-photo-icon.jpg"
           }

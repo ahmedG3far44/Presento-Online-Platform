@@ -11,18 +11,9 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { ModeToggle } from "@/components/dark-mode-toggle";
 import { TbSmartHome } from "react-icons/tb";
 import { useParams, usePathname } from "next/navigation";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { RiMenu3Line } from "react-icons/ri";
-
-import "../../globals.css";
 import AsideProfile from "@/app/components/ui/nav/AsideProfile";
+import "../../globals.css";
+import MobileMenuBar from "@/app/components/ui/nav/MobileMenuBar";
 
 function layout({ children }) {
   // console.log(path);
@@ -32,7 +23,6 @@ function layout({ children }) {
 
   const pathName = usePathname();
   const { userId } = useParams();
-  // console.log(searchParams);
   const profileRoutes = [
     {
       path: `/${userId}`,
@@ -61,8 +51,10 @@ function layout({ children }) {
     },
   ];
   return (
-    <div className="max-w-full w-screen h-screen flex justify-start items-start overflow-x-hidden relative">
-      <AsideProfile>
+    <section className="max-w-screen w-screen h-screen flex justify-start items-start overflow-x-hidden relative max-sm:flex-col max-sm:justify-center max-sm:items-center max-md:flex-col max-md:justify-center max-md:items-center">
+      <AsideProfile
+        className={"flex flex-col lg:flex max-sm:hidden max-md:hidden"}
+      >
         <div className="w-full flex flex-col justify-center items-center gap-20">
           <div className="w-full self-center mx-auto">
             <User
@@ -82,23 +74,27 @@ function layout({ children }) {
                   className="w-full flex justify-start items-center gap-10 p-2 hover:text-muted-foreground duration-150"
                 >
                   <Link
-                    className={`w-full flex gap-2 px-4 p-2 rounded-md ${
+                    className={`w-full flex gap-2 rounded-md ${
                       activeRoute === route.name.toLocaleLowerCase() &&
-                      "bg-muted"
+                      "text-primary-foreground"
                     }`}
                     href={route.path}
                   >
                     <span>{route.icon}</span>
-                    {route.name}
+                    <span className="max-sm:hidden max-md:hidden">
+                      {" "}
+                      {route.name}
+                    </span>
                   </Link>
                 </li>
               );
             })}
           </ul>
         </div>
-        <div className="w-full flex flex-col justify-start items-start gap-8 ">
-          <ModeToggle className={"bg-primary-foreground"} />
-          <LogoutLink className="w-full flex gap-2 hover:text-purple-500 duration-150">
+
+        <div className="flex flex-col justify-start items-start gap-2  mt-12">
+          <ModeToggle />
+          <LogoutLink className="w-full flex gap-2 hover:text-muted-foreground duration-150 p-2">
             <span>
               <LuLogOut size={20} />
             </span>
@@ -106,10 +102,39 @@ function layout({ children }) {
           </LogoutLink>
         </div>
       </AsideProfile>
-      <main className="w-3/4  overflow-x-hidden no-scrollbar  m-auto ">
+
+      <MobileMenuBar className={"hidden max-sm:flex max-md:flex "}>
+        <User
+          name={`${user?.given_name} ${user?.family_name}`}
+          picture={user?.picture}
+          email={user?.email}
+        />
+        <ul className="w-full flex flex-col items-center justify-center self-center gap-2 mt-8">
+          {profileRoutes.map((route, index) => {
+            const activeRoute = pathName.split("/")[3];
+            return (
+              <li
+                key={index}
+                className="w-full flex justify-center items-center self-center gap-10 p-2 hover:text-muted-foreground duration-150"
+              >
+                <Link
+                  className={`w-full flex gap-2 rounded-md ${
+                    activeRoute === route.name.toLocaleLowerCase() &&
+                    "text-muted"
+                  }`}
+                  href={route.path}
+                >
+                  <span className="font-semibold text-md">{route.name}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </MobileMenuBar>
+      <main className="w-3/4 max-lg:w-3/4 min-h-screen h-screen  max-sm:w-full max-md:w-full overflow-x-hidden m-auto">
         {children}
       </main>
-    </div>
+    </section>
   );
 }
 

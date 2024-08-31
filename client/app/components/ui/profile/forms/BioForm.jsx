@@ -82,7 +82,7 @@ function BioForm({ bio, setBio }) {
       </button>
       <form
         onSubmit={updateBioAction}
-        className="w-1/2 mt-4 flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
+        className="w-1/2 max-sm:w-full max-md:w-full mt-4 flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
       >
         <input
           onChange={(e) => setBio({ ...bio, bioName: e.target.value })}
@@ -125,17 +125,40 @@ function BioForm({ bio, setBio }) {
           onChange={(e) => setBio({ ...bio, layoutStyle: e.target.value })}
           required
           name="layout"
-          className="w-full p-2 rounded-md disabled:bg-muted disabled:cursor-not-allowed bg-transparent border"
+          className="w-full p-2 rounded-md disabled:bg-muted disabled:cursor-not-allowed  border"
           placeholder="select your layout"
           disabled={updateBioState}
           defaultValue={bio?.layoutStyle}
         >
-          <option value="1">Align Center</option>
-          <option value="2">Align Start</option>
-          <option value="3">Align Row</option>
-          <option value="4">Align Row Reverse</option>
-          <option value="5">Align Between</option>
+          <option
+            className="bg-primary-foreground p-4 rounded-md m-1"
+            value="1"
+          >
+            Align Center
+          </option>
+          <option className="bg-primary-foreground  p-2" value="2">
+            Align Start
+          </option>
+          <option
+            className="bg-primary-foreground p-4 rounded-md m-1"
+            value="3"
+          >
+            Align Row
+          </option>
+          <option
+            className="bg-primary-foreground p-4 rounded-md m-1"
+            value="4"
+          >
+            Align Row Reverse
+          </option>
+          <option
+            className="bg-primary-foreground p-4 rounded-md m-1"
+            value="5"
+          >
+            Align Between
+          </option>
         </select>
+        <span>{bio?.layoutStyle}</span>
         <input
           type="submit"
           aria-disabled={status.pending}

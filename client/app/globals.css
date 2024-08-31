@@ -93,6 +93,17 @@
     rotate: 720deg;
   }
 }
+.slide-menu {
+  animation: slide 0.4s ease-in-out forwards both;
+}
+@keyframes slide {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 40%;
+  }
+}
 
 html {
   scroll-behavior: smooth;

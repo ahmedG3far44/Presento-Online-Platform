@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import prisma from "./database/db.js";
 import rootRouter from "./routes/index.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -27,7 +28,7 @@ prisma
   });
 
 app.use(cors());
-
+app.use(cookieParser());
 app.use(express.json());
 app.use("/api", rootRouter);
 

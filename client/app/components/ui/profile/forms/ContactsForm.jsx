@@ -60,7 +60,7 @@ function ContactsForm({ contacts, setContacts }) {
       </button>
       <form
         onSubmit={updateContactsUrl}
-        className="w-1/2 border p-4 mt-4 rounded-md flex flex-col justify-start items-center gap-2"
+        className="w-1/2  max-sm:w-full max-md:w-full border p-4 mt-4 rounded-md flex flex-col justify-start items-center gap-2"
       >
         <input
           readOnly={updateContactsState}
