@@ -4,18 +4,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { useFormStatus } from "react-dom";
 import { updateLayoutsAction } from "@/app/actions/update/actions";
 
-export function ChangeExperiencesLayoutForm({
-  layouts,
-  setLayouts,
-  layoutsID,
-}) {
+export function ChangeExperiencesLayoutForm({ layouts, setLayouts }) {
   const { toast } = useToast();
   const { pending } = useFormStatus();
 
   return (
     <form
       action={async () => {
-        await updateLayoutsAction(layouts, layoutsID)
+        await updateLayoutsAction(layouts)
           .then((data) => {
             console.log(data);
             toast({
@@ -93,13 +89,13 @@ export function ChangeExperiencesLayoutForm({
     </form>
   );
 }
-export function ChangeProjectsLayoutForm({ layouts, setLayouts, layoutsID }) {
+export function ChangeProjectsLayoutForm({ layouts, setLayouts }) {
   const { toast } = useToast();
   const { pending } = useFormStatus();
   return (
     <form
       action={async () => {
-        await updateLayoutsAction(layouts, layoutsID);
+        await updateLayoutsAction(layouts);
         toast({
           title: "projects layout was changed !!",
         });
@@ -182,13 +178,13 @@ export function ChangeProjectsLayoutForm({ layouts, setLayouts, layoutsID }) {
   );
 }
 
-export function ChangeSkillsLayoutForm({ layouts, setLayouts, layoutsID }) {
+export function ChangeSkillsLayoutForm({ layouts, setLayouts }) {
   const { toast } = useToast();
   const { pending } = useFormStatus();
   return (
     <form
       action={async () => {
-        await updateLayoutsAction(layouts, layoutsID);
+        await updateLayoutsAction(layouts);
         toast({
           title: "skills layout was changed !!",
         });
@@ -274,6 +270,110 @@ export function ChangeSkillsLayoutForm({ layouts, setLayouts, layoutsID }) {
           }
         />
         <label htmlFor="skillsLayouts-5">skills 5</label>
+      </div>
+
+      <input
+        disabled={pending}
+        className="px-4 py-2 border disabled:bg-green-500 rounded-md cursor-pointer hover:bg-primary-foreground duration-150"
+        type="submit"
+        value={pending ? "saving..." : "save changes"}
+      />
+    </form>
+  );
+}
+
+export function ChangeHeroLayoutForm({ layouts, setLayouts }) {
+  const { toast } = useToast();
+  const { pending } = useFormStatus();
+  return (
+    <form
+      action={async () => {
+        await updateLayoutsAction(layouts);
+        toast({
+          title: "hero layout was changed !!",
+        });
+      }}
+      className={
+        "w-full max-w-full flex justify-start items-center gap-2 flex-wrap p-4"
+      }
+    >
+      <div
+        className={
+          "p-2 rounded-md border flex gap-2 justify-start items-center hover:bg-primary-foreground duration-150"
+        }
+      >
+        <input
+          type="radio"
+          id="heroLayout-1"
+          name={"heroLayouts"}
+          value="1"
+          onChange={(e) =>
+            setLayouts({ ...layouts, heroLayout: e.target.value })
+          }
+        />
+        <label htmlFor="heroLayout-1">Hero 1</label>
+      </div>
+
+      <div className="p-2 rounded-md border flex gap-2 justify-start items-center hover:bg-primary-foreground duration-150">
+        <input
+          type="radio"
+          id="heroLayout-2"
+          name={"heroLayouts"}
+          value="2"
+          onChange={(e) =>
+            setLayouts({ ...layouts, heroLayout: e.target.value })
+          }
+        />
+        <label htmlFor="heroLayout-2">Hero 2</label>
+      </div>
+
+      <div
+        className={
+          "p-2 rounded-md border flex gap-2 justify-start items-center hover:bg-primary-foreground duration-150"
+        }
+      >
+        <input
+          type="radio"
+          id="heroLayout-3"
+          name={"heroLayouts"}
+          value="3"
+          onChange={(e) =>
+            setLayouts({ ...layouts, heroLayout: e.target.value })
+          }
+        />
+        <label htmlFor="heroLayout-3">Hero 3</label>
+      </div>
+      <div
+        className={
+          "p-2 rounded-md border flex gap-2 justify-start items-center hover:bg-primary-foreground duration-150"
+        }
+      >
+        <input
+          type="radio"
+          id="heroLayout-4"
+          name={"heroLayouts"}
+          value="4"
+          onChange={(e) =>
+            setLayouts({ ...layouts, heroLayout: e.target.value })
+          }
+        />
+        <label htmlFor="heroLayout-4">Hero 4</label>
+      </div>
+      <div
+        className={
+          "p-2 rounded-md border flex gap-2 justify-start items-center hover:bg-primary-foreground duration-150"
+        }
+      >
+        <input
+          type="radio"
+          id="heroLayout-5"
+          name={"heroLayouts"}
+          value="5"
+          onChange={(e) =>
+            setLayouts({ ...layouts, heroLayout: e.target.value })
+          }
+        />
+        <label htmlFor="heroLayout-5">Hero 5</label>
       </div>
 
       <input

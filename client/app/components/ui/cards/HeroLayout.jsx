@@ -5,13 +5,14 @@ import HeroLayoutFour from "./heroLayouts/HeroLayoutFour";
 import HeroLayoutFive from "./heroLayouts/HeroLayoutFive";
 
 function HeroLayout({
+  id,
   name,
   summary,
   img,
   layoutStyle,
   jobTitle,
-  edit,
   contacts,
+  isLogged,
 }) {
   // const { given_name, family_name } = user;
   // const fullName = `${given_name} ${family_name}`;
@@ -24,6 +25,8 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
+          isLogged={isLogged}
+          id={id}
         />
       )}
       {layoutStyle === "2" && (
@@ -33,6 +36,8 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
+          isLogged={isLogged}
+          id={id}
         />
       )}
       {layoutStyle === "3" && (
@@ -42,6 +47,8 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
+          isLogged={isLogged}
+          id={id}
         />
       )}
       {layoutStyle === "4" && (
@@ -51,6 +58,8 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
+          isLogged={isLogged}
+          id={id}
         />
       )}
       {layoutStyle === "5" && (
@@ -60,6 +69,8 @@ function HeroLayout({
           img={img}
           contacts={contacts}
           jobTitle={jobTitle}
+          isLogged={isLogged}
+          id={id}
         />
       )}
     </>

@@ -2,27 +2,18 @@ import { MdErrorOutline } from "react-icons/md";
 import SkillCard from "../cards/SkillCard";
 import SkillLayoutsWrapper from "../cards/skillsLayouts/SkillLayoutsWrapper";
 import { ChangeSkillsLayoutForm } from "../profile/forms/LayoutsForm";
-import Link from "next/link";
 import { LuPlus } from "react-icons/lu";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
-function SkillsLayout({
-  SkillsList,
-  isLogged,
-  layouts,
-  userId,
-  setLayouts,
-  layoutsID,
-}) {
+function SkillsLayout({ SkillsList, layouts, setLayouts, isLogged }) {
+  const { userId } = useParams();
   return (
     <>
       {SkillsList?.length > 0 ? (
-        <section id="skills" className="w-full min-h-full p-4 border">
+        <section id="skills" className="w-full min-h-full p-4">
           {isLogged && (
-            <ChangeSkillsLayoutForm
-              layoutsID={layoutsID}
-              setLayouts={setLayouts}
-              layouts={layouts}
-            />
+            <ChangeSkillsLayoutForm setLayouts={setLayouts} layouts={layouts} />
           )}
           <SkillLayoutsWrapper skillLayoutStyle={layouts?.skillsLayout}>
             {SkillsList?.map((skill) => {

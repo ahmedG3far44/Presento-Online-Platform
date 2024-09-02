@@ -36,7 +36,7 @@ function SkillCard({ skillName, skillLogo, layoutStyle }) {
           alt="skill logo"
         />
         <h1
-          className={` 
+          className={` w-full min-w-full  text-nowrap
             ${layoutStyle === "3" && "hidden"}
             ${
               layoutStyle === "5" &&

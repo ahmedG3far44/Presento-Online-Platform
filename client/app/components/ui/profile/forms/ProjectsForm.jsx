@@ -27,7 +27,7 @@ function ProjectsForm({ project, setProject }) {
     >
       <label
         className="w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
-        htmFor="file-input"
+        htmlFor="file-input"
       >
         <span className="text-muted-foreground">
           <FiFilePlus size={30} />

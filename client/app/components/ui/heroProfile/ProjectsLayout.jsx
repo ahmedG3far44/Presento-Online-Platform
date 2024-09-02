@@ -4,24 +4,18 @@ import { ChangeProjectsLayoutForm } from "../profile/forms/LayoutsForm";
 import Link from "next/link";
 import { LuPlus } from "react-icons/lu";
 import ProjectCard from "../cards/ProjectCard";
+import { useParams } from "next/navigation";
 
-function ProjectsLayout({
-  ProjectsList,
-  isLogged,
-  layouts,
-  userId,
-  setLayouts,
-  layoutsID,
-}) {
+function ProjectsLayout({ ProjectsList, layouts, setLayouts, isLogged }) {
+  const { userId } = useParams();
   return (
     <>
       {ProjectsList?.length > 0 ? (
-        <section id="projects" className="w-full min-h-full border m-auto ">
+        <section id="projects" className="w-full min-h-full  m-auto ">
           {isLogged && (
             <ChangeProjectsLayoutForm
               setLayouts={setLayouts}
               layouts={layouts}
-              layoutsID={layoutsID}
             />
           )}
           <ProjectsLayoutWrapper
@@ -39,7 +33,7 @@ function ProjectsLayout({
                   description={project.description}
                   views={project.views}
                   likes={project.likes}
-                  userId={userId}
+                  userId={layouts?.usersId}
                 />
               );
             })}
@@ -54,7 +48,7 @@ function ProjectsLayout({
                 <span>no projects added yet!!</span>
               </h2>
               <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-muted duration-150">
-                <Link href={`/${userId}/profile/projects`}>
+                <Link href={`/${layouts?.usersId}/profile/projects`}>
                   <span>
                     <LuPlus size={50} />
                   </span>

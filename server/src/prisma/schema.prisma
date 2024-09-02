@@ -13,6 +13,7 @@ model Users {
   email           String        @unique
   picture         String?
   role            String        @default("user")
+  resume          String?
   ExperiencesList Experiences[]
   ProjectsList    Projects[]
   SkillsList      Skills[]
@@ -24,14 +25,13 @@ model Users {
 }
 
 model Bio {
-  id          String  @id @default(uuid())
-  heroImage   String? @default("")
-  bio         String? @default("your summary...")
-  jobTitle    String? @default("your currrent job title.... ")
-  bioName     String? @default("your name ")
-  layoutStyle String? @default("1")
-  userId      Users   @relation(fields: [usersId], references: [id])
-  usersId     String
+  id        String  @id @default(uuid())
+  heroImage String? @default("")
+  bio       String? @db.Text
+  jobTitle  String? @default("change your currrent job title.... ")
+  bioName   String? @default("change your name....")
+  userId    Users   @relation(fields: [usersId], references: [id])
+  usersId   String
 }
 
 model Experiences {
@@ -102,10 +102,11 @@ model Contacts {
 }
 
 model Layouts {
-  id             String @id @default(uuid())
-  expLayout      String @default("1")
-  skillsLayout   String @default("1")
-  projectsLayout String @default("1")
-  userId         Users  @relation(fields: [usersId], references: [id])
+  id             String  @id @default(uuid())
+  heroLayout     String? @default("1")
+  expLayout      String  @default("1")
+  skillsLayout   String  @default("1")
+  projectsLayout String  @default("1")
+  userId         Users   @relation(fields: [usersId], references: [id])
   usersId        String
 }

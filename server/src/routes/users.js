@@ -19,13 +19,6 @@ router.post("/user", checkUser, async (req, res) => {
         ProjectsList: true,
         SkillsList: true,
         ContactsList: true,
-        Layouts: {
-          select: {
-            expLayout: true,
-            projectsLayout: true,
-            skillsLayout: true,
-          },
-        },
       },
     });
     const bio = await prisma.bio.findFirst({
@@ -58,13 +51,13 @@ router.get("/:userId/user", async (req, res) => {
       },
       select: {
         id: true,
-        role: true,
-        picture: true,
         name: true,
+        picture: true,
+        resume: true,
+        role: true,
         ExperiencesList: true,
         ProjectsList: true,
         SkillsList: true,
-        Layouts: true,
         createdAt: true,
       },
     });
@@ -73,7 +66,7 @@ router.get("/:userId/user", async (req, res) => {
         .status(404)
         .json(new Exceptions(404, "this user doesn't exist"));
     } else {
-      const bio = await prisma.bio.findFirst({
+      const bioInfo = await prisma.bio.findFirst({
         where: {
           usersId: userId,
         },
@@ -88,7 +81,13 @@ router.get("/:userId/user", async (req, res) => {
           usersId: userId,
         },
       });
-      return res.json({ ...user, bio, contacts, layouts });
+
+      const bio = {
+        ...bioInfo,
+        heroImage: `${process.env.AWS_S3_BUCKET_DOMAIN}/${bioInfo.heroImage}`,
+      };
+
+      return res.status(200).json({ ...user, bio, contacts, layouts });
     }
   } catch (error) {
     return res.status(500).json(new Exceptions(500, error.message));

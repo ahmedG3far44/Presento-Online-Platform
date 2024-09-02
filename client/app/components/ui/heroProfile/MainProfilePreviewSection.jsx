@@ -6,40 +6,39 @@ import ProjectsLayout from "./ProjectsLayout";
 import SkillsLayout from "./SkillsLayout";
 
 function MainProfilePreviewSection({
-  isLogged,
   layouts,
   ExperiencesList,
   ProjectsList,
   SkillsList,
   contacts,
-  layoutsID,
   bio,
-  userId,
+  isLogged,
 }) {
   //   const initialLayout = JSON.parse(JSON.stringify(layouts));
   const [layoutStyle, setLayouts] = useState(layouts);
 
   return (
     <>
-      <Hero bio={bio} contacts={contacts} />
+      <Hero
+        bio={bio}
+        layouts={layoutStyle}
+        setLayouts={setLayouts}
+        contacts={contacts}
+        isLogged={isLogged}
+      />
       <ExpLayout
         layouts={layoutStyle}
-        layoutsID={layoutsID}
         setLayouts={setLayouts}
         ExperiencesList={ExperiencesList}
         isLogged={isLogged}
-        userId={userId}
       />
       <ProjectsLayout
-        layoutsID={layoutsID}
         layouts={layoutStyle}
         setLayouts={setLayouts}
-        userId={userId}
         ProjectsList={ProjectsList}
         isLogged={isLogged}
       />
       <SkillsLayout
-        layoutsID={layoutsID}
         layouts={layoutStyle}
         setLayouts={setLayouts}
         SkillsList={SkillsList}

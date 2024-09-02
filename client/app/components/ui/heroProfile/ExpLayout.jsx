@@ -4,24 +4,18 @@ import ExperiencesLayoutWrapper from "../cards/experiencesLayouts/ExperiencesLay
 import { ChangeExperiencesLayoutForm } from "../profile/forms/LayoutsForm";
 import { LuPlus } from "react-icons/lu";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
-function ExpLayout({
-  isLogged,
-  ExperiencesList,
-  layouts,
-  setLayouts,
-  layoutsID,
-  userId,
-}) {
+function ExpLayout({ ExperiencesList, layouts, setLayouts, isLogged }) {
+  const { userId } = useParams();
   return (
     <>
       {ExperiencesList?.length > 0 ? (
-        <section id="experiences" className="w-full min-h-full p-4 border">
+        <section id="experiences" className="w-full min-h-full p-4">
           {isLogged && (
             <ChangeExperiencesLayoutForm
               setLayouts={setLayouts}
               layouts={layouts}
-              layoutsID={layoutsID}
             />
           )}
           <ExperiencesLayoutWrapper
@@ -41,7 +35,7 @@ function ExpLayout({
                   role={exp.role}
                   position={exp.position}
                   location={exp.location}
-                  userId={exp.usersId}
+                  userId={userId}
                 />
               );
             })}

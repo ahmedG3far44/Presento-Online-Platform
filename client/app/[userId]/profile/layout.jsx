@@ -14,6 +14,7 @@ import { useParams, usePathname } from "next/navigation";
 import AsideProfile from "@/app/components/ui/nav/AsideProfile";
 import "../../globals.css";
 import MobileMenuBar from "@/app/components/ui/nav/MobileMenuBar";
+import GradientText from "@/app/components/ui/cards/heroLayouts/GradientText";
 
 function layout({ children }) {
   // console.log(path);
@@ -51,41 +52,52 @@ function layout({ children }) {
     },
   ];
   return (
-    <section className="max-w-screen w-screen h-screen flex justify-start items-start overflow-x-hidden relative max-sm:flex-col max-sm:justify-center max-sm:items-center max-md:flex-col max-md:justify-center max-md:items-center">
+    <section className="w-screen max-w-full h-auto min-h-screen flex justify-center items-start gap-10 relative max-sm:static max-sm:flex-col max-sm:items-center max-md:flex-col max-md:items-center">
       <AsideProfile
-        className={"flex flex-col lg:flex max-sm:hidden max-md:hidden"}
+        className={
+          "fixed left-0 top-0 min-h-screen flex flex-col lg:flex max-sm:hidden max-md:hidden"
+        }
       >
         <div className="w-full flex flex-col justify-center items-center gap-20">
           <div className="w-full self-center mx-auto">
             <User
               name={`${user?.given_name} ${user?.family_name}`}
               picture={user?.picture}
-              email={user?.email}
               isAdmin={isAdmin}
             />
           </div>
 
           <ul className="w-full flex flex-col self-center mx-auto">
             {profileRoutes.map((route, index) => {
-              const activeRoute = pathName.split("/")[3];
+              const activeRoute = pathName?.split("/")[3];
               return (
                 <li
                   key={index}
                   className="w-full flex justify-start items-center gap-10 p-2 hover:text-muted-foreground duration-150"
                 >
-                  <Link
-                    className={`w-full flex gap-2 rounded-md ${
-                      activeRoute === route.name.toLocaleLowerCase() &&
-                      "text-primary-foreground"
-                    }`}
-                    href={route.path}
-                  >
-                    <span>{route.icon}</span>
-                    <span className="max-sm:hidden max-md:hidden">
-                      {" "}
-                      {route.name}
-                    </span>
-                  </Link>
+                  {activeRoute === route.name.toLocaleLowerCase() ? (
+                    <Link href={route.path}>
+                      <h1
+                        className={`w-full flex gap-2 rounded-md text-purple-400  justify-center items-center`}
+                      >
+                        <span className="  font-semibold text-md">
+                          {route.icon}
+                        </span>
+                        <span className="font-semibold text-md">
+                          {route.name}
+                        </span>
+                      </h1>
+                    </Link>
+                  ) : (
+                    <Link
+                      className={`w-full flex gap-2 rounded-md`}
+                      href={route.path}
+                    >
+                      <span className="font-semibold text-md">
+                        {route.name}
+                      </span>
+                    </Link>
+                  )}
                 </li>
               );
             })}
@@ -107,9 +119,9 @@ function layout({ children }) {
         <User
           name={`${user?.given_name} ${user?.family_name}`}
           picture={user?.picture}
-          email={user?.email}
+          isAdmin={isAdmin}
         />
-        <ul className="w-full flex flex-col items-center justify-center self-center gap-2 mt-8">
+        <ul className="w-full flex flex-col items-center justify-center self-center gap-2 mt-16">
           {profileRoutes.map((route, index) => {
             const activeRoute = pathName.split("/")[3];
             return (
@@ -117,21 +129,44 @@ function layout({ children }) {
                 key={index}
                 className="w-full flex justify-center items-center self-center gap-10 p-2 hover:text-muted-foreground duration-150"
               >
-                <Link
-                  className={`w-full flex gap-2 rounded-md ${
-                    activeRoute === route.name.toLocaleLowerCase() &&
-                    "text-muted"
-                  }`}
-                  href={route.path}
-                >
-                  <span className="font-semibold text-md">{route.name}</span>
-                </Link>
+                {activeRoute === route.name.toLocaleLowerCase() ? (
+                  <Link
+                    href={route.path}
+                    className={`w-full flex justify-center items-center gap-2 rounded-md`}
+                  >
+                    <h1
+                      className={`w-full flex gap-2 rounded-md text-purple-400  justify-center items-center`}
+                    >
+                      <span className="font-semibold text-md">
+                        {route.name}
+                      </span>
+                    </h1>
+                  </Link>
+                ) : (
+                  <Link
+                    className={`w-full flex justify-center items-center gap-2 rounded-md`}
+                    href={route.path}
+                  >
+                    <span className="font-semibold text-md">{route.name}</span>
+                  </Link>
+                )}
               </li>
             );
           })}
+          <li className="flex justify-center items-center  ">
+            <ModeToggle />
+          </li>
+          <li className="w-full flex flex-col justify-center items-center  gap-8 p-2  mt-16">
+            <LogoutLink className="w-full flex justify-center items-center gap-2 hover:text-muted-foreground duration-150 p-2">
+              <span>
+                <LuLogOut size={20} />
+              </span>
+              logout
+            </LogoutLink>
+          </li>
         </ul>
       </MobileMenuBar>
-      <main className="w-3/4 max-lg:w-3/4 min-h-screen h-screen  max-sm:w-full max-md:w-full overflow-x-hidden m-auto">
+      <main className="w-3/4 max-sm:w-full max-md:w-full  max-w-full ml-auto  absolute top-0 right-0 max-sm:static max-md:static">
         {children}
       </main>
     </section>
@@ -139,50 +174,3 @@ function layout({ children }) {
 }
 
 export default layout;
-
-{
-  /* <aside className=" p-8  min-h-screen h-screen sticky  left-0 top-0 flex flex-col justify-between items-center  bg-muted">
-        <div className="w-full flex flex-col justify-center items-center gap-20">
-          <div className="w-full self-center mx-auto">
-            <User
-              name={`${user?.given_name} ${user?.family_name}`}
-              picture={user?.picture}
-              email={user?.email}
-              isAdmin={isAdmin}
-            />
-          </div>
-
-          <ul className="w-full flex flex-col self-center mx-auto">
-            {profileRoutes.map((route, index) => {
-              const activeRoute = pathName.split("/")[3];
-              return (
-                <li
-                  key={index}
-                  className="w-full flex justify-start items-center gap-10 p-2 hover:text-muted-foreground duration-150"
-                >
-                  <Link
-                    className={`w-full flex gap-2 px-4 p-2 rounded-md ${
-                      activeRoute === route.name.toLocaleLowerCase() &&
-                      "bg-muted"
-                    }`}
-                    href={route.path}
-                  >
-                    <span>{route.icon}</span>
-                    {route.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <div className="w-full flex flex-col justify-start items-start gap-8 ">
-          <ModeToggle className={"bg-primary-foreground"} />
-          <LogoutLink className="w-full flex gap-2 hover:text-purple-500 duration-150">
-            <span>
-              <LuLogOut size={20} />
-            </span>
-            logout
-          </LogoutLink>
-        </div>
-      </aside> */
-}

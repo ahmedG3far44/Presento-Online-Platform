@@ -45,14 +45,12 @@ async function UserPage({ params }) {
       <Container className="w-full m-auto flex flex-col gap-8">
         <MainProfilePreviewSection
           layouts={layouts}
-          layoutsID={layouts?.id}
           ExperiencesList={ExperiencesList}
           ProjectsList={ProjectsList}
           SkillsList={SkillsList}
-          isLogged={isLogged}
           bio={bio}
-          userId={userId}
           contacts={contacts}
+          isLogged={isLogged}
         />
       </Container>
       <Footer userInfo={userInfo} />

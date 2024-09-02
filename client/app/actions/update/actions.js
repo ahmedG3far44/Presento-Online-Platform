@@ -96,7 +96,7 @@ export async function updateSkill(id) {
   }
 }
 
-export const updateLayoutsAction = async (layouts, layoutId) => {
+export const updateLayoutsAction = async (layouts) => {
   const { user } = await credentials();
   const validLayouts = layoutsSchema.safeParse(layouts);
   if (!validLayouts.success) {
@@ -112,7 +112,7 @@ export const updateLayoutsAction = async (layouts, layoutId) => {
   }
   try {
     const request = await fetch(
-      `http://localhost:4000/api/${user.id}/layouts/${layoutId}`,
+      `http://localhost:4000/api/${layouts?.usersId}/layouts/${layouts?.id}`,
       {
         method: "PUT",
         headers: {

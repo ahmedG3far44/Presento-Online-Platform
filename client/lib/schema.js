@@ -1,14 +1,6 @@
 import { z } from "zod";
 
 export const bioSchema = z.object({
-  heroImage: z
-    .string()
-    .min(5, {
-      message: "short input value!!",
-    })
-    .max(200, {
-      message: "too long input value!!",
-    }),
   bioName: z
     .string("expected data type wrong!!")
     .min(5, {
@@ -26,7 +18,6 @@ export const bioSchema = z.object({
     .max(400, {
       message: "too long input value!!",
     }),
-  layoutStyle: z.string().length(1, { message: "not valid hero layout" }),
 });
 
 export const experienceSchema = z.object({
@@ -119,6 +110,7 @@ export const contactsSchema = z.object({
 });
 
 export const layoutsSchema = z.object({
+  heroLayout: z.string().length(1, { message: "not valid experience layout" }),
   expLayout: z.string().length(1, { message: "not valid experience layout" }),
   projectsLayout: z
     .string()

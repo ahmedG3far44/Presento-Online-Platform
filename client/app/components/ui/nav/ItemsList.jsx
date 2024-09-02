@@ -64,7 +64,8 @@ function ItemsList({ list, sectionName }) {
           </span>
         </label>
       </div>
-      <div className="w-full rounded-md mt-10 flex flex-col justify-start flex-wrap  items-start gap-2 max-sm:flex-wrap max-md:flex-wrap">
+
+      <div className="w-full rounded-md mt-10 flex flex-col justify-start flex-wrap  items-start gap-2">
         {filteredList.length > 0 ? (
           <div className="w-full mb-10">
             {filteredList.map((item) => {
@@ -77,7 +78,7 @@ function ItemsList({ list, sectionName }) {
                   className="w-full flex justify-start items-center gap-8  py-4 px-2 border-b "
                 >
                   {sectionName === "experiences" && (
-                    <div className="flex justify-around items-center w-3/4">
+                    <div className="flex justify-center gap-4 max-sm:gap-2 items-center w-3/4 max-sm:w-full max-md:w-full max-sm:flex-col max-md:flex-col max-sm:items-start max-md:items-start">
                       <div className="w-10 h-10 min-w-10 min-h-10 mr-8 overflow-hidden rounded-md flex justify-center items-center border  max-sm:flex-wrap max-md:flex-wrap ">
                         <Image
                           src={item?.cLogo || NoImage}
@@ -87,11 +88,11 @@ function ItemsList({ list, sectionName }) {
                           alt="experience company logo image"
                         />
                       </div>
-                      <div className="w-full flex justify-center items-center max-sm:flex-col max-sm:justify-start  max-sm:items-start">
-                        <h1 className="flex-1 font-semibold  max-sm:text-sm max-md:text-sm">
+                      <div className="w-full flex justify-center items-center flex-wrap gap-2 max-sm:flex-col max-sm:justify-start  max-sm:items-start">
+                        <h1 className="w-full font-bold text-muted-foreground max-sm:text-sm max-md:text-sm">
                           {item?.cName}
                         </h1>
-                        <h1 className="flex-1 text-muted-foreground max-sm:text-sm max-md:text-sm">
+                        <h1 className="w-full  text-muted-foreground max-sm:text-sm max-md:text-sm">
                           {item?.position}
                         </h1>
                       </div>
@@ -101,7 +102,7 @@ function ItemsList({ list, sectionName }) {
                     </div>
                   )}
                   {sectionName === "projects" && (
-                    <div className="w-full flex justify-start items-center gap-8 ">
+                    <div className="w-full max-w-full flex justify-start items-center gap-8 max-sm:gap-2 max-md:gap-4">
                       <div className="w-10 h-10 min-w-10 min-h-10  overflow-hidden rounded-md flex justify-center items-center border  ">
                         <Image
                           src={item?.thumbnail || NoImage}
@@ -111,18 +112,21 @@ function ItemsList({ list, sectionName }) {
                           alt="experience company logo image"
                         />
                       </div>
+
                       <Link
                         href={`/${userId}/project/${item?.id}`}
                         className="font-semibold hover:underline"
                       >
                         {item?.title}
                       </Link>
+
                       <div className="ml-5 flex justify-center items-center gap-2">
                         <span>
                           <AiFillLike size={20} color="gray" />
                         </span>
                         {parseInt(item?.likes) || 10}K
                       </div>
+
                       <div className="ml-5 flex justify-center items-center gap-2">
                         <span>
                           <LuEye size={20} color="gray" />
@@ -147,7 +151,7 @@ function ItemsList({ list, sectionName }) {
                       <h1 className="font-semibold ">{item?.skillName}</h1>
                     </>
                   )}
-                  <div className="ml-auto mr-10 flex justify-center items-center gap-8 ">
+                  <div className="ml-auto mr-10 max-sm:mr-8 w-full flex justify-end items-center  gap-8 ">
                     <UpdateBtn sectionName={sectionName} initialUpdate={item} />
                     <AlertDialog>
                       <AlertDialogTrigger>
