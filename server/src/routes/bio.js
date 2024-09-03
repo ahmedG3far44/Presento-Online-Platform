@@ -7,6 +7,7 @@ import { upload } from "./skills.js";
 import { bioSchema } from "../schemas/validationSchemas.js";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import checkUploadImageFormat from "../middlewares/checkUploadImageFormat.js";
+import sharp from "sharp";
 dotenv.config();
 
 const router = express.Router();
@@ -84,14 +85,26 @@ router.post(
       },
     });
 
+    // resize the image and compress it to 80% and change the image format to .webp
+    const resizedImage = await sharp(image.buffer)
+      .resize(320, 320, { withoutEnlargement: true, fit: "cover" })
+      .toFormat("webp")
+      .keepMetadata()
+      .webp({ quality: 80 })
+      .toBuffer();
+
+    // .toBuffer();
+
     if (!bio.heroImage || bio.heroImage.length <= 20) {
       fileKeyPath = `${userId}/bio/${crypto.randomUUID()}`;
+
+      // console.log(resizedImage);
 
       const uploadHeroCommand = new PutObjectCommand({
         Bucket: process.env.AWS_S3_BUCKET_NAME,
         Key: fileKeyPath,
-        Body: image.buffer,
-        ContentType: image.mimetype,
+        Body: resizedImage,
+        ContentType: "image/webp",
       });
 
       await s3Client
@@ -109,18 +122,24 @@ router.post(
           console.log("update url path in db");
           return res
             .status(200)
-            .json(new Exceptions(200, "hero image uploaded success"));
+            .json(
+              new Exceptions(
+                200,
+                `${process.env.AWS_S3_BUCKET_DOMAIN}/${fileKeyPath}`
+              )
+            );
         })
         .catch((error) => {
           console.log("failed to upload  hero image");
           return res.status(500).json(new Exceptions(500, error.message));
         });
     } else {
+      // console.log(resizedImage);
       const uploadHeroCommand = new PutObjectCommand({
         Bucket: process.env.AWS_S3_BUCKET_NAME,
         Key: bio.heroImage,
-        Body: image.buffer,
-        ContentType: image.mimetype,
+        Body: resizedImage,
+        ContentType: "image/webp",
       });
 
       await s3Client
@@ -129,7 +148,12 @@ router.post(
           console.log("updated old hero image successfully");
           return res
             .status(200)
-            .json(new Exceptions(200, "hero image updated"));
+            .json(
+              new Exceptions(
+                200,
+                `${process.env.AWS_S3_BUCKET_DOMAIN}/${bio.heroImage}`
+              )
+            );
         })
         .catch((error) => {
           console.log("failed to upload  hero image");
