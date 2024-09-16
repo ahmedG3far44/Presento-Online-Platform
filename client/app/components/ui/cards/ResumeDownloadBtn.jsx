@@ -34,16 +34,14 @@ const ResumeDownloadBtn = () => {
   return (
     <>
       {resume && (
-        <button className="px-4 py-2 rounded-md border my-4 hover:bg-muted duration-150">
-          <Link
-            target="_blank"
-            className="hover:underline duration-100"
-            href={resume}
-          >
-            {" "}
-            Download CV
-          </Link>
-        </button>
+        <Link
+          target="_blank"
+          className=" px-4 py-2 rounded-md border my-4 hover:bg-primary-foreground duration-150"
+          download
+          href={resume}
+        >
+          Resume
+        </Link>
       )}
     </>
   );

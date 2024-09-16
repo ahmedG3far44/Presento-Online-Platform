@@ -4,7 +4,7 @@ import { ChangeHeroLayoutForm } from "../profile/forms/LayoutsForm";
 
 function Hero({ bio, layouts, setLayouts, contacts, isLogged }) {
   return (
-    <section id="hero" className="w-full h-full p-4 ">
+    <section id="hero" className="w-full h-full">
       {isLogged && (
         <ChangeHeroLayoutForm layouts={layouts} setLayouts={setLayouts} />
       )}

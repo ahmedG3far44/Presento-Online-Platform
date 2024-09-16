@@ -1,17 +1,17 @@
-import { MdErrorOutline } from "react-icons/md";
+import Link from "next/link";
 import SkillCard from "../cards/SkillCard";
 import SkillLayoutsWrapper from "../cards/skillsLayouts/SkillLayoutsWrapper";
 import { ChangeSkillsLayoutForm } from "../profile/forms/LayoutsForm";
 import { LuPlus } from "react-icons/lu";
-import Link from "next/link";
 import { useParams } from "next/navigation";
+import { MdErrorOutline } from "react-icons/md";
 
 function SkillsLayout({ SkillsList, layouts, setLayouts, isLogged }) {
   const { userId } = useParams();
   return (
     <>
-      {SkillsList?.length > 0 ? (
-        <section id="skills" className="w-full min-h-full p-4">
+      {!!SkillsList?.length ? (
+        <section id="skills" className="w-full min-h-full">
           {isLogged && (
             <ChangeSkillsLayoutForm setLayouts={setLayouts} layouts={layouts} />
           )}
@@ -30,7 +30,7 @@ function SkillsLayout({ SkillsList, layouts, setLayouts, isLogged }) {
         </section>
       ) : (
         <>
-          {isLogged ? (
+          {isLogged && (
             <div className="w-full p-4 rounded-md border flex flex-col-reverse justify-center items-center gap-2">
               <h2 className="text-muted-foreground flex gap-2 justify-center items-center">
                 <MdErrorOutline size={15} /> <span>no skills added yet!!</span>
@@ -43,7 +43,7 @@ function SkillsLayout({ SkillsList, layouts, setLayouts, isLogged }) {
                 </Link>
               </div>
             </div>
-          ) : null}
+          )}
         </>
       )}
     </>

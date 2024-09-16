@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { LuLaptop2 } from "react-icons/lu";
 import { MdOutlineInsights } from "react-icons/md";
 import { LuUsers2 } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
-import { LuMailPlus } from "react-icons/lu";
+import { TbSmartHome } from "react-icons/tb";
+import { GrTechnology } from "react-icons/gr";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import User from "@/app/components/ui/cards/User";
 import credentials from "@/app/credentials/credentials";
@@ -13,9 +13,9 @@ async function layout({ children }) {
   const { user, isAdmin } = await credentials();
   const dashboardRoutes = [
     {
-      path: `/${user?.id}`,
+      path: `/`,
       name: "Home",
-      icon: <LuUsers2 size={20} />,
+      icon: <TbSmartHome size={20} />,
     },
     {
       path: `/${user?.id}/dashboard/users`,
@@ -30,13 +30,13 @@ async function layout({ children }) {
     {
       path: `/${user?.id}/dashboard/skills`,
       name: "Skills",
-      icon: <LuLaptop2 size={20} />,
+      icon: <GrTechnology size={20} />,
     },
   ];
   return (
-    <div className="max-w-screen w-screen flex justify-start items-start gap-4">
-      <aside className="flex-1 p-8  h-screen min-h-screen sticky  left-0 top-0 flex flex-col justify-between items-center gap-8  border-r">
-        <div className="w-full flex flex-col justify-center items-center gap-20">
+    <div className="admin_dashboard">
+      <aside className="admin_aside">
+        <div className="admin_aside_top">
           <div className="w-full self-center mx-auto">
             <User
               name={`${user?.given_name} ${user?.family_name}`}
@@ -46,23 +46,25 @@ async function layout({ children }) {
             />
           </div>
 
-          <ul className="w-full flex flex-col self-center mx-auto">
-            {dashboardRoutes.map((route, index) => {
-              return (
-                <li
-                  key={index}
-                  className="w-full flex justify-start items-center gap-10 p-2 hover:text-purple-500 duration-150"
-                >
-                  <Link className={`w-full flex gap-2`} href={route.path}>
-                    <span>{route?.icon}</span>
-                    {route?.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <nav>
+            <ul className="admin_aside_top_navigation">
+              {dashboardRoutes.map((route, index) => {
+                return (
+                  <li
+                    key={index}
+                    className="w-full flex justify-start items-center gap-10 p-2 hover:text-purple-500 duration-150"
+                  >
+                    <Link className={`w-full flex gap-2`} href={route.path}>
+                      <span>{route?.icon}</span>
+                      {route?.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
         </div>
-        <div className="w-full flex flex-col justify-start items-start gap-8">
+        <div className="admin_aside_bottom">
           <ModeToggle />
           <LogoutLink className="w-full flex gap-2 hover:text-purple-500 duration-150">
             <span>
@@ -73,7 +75,7 @@ async function layout({ children }) {
         </div>
       </aside>
 
-      <main className="w-full p-8">{children}</main>
+      <main className="admin_main_content">{children}</main>
     </div>
   );
 }

@@ -10,8 +10,8 @@ function ExpLayout({ ExperiencesList, layouts, setLayouts, isLogged }) {
   const { userId } = useParams();
   return (
     <>
-      {ExperiencesList?.length > 0 ? (
-        <section id="experiences" className="w-full min-h-full p-4">
+      {!!ExperiencesList?.length ? (
+        <section id="experiences" className="w-full min-h-full">
           {isLogged && (
             <ChangeExperiencesLayoutForm
               setLayouts={setLayouts}
@@ -19,7 +19,7 @@ function ExpLayout({ ExperiencesList, layouts, setLayouts, isLogged }) {
             />
           )}
           <ExperiencesLayoutWrapper
-            className={"p-4 gap-4 w-full"}
+            className={"gap-4"}
             experienceLayoutStyle={layouts?.expLayout}
           >
             {ExperiencesList?.map((exp) => {
@@ -43,7 +43,7 @@ function ExpLayout({ ExperiencesList, layouts, setLayouts, isLogged }) {
         </section>
       ) : (
         <>
-          {isLogged ? (
+          {isLogged && (
             <div className="flex flex-col-reverse justify-center items-center gap-2 p-4 border rounded-md w-full ">
               <h2 className="text-muted-foreground flex gap-2 justify-center items-center">
                 <MdErrorOutline size={15} />{" "}
@@ -57,7 +57,7 @@ function ExpLayout({ ExperiencesList, layouts, setLayouts, isLogged }) {
                 </Link>
               </div>
             </div>
-          ) : null}
+          )}
         </>
       )}
     </>

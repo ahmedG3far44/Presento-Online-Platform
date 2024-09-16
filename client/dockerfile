@@ -1,0 +1,19 @@
+FROM node:alpine
+
+COPY . /client
+
+RUN npm install 
+
+EXPOSE 3000
+
+
+ENV KINDE_CLIENT_ID=612592a3713e4b4b84fd891a89c076a3
+ENV KINDE_CLIENT_SECRET=0YmuSkuzNxlEo5Vmp9plVMI4kRbabnna9PjwCtw48dvcGtfPuS
+ENV KINDE_ISSUER_URL=https://portfoliowebapplication.kinde.com
+ENV KINDE_SITE_URL=http://localhost:3000
+ENV KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
+ENV KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/redirecting
+ENV URL="http://localhost:4000/api/"
+
+
+CMD [ "npm", "run" ,"dev" ]

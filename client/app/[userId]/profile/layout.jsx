@@ -10,11 +10,11 @@ import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { ModeToggle } from "@/components/dark-mode-toggle";
 import { TbSmartHome } from "react-icons/tb";
+import { GrTechnology } from "react-icons/gr";
 import { useParams, usePathname } from "next/navigation";
 import AsideProfile from "@/app/components/ui/nav/AsideProfile";
 import "../../globals.css";
 import MobileMenuBar from "@/app/components/ui/nav/MobileMenuBar";
-import GradientText from "@/app/components/ui/cards/heroLayouts/GradientText";
 
 function layout({ children }) {
   // console.log(path);
@@ -48,7 +48,7 @@ function layout({ children }) {
     {
       path: `/${userId}/profile/skills`,
       name: "Skills",
-      icon: <LuLaptop2 size={20} />,
+      icon: <GrTechnology size={20} />,
     },
   ];
   return (
@@ -59,7 +59,7 @@ function layout({ children }) {
         }
       >
         <div className="w-full flex flex-col justify-center items-center gap-20">
-          <div className="w-full self-center mx-auto">
+          <div className="w-full m-auto">
             <User
               name={`${user?.given_name} ${user?.family_name}`}
               picture={user?.picture}
@@ -67,7 +67,7 @@ function layout({ children }) {
             />
           </div>
 
-          <ul className="w-full flex flex-col self-center mx-auto">
+          <ul className="w-full flex flex-col  m-auto">
             {profileRoutes.map((route, index) => {
               const activeRoute = pathName?.split("/")[3];
               return (
@@ -106,7 +106,7 @@ function layout({ children }) {
 
         <div className="flex flex-col justify-start items-start gap-2  mt-12">
           <ModeToggle />
-          <LogoutLink className="w-full flex gap-2 hover:text-muted-foreground duration-150 p-2">
+          <LogoutLink className="w-full flex gap-2 hover:text-purple-500 duration-150 p-2">
             <span>
               <LuLogOut size={20} />
             </span>
@@ -166,7 +166,7 @@ function layout({ children }) {
           </li>
         </ul>
       </MobileMenuBar>
-      <main className="w-3/4 max-sm:w-full max-md:w-full  max-w-full ml-auto  absolute top-0 right-0 max-sm:static max-md:static">
+      <main className="w-3/4 mt-4 max-sm:w-full max-md:w-full  max-w-full ml-auto  absolute top-0 right-0 max-sm:static max-md:static">
         {children}
       </main>
     </section>

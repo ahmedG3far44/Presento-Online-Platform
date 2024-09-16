@@ -8,12 +8,9 @@ export async function deleteExperience(id) {
   try {
     if (isLogged) {
       const requestDelete = await fetch(
-        `http://localhost:4000/api/${user.id}/experiences/${id}`,
+        `http://localhost:4000/api/${user?.id}/experiences/${id}`,
         {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
       const data = requestDelete.json();
@@ -24,7 +21,7 @@ export async function deleteExperience(id) {
     }
   } catch (error) {
     return {
-      error: "cant't delete experiences",
+      error: "cant't delete experience",
       message: error.message,
     };
   }
@@ -37,9 +34,6 @@ export async function deleteProject(id) {
         `http://localhost:4000/api/${user.id}/project/${id}`,
         {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
       const data = requestDelete.json();
@@ -60,12 +54,9 @@ export async function deleteSkill(id) {
   try {
     if (isLogged) {
       const requestDelete = await fetch(
-        `http://localhost:4000/api/${user.id}/skills/${id}`,
+        `http://localhost:4000/api/${user?.id}/skills/${id}`,
         {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
       const data = requestDelete.json();

@@ -1,7 +1,7 @@
 function SkillLayoutsWrapper({ skillLayoutStyle, children }) {
   return (
     <section
-      className={`w-full p-4 gap-4 m-auto
+      className={`w-full  gap-4 m-auto
             ${
               skillLayoutStyle === "1" &&
               "grid max-lg:grid-cols-4  lg:grid-cols-4  max-md:grid-cols-3  max-sm:grid-cols-2  content-center"

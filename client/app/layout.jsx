@@ -10,7 +10,7 @@ const pop = Poppins({
 });
 
 export const metadata = {
-  title: "Online Portfolio",
+  title: "Presento App",
   description: "create your own portfolio with less code experience",
 };
 

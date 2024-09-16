@@ -13,16 +13,7 @@ function SkillsForm({ skillState, setSkill }) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setErrorMessage] = useState(null);
-  const [progress, setProgress] = useState(0);
   const skillFormRef = useRef(null);
-  // const addNewSkillAction = async (formData) => {
-  //   await addSkill(formData);
-  //   toast({
-  //     title: "created success",
-  //     description: "a new skill was added success",
-  //   });
-  //   skillFormRef.current?.reset();
-  // };
   const handleAddNewSkill = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -61,7 +52,6 @@ function SkillsForm({ skillState, setSkill }) {
         }
       );
       if (request.ok) {
-        setProgress(100);
         setLoading(false);
         toast({
           title: "a new skill was added",
@@ -72,7 +62,6 @@ function SkillsForm({ skillState, setSkill }) {
         return;
       }
     } catch (error) {
-      setProgress(0);
       setLoading(false);
       toast({
         variant: "destructive",
@@ -133,14 +122,6 @@ function SkillsForm({ skillState, setSkill }) {
                 <Loader />
                 <span>Uploading...</span>
               </h1>
-              <span className={"w-full rounded-3xl bg-muted h-2 block "}>
-                <progress
-                  max="100"
-                  id="skillLogo"
-                  value="50"
-                  className="block w-0 h-full rounded-3xl bg-purple-200 duration-150"
-                ></progress>
-              </span>
             </div>
           )}
         </>

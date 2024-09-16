@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/user", checkUser, async (req, res) => {
   try {
     const payload = req.body;
+    console.log(payload);
     const userInfo = await prisma.users.findUnique({
       where: { id: payload.id },
       select: {
@@ -18,7 +19,6 @@ router.post("/user", checkUser, async (req, res) => {
         ExperiencesList: true,
         ProjectsList: true,
         SkillsList: true,
-        ContactsList: true,
       },
     });
     const bio = await prisma.bio.findFirst({
@@ -28,15 +28,16 @@ router.post("/user", checkUser, async (req, res) => {
     });
     const contacts = await prisma.contacts.findFirst({
       where: {
-        usersId: userId,
+        usersId: payload.id,
       },
     });
     const layouts = await prisma.layouts.findFirst({
       where: {
-        usersId: userId,
+        usersId: payload.id,
       },
     });
-    return res.status(200).json({ ...userInfo, bio, contacts, layouts });
+    // console.log(userInfo);
+    return res.status(200).json({ ...userInfo, bio, layouts, contacts });
   } catch (error) {
     return res.status(500).json(new Exceptions(500, error.message));
   }

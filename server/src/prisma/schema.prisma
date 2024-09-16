@@ -59,6 +59,7 @@ model Projects {
   ImagesList  ImagesList[]
   likes       Int          @default(0)
   views       Float        @default(0.0)
+  source      String?
   userId      Users        @relation(fields: [usersId], references: [id])
   usersId     String
   createdAt   DateTime     @default(now())

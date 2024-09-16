@@ -65,18 +65,8 @@ export const projectSchema = z.object({
     .string("wrong type of data")
     .min(10, { message: "short input value!!" })
     .max(300, { message: "too long input value!!" }),
-  thumbnail: z
-    .string()
-    .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" }),
   tags: z.string().array().max(10).optional(),
-  images: z.string().array().max(4).optional(),
-  sourceLinkUrl: z
-    .string("wrong type of data!!")
-    .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" })
-    .optional(),
-  liveLinkUrl: z
+  sourceUrl: z
     .string("wrong type of data!!")
     .min(10, { message: "short input value!!" })
     .max(200, { message: "too long input value!!" })
@@ -86,11 +76,7 @@ export const skillsSchema = z.object({
   skillName: z
     .string("expected type wrong!!")
     .min(3, { message: "short input value!!" })
-    .max(80, { message: "too long input value!!" }),
-  skillLogo: z
-    .string("expected type wrong!!")
-    .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" }),
+    .max(100, { message: "too long input value!!" }),
 });
 export const userSchema = z.object({
   id: z.string(),

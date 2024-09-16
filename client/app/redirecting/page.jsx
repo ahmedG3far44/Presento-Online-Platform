@@ -14,6 +14,7 @@ const verifyUser = async (user) => {
     const data = request.json();
     return data;
   } catch (error) {
+    console.log(error.message);
     return error.message;
   }
 };
@@ -21,24 +22,21 @@ async function RedirectingPage() {
   const { getUser, getPermission } = await getKindeServerSession();
   const isAdmin = await getPermission("admin:create");
 
-  const { id, given_name, family_name, picture, email } = await getUser();
-  await verifyUser({
-    id,
-    given_name,
-    family_name,
-    email,
-    picture,
+  const user = await getUser();
+
+  const payload = {
+    id: user?.id,
+    given_name: user?.given_name,
+    family_name: user?.family_name,
+    email: user?.email,
+    picture: user?.picture,
     role: "user",
-  }).then((res) => {
-    console.log(res);
-    if (res.role === "user") {
-      redirect(`/${res.id}/profile`);
-    } else {
-      redirect(`/${id}/dashboard`);
-    }
-  });
-  console.log(picture);
-  return <div> {given_name} redirecting...</div>;
+  };
+  await verifyUser(payload);
+
+  return isAdmin
+    ? redirect(`/${user?.id}/dashboard`)
+    : redirect(`/${user?.id}`);
 }
 
 export default RedirectingPage;

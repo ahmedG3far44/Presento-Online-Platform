@@ -8,7 +8,7 @@ import { RiTwitterXFill } from "react-icons/ri";
 
 function ContactsCard({ contacts }) {
   return (
-    <div className="flex justify-start items-center gap-2 py-2 w-full">
+    <div className="flex justify-start items-center gap-2 py-2 w-full max-sm:justify-center max-md:justify-center">
       {contacts?.twitter && (
         <div
           className={

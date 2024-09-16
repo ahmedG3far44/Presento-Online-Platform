@@ -95,7 +95,7 @@ router.post(
 
     // .toBuffer();
 
-    if (!bio.heroImage || bio.heroImage.length <= 20) {
+    if (!bio.heroImage) {
       fileKeyPath = `${userId}/bio/${crypto.randomUUID()}`;
 
       // console.log(resizedImage);

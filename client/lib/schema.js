@@ -61,18 +61,8 @@ export const projectSchema = z.object({
     .string("wrong type of data")
     .min(10, { message: "short input value!!" })
     .max(300, { message: "too long input value!!" }),
-  thumbnail: z
-    .string()
-    .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" }),
-  tags: z.string().array().max(10).optional(),
-  images: z.string().array().max(4).optional(),
-  sourceLinkUrl: z
-    .string("wrong type of data!!")
-    .min(10, { message: "short input value!!" })
-    .max(200, { message: "too long input value!!" })
-    .optional(),
-  liveLinkUrl: z
+  tags: z.string().array().min(1).max(10).optional(),
+  sourceLink: z
     .string("wrong type of data!!")
     .min(10, { message: "short input value!!" })
     .max(200, { message: "too long input value!!" })

@@ -14,8 +14,6 @@ function HeroLayout({
   contacts,
   isLogged,
 }) {
-  // const { given_name, family_name } = user;
-  // const fullName = `${given_name} ${family_name}`;
   return (
     <>
       {layoutStyle === "1" && (

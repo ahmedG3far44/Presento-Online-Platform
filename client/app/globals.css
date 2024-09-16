@@ -16,18 +16,18 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0, 0%, 93%, 1;
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 360, 100%, 100%, 1;
+    --card-foreground: 360, 100%, 100%, 1;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
     --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 0, 0%, 23%, 1;
+    --muted-foreground: 0, 0%, 23%, 1;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
@@ -56,8 +56,8 @@
     --secondary-foreground: 0 0% 98%;
     --fade: "#3f3f46";
     --fade-foreground: "#3f3f46";
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 0, 0%, 77%, 1;
+    --muted-foreground: 0, 0%, 77%, 1;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -85,6 +85,21 @@
 .spin {
   animation: rotate 1s ease-in-out infinite;
 }
+
+.slide {
+  animation: slide 0.4s forwards;
+  animation-fill-mode: both;
+  animation-direction: alternate;
+  animation-fill-mode: both;
+}
+@keyframes slide {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
 @keyframes rotate {
   0% {
     rotate: 0deg;
@@ -107,4 +122,129 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+.hero_img {
+  @apply flex-1 overflow-hidden  flex justify-center items-center rounded-xl h-full min-w-72 min-h-72  max-w-80 max-h-80 relative;
+}
+
+.hero_section {
+  @apply w-4/5 m-auto  flex justify-center  items-center gap-4  max-w-full border-0  rounded-md  max-sm:flex-wrap max-md:flex-wrap;
+}
+.hero_info {
+  @apply flex-1 h-full  flex flex-col justify-start items-start max-sm:justify-center max-md:justify-center max-sm:items-center max-md:items-center  gap-2 flex-wrap;
+}
+
+.upload_img {
+  @apply w-full h-full  min-w-full min-h-full opacity-0 hover:opacity-95 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30;
+}
+
+.img {
+  @apply object-cover overflow-hidden rounded-md  min-w-72 min-h-72;
+}
+.gradient_text {
+  @apply bg-gradient-to-br from-purple-500  via-blue-700 text-transparent font-bold bg-clip-text text-3xl max-md:text-2xl max-sm:text-2xl  max-sm:w-full max-md:w-full max-sm:text-nowrap max-md:text-nowrap;
+}
+.secondary_text {
+  @apply font-semibold  text-2xl max-md:text-xl max-sm:text-xl  max-sm:w-full max-md:w-full max-sm:text-nowrap max-md:text-nowrap;
+}
+.about_text {
+  @apply p-4 flex-1  border appearance-none bg-card text-primary rounded-xl text-wrap text-start;
+}
+
+/* experiences card  ////////////////////// */
+
+.experience_card {
+  @apply w-full min-w-72 flex flex-col justify-around items-start flex-wrap gap-4 bg-card border rounded-md p-4 max-sm:flex-col max-sm:justify-start;
+}
+.experience_card-3 {
+  @apply w-full flex flex-col justify-around items-start gap-4 bg-card border-l-8  p-4 border-t border-b border-r;
+}
+.experience_heading {
+  @apply w-full flex justify-start items-center gap-4 flex-wrap;
+}
+.experience_head {
+  @apply w-full flex justify-start items-start gap-4 flex-wrap;
+}
+.experience_cLogo {
+  @apply w-10 h-10 min-w-10 min-h-10 overflow-hidden rounded-xl border  flex justify-center items-center;
+}
+.experience_duration {
+  @apply ml-auto flex justify-start items-center gap-2 max-sm:m-0 max-md:m-0;
+}
+.experience_body {
+  @apply flex flex-col justify-start items-start gap-4;
+}
+.experience_heading_text {
+  @apply font-semibold text-base;
+}
+.experience_secondary_text {
+  @apply text-sm;
+}
+
+/*
+  ===================================================
+*/
+
+.profile_dashboard {
+  @apply w-2/6 sticky left-0 top-0 p-8 bg-card border-r-4 min-h-screen  flex flex-col lg:flex max-sm:hidden max-md:hidden;
+}
+
+.input {
+  @apply w-full p-2 rounded-md bg-card border  read-only:bg-zinc-700 read-only:cursor-not-allowed;
+}
+
+.submit_button {
+  @apply w-full px-4 py-2 border border-transparent bg-primary-foreground duration-150 cursor-pointer rounded-md disabled:bg-zinc-700 disabled:cursor-not-allowed hover:border-primary;
+}
+
+.error_message {
+  @apply p-4 w-full  bg-rose-500 text-rose-950 rounded-md my-4;
+}
+.success_message {
+  @apply p-4 w-full  bg-green-500 text-green-950 rounded-md my-4;
+}
+
+.change_layout_input {
+  @apply p-2 rounded-md border flex gap-2 justify-start items-center hover:bg-primary-foreground duration-150 cursor-pointer;
+}
+
+.loader {
+  @apply w-4 h-4 rounded-full border-2 border-primary border-l-transparent border-t-transparent animate-spin;
+}
+.footer {
+  @apply w-full bg-primary-foreground flex justify-center items-center overflow-x-hidden;
+}
+
+.copyrights {
+  @apply flex  justify-center items-center gap-2 text-nowrap  max-sm:flex-col  max-sm:text-sm max-sm:justify-start  max-sm:items-start;
+}
+
+.gradient_text_sm {
+  @apply bg-gradient-to-br from-purple-700  via-blue-400 text-transparent font-bold bg-clip-text text-sm max-sm:text-nowrap max-md:text-nowrap hover:text-primary duration-150;
+}
+
+/*
+
+admin dashboard
+
+*/
+
+.admin_dashboard {
+  @apply w-screen flex justify-start items-start gap-4;
+}
+.admin_aside {
+  @apply w-1/5 p-8  h-screen min-h-screen sticky  left-0 top-0 flex flex-col justify-center items-center gap-8  border-r-2;
+}
+.admin_aside_top {
+  @apply w-full flex flex-col justify-start items-start gap-20 mb-auto;
+}
+.admin_aside_top_navigation {
+  @apply w-full flex flex-col gap-4  mx-auto;
+}
+.admin_aside_bottom {
+  @apply w-full flex flex-col justify-start items-start gap-8;
+}
+.admin_main_content {
+  @apply p-8 w-full;
 }

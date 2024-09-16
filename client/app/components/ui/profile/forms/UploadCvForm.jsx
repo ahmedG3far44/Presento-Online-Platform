@@ -52,12 +52,12 @@ function UploadCvForm() {
     }
   };
   return (
-    <div className="w-full mt-8 flex justify-start items-start">
+    <div className="max-sm:w-full max-md:w-full w-1/2 mt-8 flex justify-start items-start border rounded-md ">
       <UploadImage
         fileFormName={"cv-file"}
         url={"resume"}
         acceptedTypes={"files"}
-        className={"w-1/2  max-sm:w-full max-md:w-full"}
+        className={"w-full max-sm:w-full max-md:w-full"}
       />
     </div>
   );

@@ -10,7 +10,7 @@ async function Footer({ userInfo }) {
     await fetch(`http://localhost:4000/api/${userInfo?.id}/contacts`)
   ).json();
   return (
-    <footer className="w-full bg-primary-foreground flex justify-center items-center overflow-x-hidden p-4">
+    <footer className="footer">
       <Container className="w-full flex justify-start  flex-wrap  gap-4 items-center">
         <div className="flex  justify-center items-center gap-2 ">
           <Image
@@ -27,10 +27,10 @@ async function Footer({ userInfo }) {
           <ContactsCard contacts={contacts} />
         </div>
 
-        <div className="flex  justify-center items-center gap-2 text-nowrap  max-sm:flex-col  max-sm:text-sm max-sm:justify-start  max-sm:items-start">
+        <div className="">
           <span> &copy; all rights are reserved {year} to the creator </span>
           <Link
-            className="bg-gradient-to-br from-purple-500 via-blue-500 text-transparent bg-clip-text hover:underline hover:border-b duration-100"
+            className="gradient_text_sm"
             target="_blank"
             href="https://www.linkedin.com/in/ahmed-gaafar-5a3478201/"
           >

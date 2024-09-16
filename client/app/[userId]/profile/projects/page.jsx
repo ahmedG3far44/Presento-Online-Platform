@@ -1,9 +1,12 @@
 import ItemsList from "@/app/components/ui/nav/ItemsList";
 import ProjectsSection from "@/app/components/ui/sections/ProjectsSection";
+import credentials from "@/app/credentials/credentials";
 
-async function ProjectsPage({ params }) {
-  const { userId } = params;
-  const projectsList = await getProjectsList(userId);
+async function ProjectsPage() {
+  const { user } = await credentials();
+  const projectsList = await getProjectsList(user?.id);
+  // console.log(user?.id, "project list");
+  // console.log(projectsList, "project list");
   return (
     <div className="w-full max-w-full h-screen flex justify-start items-start gap-8 flex-col p-4">
       <ProjectsSection />

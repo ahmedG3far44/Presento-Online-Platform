@@ -8,6 +8,7 @@ import {
 import credentials from "@/app/credentials/credentials";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
+import { CgLaptop } from "react-icons/cg";
 
 export async function addExperience(newExperience) {
   const { user, isLogged } = await credentials();
@@ -48,20 +49,68 @@ export async function addExperience(newExperience) {
     redirect("api/auth/login");
   }
 }
-export async function addProject(formData) {
-  try {
-    const project = {
-      title: formData.get("title"),
-      description: formData.get("description"),
-      thumbnail: formData.get("thumbnail"),
-      liveLink: formData.get("liveLink"),
-      sourceLink: formData.get("sourceLink"),
-    };
-  } catch (error) {
+export async function addProject(formData, tags) {
+  const { user } = await credentials();
+  tags.map((tag) => {
+    formData.append("tags", tag);
+  });
+  const thumbnail = formData.get("thumbnail");
+  const images = formData.getAll("images");
+
+  const project = {
+    title: formData.get("title"),
+    description: formData.get("description"),
+    tags: formData.getAll("tags"),
+    sourceLink: formData.get("sourceLink"),
+  };
+  // console.log(formData);
+  const validProjectData = projectSchema.safeParse(project);
+
+  console.log(formData);
+  console.log(validateImages(thumbnail, images));
+  if (!validateImages(thumbnail, images)) {
+    console.log("wrong image format or size is very large");
     return {
-      state: "error adding project",
-      message: error.message,
+      error: "can't add project",
+      message:
+        "your images aren't valid maybe the format is wrong or size is to large",
     };
+  }
+  if (!validProjectData?.success) {
+    console.log(validProjectData.error.flatten().fieldErrors);
+    return {
+      error: "can't add project",
+      message: "not valid inputs data",
+    };
+  }
+  // formData.append("thumbnail", project.thumbnail);
+  // formData.append("title", project.title);
+  // formData.append("description", "");
+  // formData.append("sourceUrl", "");
+  // // list
+  // project.tags.map((tag) => {
+  //   formData.append("tags", tag);
+  // });
+  // project.images.map((image) => {
+  //   formData.append("images", image);
+  // });
+  try {
+    const request = await fetch(
+      `http://localhost:4000/api/${user?.id}/project`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    if (request.status === 201) {
+      const data = await request.json();
+      revalidatePath("/projects");
+      console.log("porject resposne ");
+      console.log(data);
+      return data;
+    }
+  } catch (error) {
+    return error;
   }
 }
 
@@ -102,4 +151,26 @@ export async function addSkill(formData) {
       message: error.message,
     };
   }
+}
+
+function validateImages(thumbnail, images) {
+  const validImagesTypes = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/gif",
+    "image/webp",
+  ];
+
+  images?.forEach((img) => {
+    if (img.size > 1011868 || !validImagesTypes.includes(img.type)) {
+      return false;
+    }
+  });
+
+  if (thumbnail.size > 1011868 || !validImagesTypes.includes(thumbnail.type)) {
+    return false;
+  }
+
+  return true;
 }

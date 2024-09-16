@@ -7,10 +7,10 @@ import ProjectCard from "../cards/ProjectCard";
 import { useParams } from "next/navigation";
 
 function ProjectsLayout({ ProjectsList, layouts, setLayouts, isLogged }) {
-  const { userId } = useParams();
+  // const { userId } = useParams();
   return (
     <>
-      {ProjectsList?.length > 0 ? (
+      {!!ProjectsList?.length ? (
         <section id="projects" className="w-full min-h-full  m-auto ">
           {isLogged && (
             <ChangeProjectsLayoutForm
@@ -19,7 +19,7 @@ function ProjectsLayout({ ProjectsList, layouts, setLayouts, isLogged }) {
             />
           )}
           <ProjectsLayoutWrapper
-            className={"w-full p-4 gap-4"}
+            className={"gap-4"}
             projectLayoutStyle={layouts?.projectsLayout}
           >
             {ProjectsList?.map((project) => {
@@ -41,7 +41,7 @@ function ProjectsLayout({ ProjectsList, layouts, setLayouts, isLogged }) {
         </section>
       ) : (
         <>
-          {isLogged ? (
+          {isLogged && (
             <div className="w-full p-4 flex flex-col-reverse justify-center items-center rounded-md border gap-2">
               <h2 className="text-muted-foreground flex gap-2 justify-center items-center">
                 <MdErrorOutline size={15} />{" "}
@@ -55,7 +55,7 @@ function ProjectsLayout({ ProjectsList, layouts, setLayouts, isLogged }) {
                 </Link>
               </div>
             </div>
-          ) : null}
+          )}
         </>
       )}
     </>

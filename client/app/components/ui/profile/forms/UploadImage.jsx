@@ -72,7 +72,7 @@ function UploadImage({ id, url, className, fileFormName, acceptedTypes }) {
       ref={uploadFileRef}
       className={cn(
         className,
-        ` duration-150  p-8 bg-muted rounded-xl border-none  flex flex-col justify-start items-start gap-2
+        ` duration-150  p-8 bg-card border rounded-md border-none  flex flex-col justify-start items-start gap-2
         ${error && "border-rose-500"}
         ${loading && "opacity-1"}`
       )}
@@ -91,27 +91,19 @@ function UploadImage({ id, url, className, fileFormName, acceptedTypes }) {
       />
       {loading && (
         <div className="w-full flex flex-col justify-start items-start gap-2">
-          <div className="border rounded-md flex justify-start items-start gap-4  p-4">
+          <div className="rounded-md flex justify-start items-start gap-4  p-4">
             <span className="border-r border-zinc-500 animate-spin w-4 h-4 rounded-full"></span>{" "}
             <h1>uploading...</h1>
           </div>
         </div>
       )}
-      {error && (
-        <div className="text-rose-500 border border-red-500 p-4 rounded-md">
-          {" "}
-          {error}
-        </div>
-      )}
-      {successUpload && (
-        <div className="w-full text-green-700 bg-green-200 border border-green-800 p-4 rounded-md">
-          {" "}
-          {successUpload}
-        </div>
-      )}
+      {error && <div className="error_message"> {error}</div>}
+
+      {successUpload && <div className="success_message"> {successUpload}</div>}
+
       <input
         type="submit"
-        className="w-full bg-primary-foreground hover:bg-muted-foreground duration-150 cursor-pointer disabled:cursor-not-allowed disabled:bg-zinc-500 border px-4 py-2 rounded-md"
+        className="submit_button"
         disabled={loading}
         value={loading ? "uploading..." : "upload"}
       />

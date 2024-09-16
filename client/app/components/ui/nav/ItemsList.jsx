@@ -26,6 +26,7 @@ import { MdOutlineSearchOff } from "react-icons/md";
 import { LuEye } from "react-icons/lu";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import SkillCard from "../cards/SkillCard";
 
 function ItemsList({ list, sectionName }) {
   const [search, setSearch] = useState("");
@@ -50,16 +51,16 @@ function ItemsList({ list, sectionName }) {
         <h1>List Of {sectionName.toUpperCase()}</h1>
         <label
           htmlFor="search"
-          className="w-1/2 max-sm:w-full max-md:w-full flex justify-between items-center relative "
+          className="w-1/2 max-sm:w-full max-md:w-full flex justify-start items-center relative "
         >
           <input
             type="search"
             id="search"
-            className="p-2  rounded-md w-full border mt-4 bg-muted"
+            className="input"
             placeholder="search for items..."
             onChange={(e) => setSearch(e.target.value)}
           />
-          <span className="text-muted-foreground absolute right-5 top-7 ">
+          <span className="text-muted-foreground absolute right-5">
             <LuSearch size={20} />
           </span>
         </label>
@@ -81,7 +82,8 @@ function ItemsList({ list, sectionName }) {
                     <div className="flex justify-center gap-4 max-sm:gap-2 items-center w-3/4 max-sm:w-full max-md:w-full max-sm:flex-col max-md:flex-col max-sm:items-start max-md:items-start">
                       <div className="w-10 h-10 min-w-10 min-h-10 mr-8 overflow-hidden rounded-md flex justify-center items-center border  max-sm:flex-wrap max-md:flex-wrap ">
                         <Image
-                          src={item?.cLogo || NoImage}
+                          priority
+                          src={!!item?.cLogo ? item.cLogo : NoImage}
                           className="object-cover rounded-md"
                           width={40}
                           height={40}
@@ -105,7 +107,8 @@ function ItemsList({ list, sectionName }) {
                     <div className="w-full max-w-full flex justify-start items-center gap-8 max-sm:gap-2 max-md:gap-4">
                       <div className="w-10 h-10 min-w-10 min-h-10  overflow-hidden rounded-md flex justify-center items-center border  ">
                         <Image
-                          src={item?.thumbnail || NoImage}
+                          priority
+                          src={!!item?.thumbnail ? item.thumbnail : NoImage}
                           className="object-cover w-full h-full rounded-md"
                           width={40}
                           height={40}
@@ -138,18 +141,11 @@ function ItemsList({ list, sectionName }) {
                     </div>
                   )}
                   {sectionName === "skills" && (
-                    <>
-                      <div className="w-10 h-10 min-w-10 min-h-10 overflow-hidden rounded-md flex justify-center items-center max-sm:flex-wrap max-md:flex-wrap">
-                        <Image
-                          src={item?.skillLogo || NoImage}
-                          className="object-cover rounded-md"
-                          width={40}
-                          height={40}
-                          alt="experience company logo image"
-                        />
-                      </div>
-                      <h1 className="font-semibold ">{item?.skillName}</h1>
-                    </>
+                    <SkillCard
+                      skillLogo={item?.skillLogo}
+                      skillName={item?.skillName}
+                      layoutStyle={"1"}
+                    />
                   )}
                   <div className="ml-auto mr-10 max-sm:mr-8 w-full flex justify-end items-center  gap-8 ">
                     <UpdateBtn sectionName={sectionName} initialUpdate={item} />
@@ -182,7 +178,7 @@ function ItemsList({ list, sectionName }) {
                                   ? deleteSkill
                                   : null
                               }
-                              id={item.id}
+                              id={item?.id}
                             />
                           </AlertDialogAction>
                         </AlertDialogFooter>

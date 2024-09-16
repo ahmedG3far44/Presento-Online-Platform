@@ -53,7 +53,9 @@ function ContactsForm({ contacts, setContacts }) {
   return (
     <>
       <button
-        className="px-4 py-2 hover:bg-muted border rounded-md"
+        className={`${
+          !updateContactsState ? "bg-primary-foreground" : "bg-card "
+        } px-4 py-2 hover:bg-primary-foreground border  rounded-md`}
         onClick={() => setUpdateContacts(!updateContactsState)}
       >
         {updateContactsState ? "update" : "updating..."}
@@ -65,7 +67,7 @@ function ContactsForm({ contacts, setContacts }) {
         <input
           readOnly={updateContactsState}
           onChange={(e) => setContacts({ ...contacts, github: e.target.value })}
-          className="w-full p-2 rounded-md read-only:bg-muted read-only:cursor-not-allowed"
+          className="input"
           type="url"
           placeholder="Github profile link"
           defaultValue={contacts?.github}
@@ -75,7 +77,7 @@ function ContactsForm({ contacts, setContacts }) {
           onChange={(e) =>
             setContacts({ ...contacts, linkedin: e.target.value })
           }
-          className="w-full p-2 rounded-md read-only:bg-muted read-only:cursor-not-allowed"
+          className="input"
           type="url"
           placeholder="Linkedin profile link"
           defaultValue={contacts?.linkedin}
@@ -85,7 +87,7 @@ function ContactsForm({ contacts, setContacts }) {
           onChange={(e) =>
             setContacts({ ...contacts, youtube: e.target.value })
           }
-          className="w-full p-2 rounded-md read-only:bg-muted read-only:cursor-not-allowed"
+          className="input"
           type="url"
           placeholder="Youtube channel link "
           defaultValue={contacts?.youtube}
@@ -95,7 +97,7 @@ function ContactsForm({ contacts, setContacts }) {
           onChange={(e) =>
             setContacts({ ...contacts, twitter: e.target.value })
           }
-          className="w-full p-2 rounded-md read-only:bg-muted read-only:cursor-not-allowed"
+          className="input"
           type="url"
           placeholder="twitter profile link "
           defaultValue={contacts?.twitter}
@@ -104,7 +106,7 @@ function ContactsForm({ contacts, setContacts }) {
           type="submit"
           disabled={status.pending}
           value={status.pending ? "saving..." : "save changes"}
-          className="w-full px-4 py-2 hover:bg-primary-foreground duration-150 cursor-pointer rounded-md disabled:bg-zinc-600 disabled:cursor-not-allowed  text-white border "
+          className="submit_button"
         />
       </form>
     </>

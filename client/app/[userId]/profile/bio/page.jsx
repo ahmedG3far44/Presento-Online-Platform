@@ -34,10 +34,12 @@ function BioPage() {
   }, []);
   return (
     <div className="w-full flex flex-col justify-start items-start gap-4 overflow-x-hidden overflow-y-scroll no-scrollbar p-4">
-      <div className="w-full max-sm:w-full max-md:w-full  m-auto mt-4  rounded-md">
+      <div className="w-full max-sm:w-full max-md:w-full  m-auto mt-4  rounded-md p-8 border-2 border-dashed">
         {isLoading ? (
           <div className="w-full h-full min-w-full min-h-[600px] flex justify-center items-center p-8">
-            <h1 className="text-4xl text-muted-foreground">Loading...</h1>
+            <h1 className="text-4xl text-primary-fobg-primary-foreground-foreground">
+              Loading...
+            </h1>
           </div>
         ) : (
           <HeroLayout
@@ -46,7 +48,6 @@ function BioPage() {
             jobTitle={bio?.jobTitle}
             img={bio?.heroImage}
             layoutStyle={bio?.layoutStyle}
-            edit={"edit"}
             contacts={contacts}
           />
         )}
@@ -54,24 +55,24 @@ function BioPage() {
       <div className="w-full max-sm:w-full max-md:w-full m-auto ">
         <div className="w-full m-auto py-4 rounded-md flex gap-4 ">
           <button
-            className={`px-4 py-2 w-40  max-w-40  max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-muted duration-150 ${
-              switcher === "bio" && "bg-secondary"
+            className={`px-4 py-2 w-40  max-w-40  max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-primary-foreground duration-150 ${
+              switcher === "bio" && "bg-primary-foreground"
             }`}
             onClick={() => setSwitcher("bio")}
           >
             Bio
           </button>
           <button
-            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-muted duration-150 ${
-              switcher === "contacts" && "bg-secondary"
+            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-primary-foreground duration-150 ${
+              switcher === "contacts" && "bg-primary-foreground"
             }`}
             onClick={() => setSwitcher("contacts")}
           >
             Contacts
           </button>
           <button
-            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-muted duration-150 ${
-              switcher === "uploadCv" && "bg-secondary"
+            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-primary-foreground duration-150 ${
+              switcher === "uploadCv" && "bg-primary-foreground"
             }`}
             onClick={() => setSwitcher("uploadCv")}
           >

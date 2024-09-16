@@ -1,33 +1,34 @@
 import Image from "next/image";
+import GradientText from "./heroLayouts/GradientText";
 
 function SkillCard({ skillName, skillLogo, layoutStyle }) {
   return (
     <>
       <div
         className={`
-          ${layoutStyle === "1" && "flex justify-start items-center gap-2"}
+          ${layoutStyle === "1" && "flex justify-start items-center gap-4"}
           ${
             layoutStyle === "2" &&
             "flex flex-col rounded-md  justify-center bg-primary-foreground items-center gap-2 border p-4 hover:bg-primary-foreground"
           }
           ${
             layoutStyle === "3" &&
-            "flex justify-around items-center gap-4 border rounded-md p-4 "
+            "flex justify-between items-center  px-4 max-sm:justify-center max-sm:gap-4 m-auto "
           }
           ${
             layoutStyle === "4" &&
             "w-full flex justify-start items-center gap-4"
           }
-            ${layoutStyle === "5" && "flex justify-start items-center gap-4"}
+            ${layoutStyle === "5" && "flex justify-start items-center gap-8"}
         `}
       >
         <Image
-          className={`max-w-full max-h-full object-cover rounded-md overflow-hidden
+          className={` w-10 h-10 max-w-10 max-h-10 object-cover rounded-md overflow-hidden
               ${layoutStyle === "3" && "block"}
               ${layoutStyle === "5" && "hidden"}
               `}
           src={
-            skillLogo
+            !!skillLogo
               ? skillLogo
               : "https://st2.depositphotos.com/1561359/12101/v/380/depositphotos_121012076-stock-illustration-blank-photo-icon.jpg"
           }
@@ -35,18 +36,20 @@ function SkillCard({ skillName, skillLogo, layoutStyle }) {
           height={40}
           alt="skill logo"
         />
-        <h1
-          className={` w-full min-w-full  text-nowrap
+        {layoutStyle === "5" ? (
+          <GradientText className={"border-l pl-4"}>
+            {skillName.toUpperCase()}
+          </GradientText>
+        ) : (
+          <h1
+            className={` w-fit  text-nowrap font-semibold
             ${layoutStyle === "3" && "hidden"}
-            ${
-              layoutStyle === "5" &&
-              "text-2xl text-muted-foreground font-bold border-l-2 px-4"
-            }
             ${layoutStyle === "4" && "text-2xl text-muted-foreground"}
             `}
-        >
-          {skillName.toUpperCase()}
-        </h1>
+          >
+            {skillName.toUpperCase()}
+          </h1>
+        )}
       </div>
     </>
   );
