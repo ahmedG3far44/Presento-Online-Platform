@@ -18,7 +18,7 @@ function ProjectCard({
   const isLike = false;
   return (
     <div
-      className={`p-4 w-full rounded-md  border   
+      className={`p-4 w-full rounded-md  bg-card border   
       ${layoutStyle === "1" && "flex flex-col justify-start items-start gap-4"}
       ${layoutStyle === "2" && ""}
       ${
@@ -31,17 +31,19 @@ function ProjectCard({
       }`}
     >
       <div
-        className={
-          layoutStyle === "1"
-            ? "w-full  overflow-hidden rounded-md mb-4"
-            : layoutStyle === "2"
-            ? ""
-            : layoutStyle === "3"
-            ? "flex-1 h-full rounded-xl "
-            : layoutStyle === "4"
-            ? "w-full  max-w-3/4 h-full rounded-xl "
-            : null
-        }
+        className={` border p-2
+          ${
+            layoutStyle === "1"
+              ? "w-full  overflow-hidden rounded-md mb-4"
+              : layoutStyle === "2"
+              ? ""
+              : layoutStyle === "3"
+              ? "flex-1 h-full rounded-xl "
+              : layoutStyle === "4"
+              ? "w-full  max-w-3/4 h-full rounded-xl "
+              : null
+          }
+        `}
       >
         <Image
           priority
@@ -53,11 +55,11 @@ function ProjectCard({
               : "https://www.its.ac.id/tmesin/wp-content/uploads/sites/22/2022/07/no-image.png"
           }
           alt="thumbnail image"
-          className="max-w-full max-h-full w-full h-full object-cover rounded-md"
+          className="max-w-full max-h-1/2 max-h-full w-full h-full object-cover rounded-md"
         />
       </div>
-      <div className="flex-1 flex flex-col justify-start items-start gap-2 p-2 mt-auto">
-        <div>
+      <div className="flex-1 flex flex-col justify-start items-start gap-2">
+        <div className="mt-auto">
           {state ? (
             <h1 className="font-bold  duration-150">
               {title || "Project Title Name"}

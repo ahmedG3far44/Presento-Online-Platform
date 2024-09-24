@@ -181,7 +181,6 @@ html {
 .experience_secondary_text {
   @apply text-sm;
 }
-
 /*
   ===================================================
 */
@@ -191,11 +190,11 @@ html {
 }
 
 .input {
-  @apply w-full p-2 rounded-md bg-card border  read-only:bg-zinc-700 read-only:cursor-not-allowed;
+  @apply w-full p-2 rounded-md bg-card border  read-only:bg-secondary read-only:cursor-not-allowed;
 }
 
 .submit_button {
-  @apply w-full px-4 py-2 border border-transparent bg-primary-foreground duration-150 cursor-pointer rounded-md disabled:bg-zinc-700 disabled:cursor-not-allowed hover:border-primary;
+  @apply w-full px-4 py-2 border bg-primary-foreground duration-150 cursor-pointer rounded-md hover:bg-card disabled:bg-secondary disabled:cursor-not-allowed hover:border-primary;
 }
 
 .error_message {
@@ -220,8 +219,11 @@ html {
   @apply flex  justify-center items-center gap-2 text-nowrap  max-sm:flex-col  max-sm:text-sm max-sm:justify-start  max-sm:items-start;
 }
 
-.gradient_text_sm {
-  @apply bg-gradient-to-br from-purple-700  via-blue-400 text-transparent font-bold bg-clip-text text-sm max-sm:text-nowrap max-md:text-nowrap hover:text-primary duration-150;
+.hero_heading_text {
+  @apply bg-gradient-to-br from-purple-400  via-blue-600 text-transparent  max-md:text-center font-bold bg-clip-text text-3xl max-md:text-2xl max-md:text-nowrap;
+}
+.hero_secondary_text {
+  @apply font-semibold text-2xl max-md:text-nowrap max-md:text-xl duration-150 max-md:text-center;
 }
 
 /*
@@ -247,4 +249,28 @@ admin dashboard
 }
 .admin_main_content {
   @apply p-8 w-full;
+}
+
+.horizontal {
+  @apply flex justify-center items-center;
+}
+.vertical {
+  @apply flex flex-col justify-center items-center;
+}
+
+.heading_text {
+  @apply text-3xl w-3/4 text-center max-md:text-xl font-bold   text-transparent bg-clip-text bg-gradient-to-br from-purple-500 via-sky-600;
+}
+.secondary_text {
+  @apply text-base text-wrap text-center w-1/2 max-md:text-sm font-semibold;
+}
+.gradient_shape_one {
+  @apply absolute top-0 right-20 z-0 w-72 h-72 animate-pulse rounded-full max-md:hidden  bg-gradient-to-br from-orange-500 via-sky-600 blur-[90px];
+}
+.gradient_shape_two {
+  @apply absolute top-0 left-20 z-0  w-72 h-72 text-secondary max-md:hidden   animate-pulse rounded-full  bg-gradient-to-br from-orange-500 via-purple-600 blur-[90px];
+}
+
+.cta_button {
+  @apply w-72 rounded-lg px-4 py-2 bg-gradient-to-bl from-orange-500 via-purple-600   hover:text-sky-100 duration-150;
 }

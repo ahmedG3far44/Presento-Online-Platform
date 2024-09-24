@@ -5,9 +5,9 @@ import { LuLogOut } from "react-icons/lu";
 import { TbSmartHome } from "react-icons/tb";
 import { GrTechnology } from "react-icons/gr";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import User from "@/app/components/ui/cards/User";
-import credentials from "@/app/credentials/credentials";
-import { ModeToggle } from "@/components/dark-mode-toggle";
+import User from "../../components/ui/cards/User";
+import credentials from "../../credentials/credentials";
+import { ModeToggle } from "../../../components/dark-mode-toggle";
 
 async function layout({ children }) {
   const { user, isAdmin } = await credentials();
@@ -65,7 +65,7 @@ async function layout({ children }) {
           </nav>
         </div>
         <div className="admin_aside_bottom">
-          <ModeToggle />
+          <ModeToggle theme={"show"} />
           <LogoutLink className="w-full flex gap-2 hover:text-purple-500 duration-150">
             <span>
               <LuLogOut size={20} />

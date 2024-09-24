@@ -4,15 +4,15 @@ import { useToast } from "@/components/ui/use-toast";
 import { useParams, useRouter } from "next/navigation";
 import { FiFilePlus } from "react-icons/fi";
 import Loader from "@/app/components/loaders/Loader";
-
-// import { addSkill } from "@/app/actions/create/actions";
+import { LuImagePlus } from "react-icons/lu";
 
 function SkillsForm({ skillState, setSkill }) {
   const router = useRouter();
   const { userId } = useParams();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [error, setErrorMessage] = useState(null);
+  const [error, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const skillFormRef = useRef(null);
   const handleAddNewSkill = async (e) => {
     e.preventDefault();
@@ -51,12 +51,18 @@ function SkillsForm({ skillState, setSkill }) {
           body: formData,
         }
       );
-      if (request.ok) {
+      const data = await request.json();
+      if (request.status === 201) {
         setLoading(false);
         toast({
           title: "a new skill was added",
+          description: data.message,
         });
         setErrorMessage(null);
+        setSuccessMessage("uploaded done successful");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 1000);
         skillFormRef?.current.reset();
         router.refresh();
         return;
@@ -69,30 +75,27 @@ function SkillsForm({ skillState, setSkill }) {
         description: error.message,
       });
       setErrorMessage(error.message);
+      return;
     }
   };
   return (
     <form
       ref={skillFormRef}
       onSubmit={handleAddNewSkill}
-      className="w-1/2 max-sm:w-full max-md:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border "
+      className="bg-card w-1/2 max-sm:w-full max-md:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border "
     >
       <label
-        className="w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
+        className="cursor-pointer hover:bg-secondary duration-150 w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
         htmlFor="skillLogo"
       >
         <span className="text-muted-foreground">
-          <FiFilePlus size={30} />
+          <LuImagePlus size={20} />
         </span>
-        <h1 className="text-center text-sm w-3/4 max-sm:w-full max-md:w-full p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
-          <span className="font-bold">upload your image here</span>{" "}
-          <span className="w-full  text-sm font-normal max-sm:hidden max-md:hidden">
-            make sure you upload image in these formats{" "}
-          </span>{" "}
-          <span className="font-normal">
-            JPEG | PNG | JPG | GIF and max size (4MB)
-          </span>
-        </h1>
+        <p className="text-center text-sm w-3/4 max-sm:w-full max-md:w-full p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
+          upload your skill logo here
+          <br />
+          supported formats, JPEG | PNG | JPG | GIF & Max Size (4MB)
+        </p>
       </label>
       <input
         type="file"
@@ -101,46 +104,46 @@ function SkillsForm({ skillState, setSkill }) {
         }
         id="skillLogo"
         name="skillLogo"
+        className={
+          skillState.skillLogo ? "p-2 w-full bg-secondary rounded-md" : "hidden"
+        }
         accept="image/png, image/jpeg, image/jpg, image/gif"
-        style={{ display: "none" }}
         required
       />
+      <div>
+        {successMessage && (
+          <div className="success_message w-full">{successMessage}</div>
+        )}
+        {error && <div className="error_message w-full">{error}</div>}
+        {loading && (
+          <div
+            className={
+              "w-full my-4 flex flex-col justify-start items-start gap-2"
+            }
+          >
+            <h1 className="flex gap-2 justify-center items-center">
+              <Loader />
+              <span>Uploading...</span>
+            </h1>
+          </div>
+        )}
+      </div>
 
-      {error ? (
-        <div className="p-2 rounded-md  text-start">
-          <span className="text-red-500">{error}</span>
-        </div>
-      ) : (
-        <>
-          {loading && (
-            <div
-              className={
-                "w-full my-4 flex flex-col justify-start items-start gap-2"
-              }
-            >
-              <h1 className="flex gap-2 justify-center items-center">
-                <Loader />
-                <span>Uploading...</span>
-              </h1>
-            </div>
-          )}
-        </>
-      )}
       <input
         value={skillState.skillName}
         onChange={(e) => setSkill({ ...skillState, skillName: e.target.value })}
         type="text"
         readOnly={loading}
         name="skillName"
-        className="w-full p-2 read-only:border-0 read-only:bg-gray-600   rounded-md"
+        className="input"
         placeholder="enter skill name "
       />
 
       <input
         type="submit"
         disabled={loading}
-        value={loading ? "adding..." : "add"}
-        className="w-full py-2  rounded-md border hover:bg-zinc-800 disabled:bg-zinc-500 disabled:cursor-not-allowed cursor-pointer"
+        value={loading ? "creating..." : "add"}
+        className="submit_button"
       />
     </form>
   );

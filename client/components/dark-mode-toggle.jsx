@@ -12,23 +12,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ModeToggle({ toggleStyle }) {
+export function ModeToggle({ theme }) {
   const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className={"w-full flex justify-start items-start bg-card gap-2 p-2"}
-          variant="outline"
+          className={`w-full flex  hover:bg-secondary gap-2 p-2 ${
+            theme === "show"
+              ? "justify-start items-start"
+              : "justify-center items-center"
+          }`}
+          variant={theme === "show" ? "outline" : "none"}
           size="icon"
         >
           <Sun className="h-[1.2rem] w-[full] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <h1 className="">Themes</h1>
+          {theme === "show" ? <h1>Themes</h1> : null}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="center">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
         </DropdownMenuItem>

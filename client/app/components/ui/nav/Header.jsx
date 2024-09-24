@@ -4,6 +4,7 @@ import ShareBtn from "../cards/ShareBtn";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Image from "next/image";
+import { ModeToggle } from "../../../../components/dark-mode-toggle";
 
 async function Header({ userInfo }) {
   const { isLogged } = await credentials();
@@ -38,6 +39,7 @@ async function Header({ userInfo }) {
       <div className="ml-auto ">
         {isLogged ? (
           <div className="flex-1 flex justify-center items-center gap-4">
+            <ModeToggle theme={"none"} />
             {admin?.isGranted && isLogged ? (
               <Link
                 className="duration-150 bg-black text-white p-2 rounded-md"

@@ -1,6 +1,6 @@
-import ItemsList from "@/app/components/ui/nav/ItemsList";
-import ExperienceSection from "@/app/components/ui/sections/ExperienceSection";
-import credentials from "@/app/credentials/credentials";
+import credentials from "../../../credentials/credentials";
+import ItemsList from "../../../components/ui/nav/ItemsList";
+import ExperienceSection from "../../../components/ui/sections/ExperienceSection";
 
 async function ExperiencesPage() {
   const { user } = await credentials();
@@ -14,6 +14,7 @@ async function ExperiencesPage() {
     </section>
   );
 }
+
 async function getExperiencesList(userId) {
   try {
     const request = await fetch(

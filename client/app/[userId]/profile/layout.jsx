@@ -1,21 +1,14 @@
 "use client";
-import Link from "next/link";
-import { TbInfoSquareRounded } from "react-icons/tb";
-import { LuLayoutGrid } from "react-icons/lu";
-import { LuLayers } from "react-icons/lu";
-import { LuLaptop2 } from "react-icons/lu";
-import { LuLogOut } from "react-icons/lu";
-import User from "@/app/components/ui/cards/User";
+
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { ModeToggle } from "@/components/dark-mode-toggle";
-import { TbSmartHome } from "react-icons/tb";
-import { GrTechnology } from "react-icons/gr";
 import { useParams, usePathname } from "next/navigation";
-import AsideProfile from "@/app/components/ui/nav/AsideProfile";
-import "../../globals.css";
-import MobileMenuBar from "@/app/components/ui/nav/MobileMenuBar";
-
+import Link from "next/link";
+import { ModeToggle } from "../../../components/dark-mode-toggle";
+import { LuLayers, LuLogOut } from "react-icons/lu";
+import AsideProfile from "../../components/ui/nav/AsideProfile";
+import MobileMenuBar from "../../components/ui/nav/MobileMenuBar";
+import User from "../../components/ui/cards/User";
 function layout({ children }) {
   // console.log(path);
   const { getUser, getPermission } = useKindeBrowserClient();
@@ -28,12 +21,12 @@ function layout({ children }) {
     {
       path: `/${userId}`,
       name: "Home",
-      icon: <TbSmartHome size={20} />,
+      icon: <LuLayers size={20} />,
     },
     {
       path: `/${userId}/profile/bio`,
       name: "Bio",
-      icon: <TbInfoSquareRounded size={20} />,
+      icon: <LuLayers size={20} />,
     },
     {
       path: `/${userId}/profile/experiences`,
@@ -43,12 +36,12 @@ function layout({ children }) {
     {
       path: `/${userId}/profile/projects`,
       name: "Projects",
-      icon: <LuLayoutGrid size={20} />,
+      icon: <LuLayers size={20} />,
     },
     {
       path: `/${userId}/profile/skills`,
       name: "Skills",
-      icon: <GrTechnology size={20} />,
+      icon: <LuLayers size={20} />,
     },
   ];
   return (
@@ -105,7 +98,7 @@ function layout({ children }) {
         </div>
 
         <div className="flex flex-col justify-start items-start gap-2  mt-12">
-          <ModeToggle />
+          <ModeToggle theme={"show"} />
           <LogoutLink className="w-full flex gap-2 hover:text-purple-500 duration-150 p-2">
             <span>
               <LuLogOut size={20} />
@@ -154,7 +147,7 @@ function layout({ children }) {
             );
           })}
           <li className="flex justify-center items-center  ">
-            <ModeToggle />
+            <ModeToggle theme={"show"} />
           </li>
           <li className="w-full flex flex-col justify-center items-center  gap-8 p-2  mt-16">
             <LogoutLink className="w-full flex justify-center items-center gap-2 hover:text-muted-foreground duration-150 p-2">

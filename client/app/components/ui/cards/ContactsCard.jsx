@@ -8,11 +8,11 @@ import { RiTwitterXFill } from "react-icons/ri";
 
 function ContactsCard({ contacts }) {
   return (
-    <div className="flex justify-start items-center gap-2 py-2 w-full max-sm:justify-center max-md:justify-center">
+    <div className="flex   justify-start items-center gap-2 py-2 w-full max-sm:justify-center max-md:justify-center">
       {contacts?.twitter && (
         <div
           className={
-            "flex justify-center items-center p-1 rounded-md border scale-90 hover:scale-100  duration-150"
+            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.twitter}>
@@ -25,7 +25,7 @@ function ContactsCard({ contacts }) {
       {contacts?.linkedin && (
         <div
           className={
-            "flex justify-center items-center p-1 rounded-md border scale-90 hover:scale-100  duration-150"
+            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.linkedin}>
@@ -38,7 +38,7 @@ function ContactsCard({ contacts }) {
       {contacts?.youtube && (
         <div
           className={
-            "flex justify-center items-center p-1 rounded-md border scale-90 hover:scale-100  duration-150"
+            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.youtube}>
@@ -51,7 +51,7 @@ function ContactsCard({ contacts }) {
       {contacts?.github && (
         <div
           className={
-            "flex justify-center items-center p-1 rounded-md border scale-90 hover:scale-100  duration-150"
+            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.github}>

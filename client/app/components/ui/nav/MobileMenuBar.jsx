@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CgMenuRight } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
-import "@/app/globals.css";
 
 function MobileMenuBar({ className, children }) {
   const [openMenu, setOpenMenu] = useState(false);

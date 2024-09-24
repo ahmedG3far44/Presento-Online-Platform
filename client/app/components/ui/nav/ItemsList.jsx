@@ -66,9 +66,9 @@ function ItemsList({ list, sectionName }) {
         </label>
       </div>
 
-      <div className="w-full rounded-md mt-10 flex flex-col justify-start flex-wrap  items-start gap-2">
-        {filteredList.length > 0 ? (
-          <div className="w-full mb-10">
+      <div className="w-full   my-10 ">
+        {!!filteredList.length ? (
+          <div className="w-full flex flex-col justify-start items-center gap-2 ">
             {filteredList.map((item) => {
               const lastUpdate =
                 Date.now() - new Date(item?.updatedAt).getMilliseconds();
@@ -76,11 +76,11 @@ function ItemsList({ list, sectionName }) {
               return (
                 <div
                   key={item.id}
-                  className="w-full flex justify-start items-center gap-8  py-4 px-2 border-b "
+                  className="w-full flex justify-start items-center gap-4 bg-card rounded-md  py-4 px-2 mb-2"
                 >
                   {sectionName === "experiences" && (
-                    <div className="flex justify-center gap-4 max-sm:gap-2 items-center w-3/4 max-sm:w-full max-md:w-full max-sm:flex-col max-md:flex-col max-sm:items-start max-md:items-start">
-                      <div className="w-10 h-10 min-w-10 min-h-10 mr-8 overflow-hidden rounded-md flex justify-center items-center border  max-sm:flex-wrap max-md:flex-wrap ">
+                    <div className=" flex justify-center gap-2 max-sm:gap-2 items-center w-3/4 max-sm:w-full max-md:w-full max-sm:flex-col max-md:flex-col max-sm:items-start max-md:items-start">
+                      <div className="ml-4 w-10 h-10 min-w-10 min-h-10 mr-4 overflow-hidden rounded-md flex justify-center items-center border  max-sm:flex-wrap max-md:flex-wrap ">
                         <Image
                           priority
                           src={!!item?.cLogo ? item.cLogo : NoImage}
@@ -90,11 +90,11 @@ function ItemsList({ list, sectionName }) {
                           alt="experience company logo image"
                         />
                       </div>
-                      <div className="w-full flex justify-center items-center flex-wrap gap-2 max-sm:flex-col max-sm:justify-start  max-sm:items-start">
+                      <div className="w-full flex justify-center items-center flex-wrap gap-1 max-sm:flex-col max-sm:justify-start  max-sm:items-start">
                         <h1 className="w-full font-bold text-muted-foreground max-sm:text-sm max-md:text-sm">
                           {item?.cName}
                         </h1>
-                        <h1 className="w-full  text-muted-foreground max-sm:text-sm max-md:text-sm">
+                        <h1 className="w-full text-sm  text-muted-foreground max-sm:text-sm max-md:text-sm">
                           {item?.position}
                         </h1>
                       </div>
@@ -104,8 +104,8 @@ function ItemsList({ list, sectionName }) {
                     </div>
                   )}
                   {sectionName === "projects" && (
-                    <div className="w-full max-w-full flex justify-start items-center gap-8 max-sm:gap-2 max-md:gap-4">
-                      <div className="w-10 h-10 min-w-10 min-h-10  overflow-hidden rounded-md flex justify-center items-center border  ">
+                    <div className="w-full  max-w-full flex justify-start items-center gap-4 max-sm:gap-2 ">
+                      <div className="w-10 h-10 min-w-10 min-h-10 mx-4 overflow-hidden rounded-md flex justify-center items-center border  max-sm:flex-wrap max-md:flex-wrap ">
                         <Image
                           priority
                           src={!!item?.thumbnail ? item.thumbnail : NoImage}
@@ -123,7 +123,7 @@ function ItemsList({ list, sectionName }) {
                         {item?.title}
                       </Link>
 
-                      <div className="ml-5 flex justify-center items-center gap-2">
+                      {/* <div className="ml-5 flex justify-center items-center gap-2">
                         <span>
                           <AiFillLike size={20} color="gray" />
                         </span>
@@ -137,7 +137,7 @@ function ItemsList({ list, sectionName }) {
                       </div>
                       <div className="ml-5 flex justify-center items-center gap-2">
                         {item?.createdAt}
-                      </div>
+                      </div> */}
                     </div>
                   )}
                   {sectionName === "skills" && (

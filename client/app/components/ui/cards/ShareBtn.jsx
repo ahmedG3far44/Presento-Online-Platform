@@ -1,6 +1,7 @@
 "use client";
 import { LuShare2 } from "react-icons/lu";
 import { useState } from "react";
+import { LuCopy } from "react-icons/lu";
 
 function ShareBtn() {
   const [copyState, setCopyState] = useState(false);
@@ -12,12 +13,15 @@ function ShareBtn() {
     }, 1000);
   };
   return (
-    <button onClick={handleCopyProfileLinkToClipboard} className="relative">
-      <span>
-        <LuShare2 size={20} color={copyState ? "#4b5563" : "#fff"} />
+    <button
+      onClick={handleCopyProfileLinkToClipboard}
+      className="flex justify-center items-center gap-2 relative"
+    >
+      <span className={copyState ? "text-muted-foreground" : "text-primary"}>
+        {copyState ? <LuCopy size={15} /> : <LuShare2 size={15} />}
       </span>
       {copyState && (
-        <span className="absolute bottom-0 -right-20 border rounded-3xl px-2">
+        <span className="text-muted-foreground absolute -right-20 rounded-3xl px-2">
           copied
         </span>
       )}

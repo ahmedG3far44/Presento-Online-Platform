@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
-import BioForm from "@/app/components/ui/profile/forms/BioForm";
-import ContactsForm from "@/app/components/ui/profile/forms/ContactsForm";
-import HeroLayout from "@/app/components/ui/cards/HeroLayout";
+
 import { useParams, useRouter } from "next/navigation";
-import UploadCvForm from "@/app/components/ui/profile/forms/UploadCvForm";
+import UploadCvForm from "../../../components/ui/profile/forms/UploadCvForm";
+import ContactsForm from "../../../components/ui/profile/forms/ContactsForm";
+import BioForm from "../../../components/ui/profile/forms/BioForm";
+import HeroLayout from "../../../components/ui/cards/HeroLayout";
 
 function BioPage() {
   const router = useRouter();
@@ -29,17 +30,15 @@ function BioPage() {
     }
     getUserBio(userId);
     getUserContacts(userId);
-    router.refresh();
     setLoading(false);
+    router.refresh();
   }, []);
   return (
     <div className="w-full flex flex-col justify-start items-start gap-4 overflow-x-hidden overflow-y-scroll no-scrollbar p-4">
-      <div className="w-full max-sm:w-full max-md:w-full  m-auto mt-4  rounded-md p-8 border-2 border-dashed">
+      <div className="bg-secondary w-full max-sm:w-full max-md:w-full  m-auto mt-4  rounded-md p-8 border-2 border-dashed">
         {isLoading ? (
-          <div className="w-full h-full min-w-full min-h-[600px] flex justify-center items-center p-8">
-            <h1 className="text-4xl text-primary-fobg-primary-foreground-foreground">
-              Loading...
-            </h1>
+          <div className="w-full h-full min-w-full min-h-1/2 flex justify-center items-center p-8">
+            <h1 className="text-4xl">Loading...</h1>
           </div>
         ) : (
           <HeroLayout
@@ -55,24 +54,24 @@ function BioPage() {
       <div className="w-full max-sm:w-full max-md:w-full m-auto ">
         <div className="w-full m-auto py-4 rounded-md flex gap-4 ">
           <button
-            className={`px-4 py-2 w-40  max-w-40  max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-primary-foreground duration-150 ${
-              switcher === "bio" && "bg-primary-foreground"
+            className={`px-4 py-2 w-40  max-w-40  max-sm:px-2  max-sm:py-1 border-primary-foreground  border rounded-md text-primary cursor-pointer duration-150 ${
+              switcher === "bio" ? "bg-card" : "bg-secondary"
             }`}
             onClick={() => setSwitcher("bio")}
           >
             Bio
           </button>
           <button
-            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-primary-foreground duration-150 ${
-              switcher === "contacts" && "bg-primary-foreground"
+            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1 border-primary-foreground  border rounded-md text-primary cursor-pointer duration-150 ${
+              switcher === "contacts" ? "bg-card" : "bg-secondary"
             }`}
             onClick={() => setSwitcher("contacts")}
           >
             Contacts
           </button>
           <button
-            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border rounded-md text-primary cursor-pointer hover:bg-primary-foreground duration-150 ${
-              switcher === "uploadCv" && "bg-primary-foreground"
+            className={`px-4 py-2  w-40  max-w-40 max-sm:px-2  max-sm:py-1  border-primary-foreground border rounded-md text-primary cursor-pointer duration-150 ${
+              switcher === "uploadCv" ? "bg-card" : "bg-secondary"
             }`}
             onClick={() => setSwitcher("uploadCv")}
           >

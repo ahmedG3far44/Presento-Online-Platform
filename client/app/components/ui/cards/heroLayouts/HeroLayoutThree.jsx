@@ -43,11 +43,12 @@ function HeroLayoutThree({
 
       <div className="flex flex-col justify-start items-start max-sm:justify-center max-md:justify-center max-sm:items-center max-md:items-center gap-2  w-full p-8  max-md:p-2">
         <div className="hero_info">
-          <GradientText>{name || "your name"}</GradientText>
-
-          <h3 className="secondary_text">
-            {!!jobTitle ? jobTitle : "change your Job Title..."}
-          </h3>
+          <h1 className="hero_heading_text">
+            {!!name ? name : "change your name..."}
+          </h1>
+          <h2 className="hero_secondary_text">
+            {!!jobTitle ? jobTitle : "change your Job Title...."}
+          </h2>
           <ContactsCard contacts={contacts} />
           <ResumeDownloadBtn />
         </div>

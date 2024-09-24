@@ -1,12 +1,11 @@
-import ItemsList from "@/app/components/ui/nav/ItemsList";
-import ProjectsSection from "@/app/components/ui/sections/ProjectsSection";
-import credentials from "@/app/credentials/credentials";
+import credentials from "../../../credentials/credentials";
+import ProjectsSection from "../../../components/ui/sections/ProjectsSection";
+import ItemsList from "../../../components/ui/nav/ItemsList";
 
 async function ProjectsPage() {
   const { user } = await credentials();
   const projectsList = await getProjectsList(user?.id);
-  // console.log(user?.id, "project list");
-  // console.log(projectsList, "project list");
+
   return (
     <div className="w-full max-w-full h-screen flex justify-start items-start gap-8 flex-col p-4">
       <ProjectsSection />

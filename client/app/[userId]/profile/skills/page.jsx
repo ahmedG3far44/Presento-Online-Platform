@@ -1,5 +1,5 @@
-import ItemsList from "@/app/components/ui/nav/ItemsList";
-import SkillsSection from "@/app/components/ui/sections/SkillsSection";
+import ItemsList from "../../../components/ui/nav/ItemsList";
+import SkillsSection from "../../../components/ui/sections/SkillsSection";
 
 async function ProfileSkillsPage({ params }) {
   const { userId } = params;

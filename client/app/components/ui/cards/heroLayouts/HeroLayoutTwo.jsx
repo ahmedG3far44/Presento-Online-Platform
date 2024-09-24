@@ -17,10 +17,12 @@ function HeroLayoutTwo({
   return (
     <section className={"hero_section"}>
       <div className="hero_info">
-        <GradientText>{!!name ? name : "change your name..."}</GradientText>
-        <h3 className="secondary_text">
+        <h1 className="hero_heading_text">
+          {!!name ? name : "change your name..."}
+        </h1>
+        <h2 className="hero_secondary_text">
           {!!jobTitle ? jobTitle : "change your Job Title...."}
-        </h3>
+        </h2>
         <ContactsCard contacts={contacts} />
         <ResumeDownloadBtn />
       </div>

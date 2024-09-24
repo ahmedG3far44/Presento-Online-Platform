@@ -63,38 +63,27 @@ export async function addProject(formData, tags) {
     tags: formData.getAll("tags"),
     sourceLink: formData.get("sourceLink"),
   };
-  // console.log(formData);
-  const validProjectData = projectSchema.safeParse(project);
 
-  console.log(formData);
-  console.log(validateImages(thumbnail, images));
-  if (!validateImages(thumbnail, images)) {
-    console.log("wrong image format or size is very large");
-    return {
-      error: "can't add project",
-      message:
-        "your images aren't valid maybe the format is wrong or size is to large",
-    };
-  }
-  if (!validProjectData?.success) {
-    console.log(validProjectData.error.flatten().fieldErrors);
-    return {
-      error: "can't add project",
-      message: "not valid inputs data",
-    };
-  }
-  // formData.append("thumbnail", project.thumbnail);
-  // formData.append("title", project.title);
-  // formData.append("description", "");
-  // formData.append("sourceUrl", "");
-  // // list
-  // project.tags.map((tag) => {
-  //   formData.append("tags", tag);
-  // });
-  // project.images.map((image) => {
-  //   formData.append("images", image);
-  // });
   try {
+    const validProjectData = projectSchema.safeParse(project);
+
+    // console.log(formData);
+    // console.log(validateImages(thumbnail, images));
+    if (!validateImages(thumbnail, images)) {
+      console.log("wrong image format or size is very large");
+      return {
+        success: false,
+        message:
+          "your images aren't valid maybe the format is wrong or size is to large",
+      };
+    }
+    if (!validProjectData?.success) {
+      console.log(validProjectData.error.flatten().fieldErrors);
+      return {
+        success: false,
+        message: "not valid data inputs",
+      };
+    }
     const request = await fetch(
       `http://localhost:4000/api/${user?.id}/project`,
       {
@@ -105,12 +94,17 @@ export async function addProject(formData, tags) {
     if (request.status === 201) {
       const data = await request.json();
       revalidatePath("/projects");
-      console.log("porject resposne ");
       console.log(data);
-      return data;
+      return {
+        success: true,
+        message: data.message,
+      };
     }
   } catch (error) {
-    return error;
+    return {
+      success: false,
+      message: error.message,
+    };
   }
 }
 

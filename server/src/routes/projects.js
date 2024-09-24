@@ -311,16 +311,11 @@ router.delete(
 export default router;
 
 export async function uploadToS3(image, path) {
-  // const imageBuffer = resizedImage(image.buffer, 300, 300, 80);
-  const buffer = await sharp(image.buffer)
-    .resize(900, 600, { withoutEnlargement: true, fit: "cover" })
-    .toFormat("webp")
-    .toBuffer();
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: path,
-    Body: buffer,
-    ContentType: "image/webp",
+    Body: image.buffer,
+    ContentType: image.mimetype,
   };
   try {
     const command = new PutObjectCommand(params);

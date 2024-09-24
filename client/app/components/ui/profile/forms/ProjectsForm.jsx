@@ -1,89 +1,111 @@
 "use client";
 import { useRef } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { addProject } from "@/app/actions/create/actions";
-import { FiFilePlus } from "react-icons/fi";
+import { addProject } from "../../../../actions/create/actions";
 import { useState } from "react";
+import { LuImage } from "react-icons/lu";
+import { PiImagesSquare } from "react-icons/pi";
 
 function ProjectsForm({ project, setProject }) {
   const { toast } = useToast();
   const addProjectRef = useRef(null);
   const tagRef = useRef(null);
-  const [pending, setPending] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setErrorMessage] = useState(null);
   const [successMessage, setSuccessAddMessage] = useState(null);
   const [tag, setTag] = useState("");
   const [tagList, setTagsList] = useState([]);
+  const [projectImages, setProjectImages] = useState([]);
+  const [thumbnail, setThumbnail] = useState("");
 
   const addProjectAction = async (formData) => {
-    setPending(true);
-    await addProject(formData, tagList)
-      .then((res) => {
-        setSuccessAddMessage("your added project success");
-        toast({
-          title: "success added",
-          description: res?.message,
-        });
-        setTimeout(setSuccessAddMessage(null), 1000);
-        setTagsList([]);
-        addProjectRef.current?.reset();
-        setPending(false);
-      })
-      .catch((error) => {
-        setErrorMessage(error.message);
-        setPending(false);
-        toast({
-          variant: "destructive",
-          title: error.error,
-          description: error.message,
-        });
+    setLoading(true);
+    const results = await addProject(formData, tagList);
+
+    if (!results.success) {
+      // error
+      setErrorMessage(results.message);
+      setLoading(false);
+      toast({
+        variant: "destructive",
+        title: error.error,
+        description: error.message,
       });
+    } else {
+      // success
+      setErrorMessage("");
+      setSuccessAddMessage(results.message);
+      toast({
+        title: "success added",
+        description: results.message,
+      });
+      setTimeout(() => {
+        setSuccessAddMessage("");
+      }, 1000);
+      setTagsList([]);
+      addProjectRef.current?.reset();
+      setLoading(false);
+    }
   };
   return (
     <form
       ref={addProjectRef}
       action={addProjectAction}
-      className="flex-1 max-h-auto  rounded-md flex flex-col justify-start items-start gap-4 p-4 border"
+      className="bg-card flex-1 max-h-auto  rounded-md flex flex-col justify-start items-start gap-2 p-4 border"
     >
-      {error && <div className="error_message">{error}</div>}
       <label
-        className="w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
-        htmlFor="file-input"
+        className="cursor-pointer hover:bg-secondary duration-150 w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
+        htmlFor="thumbnail"
       >
         <span className="text-muted-foreground">
-          <FiFilePlus size={30} />
+          <LuImage size={20} />
         </span>
-        <h1 className="text-center w-1/2 p-2 text-muted-foreground">
-          upload image, make sure the image type is JPEG, PNG, JPG less than
-          (4MB)
-        </h1>
+        <p className="text-center text-sm w-3/4 m-auto p-2 text-muted-foreground">
+          upload project thumbnail here, <br /> supported formats JPG | PNG |
+          JPEG | GIF
+        </p>
       </label>
-      {pending && (
+
+      <input
+        id="thumbnail"
+        type="file"
+        accept="image/png, image/jpeg, image/jpg,  image/gif"
+        name="thumbnail"
+        className={thumbnail ? "input" : "hidden"}
+        onChange={(e) => setThumbnail(e.target.files[0])}
+      />
+      <label
+        className="cursor-pointer hover:bg-secondary duration-150 w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
+        htmlFor="images"
+      >
+        <span className="text-muted-foreground">
+          <PiImagesSquare size={20} />
+        </span>
+        <p className="text-center text-sm w-3/4 m-auto p-2 text-muted-foreground">
+          upload other images here, <br /> supported formats JPG | PNG | JPEG |
+          GIF
+        </p>
+      </label>
+      <input
+        type="file"
+        id="images"
+        name="images"
+        accept="image/png, image/jpeg, image/jpg,  image/gif"
+        className={!!projectImages.length ? "input" : "hidden"}
+        onChange={(e) => setProjectImages([...e.target.files])}
+        multiple
+      />
+
+      {loading && (
         <div className="flex justify-start items-center gap-2 w-full p-2">
           <span className="w-4 h-4 rounded-full bg-transparent border-r-0 border-t-0 border-l-2 border-b-2 border-primary animate-spin"></span>{" "}
           <h1>uploading...</h1>
         </div>
       )}
-
-      <input
-        type="file"
-        className="w-full p-2 rounded-md "
-        accept="image/png, image/jpeg, image/jpg,  image/gif"
-        name="thumbnail"
-      />
-      <input
-        type="file"
-        id="file-input"
-        name="images"
-        accept="image/png, image/jpeg, image/jpg,  image/gif"
-        style={{ display: "none" }}
-        multiple
-      />
-
       <input
         type="text"
         name="title"
-        className="w-full p-2 rounded-md "
+        className="input"
         placeholder={`project name`}
         onChange={(e) => setProject({ ...project, title: e.target.value })}
       />
@@ -93,7 +115,7 @@ function ProjectsForm({ project, setProject }) {
           type="text"
           name="tags"
           value={tag}
-          className="w-full p-2 rounded-md "
+          className="input"
           placeholder="enter your tags "
           ref={tagRef}
           onChange={(e) => setTag(e.target.value)}
@@ -103,9 +125,7 @@ function ProjectsForm({ project, setProject }) {
             setTagsList([...tagList, tag]);
             setTag("");
           }}
-          className={
-            "w-1/5 px-4 py-2 border border-transparent hover:border-primary rounded-md bg-primary-foreground cursor-pointer"
-          }
+          className={"!w-1/4 !text-center submit_button"}
         >
           Add Tag
         </span>
@@ -114,18 +134,25 @@ function ProjectsForm({ project, setProject }) {
         {tagList.length > 0 &&
           tagList.map((tag, index) => {
             return (
-              <h1 className="px-4 rounded-3xl border " key={index}>
-                #{tag}
-              </h1>
+              <>
+                {tag !== "" && (
+                  <h1
+                    className="my-2 px-4 rounded-3xl border bg-secondary "
+                    key={index}
+                  >
+                    #{tag}
+                  </h1>
+                )}
+              </>
             );
           })}
       </div>
 
       <textarea
         type="text"
-        placeholder="project description"
+        placeholder="enter your project description here..."
         name="description"
-        className="p-2  rounded-md w-full h-[130px] "
+        className="input h-[130px] "
         onChange={(e) =>
           setProject({ ...project, description: e.target.value })
         }
@@ -133,18 +160,19 @@ function ProjectsForm({ project, setProject }) {
 
       <input
         type="text"
-        placeholder="source link"
-        className="p-2  rounded-md w-full"
+        placeholder="enter your project source link here..."
+        className="input"
         name="sourceLink"
         onChange={(e) => setProject({ ...project, demoLink: e.target.value })}
       />
       {successMessage && (
         <div className="success_message">{successMessage}</div>
       )}
+      {error && <div className="error_message">{error}</div>}
       <input
         type="submit"
-        disabled={pending}
-        value={pending ? "adding..." : "Add"}
+        disabled={loading}
+        value={loading ? "creating..." : "Add"}
         className="submit_button"
       />
     </form>

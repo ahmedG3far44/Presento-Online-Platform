@@ -42,7 +42,8 @@ function SkillCard({ skillName, skillLogo, layoutStyle }) {
           </GradientText>
         ) : (
           <h1
-            className={` w-fit  text-nowrap font-semibold
+            className={` w-fit text-xl  text-nowrap font-semibold
+          
             ${layoutStyle === "3" && "hidden"}
             ${layoutStyle === "4" && "text-2xl text-muted-foreground"}
             `}

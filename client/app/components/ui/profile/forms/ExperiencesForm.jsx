@@ -3,10 +3,9 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useState } from "react";
 import { experienceSchema } from "@/lib/schema";
-
 import { useParams, useRouter } from "next/navigation";
-import { FiFilePlus } from "react-icons/fi";
 import Loader from "@/app/components/loaders/Loader";
+import { LuImagePlus } from "react-icons/lu";
 
 function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
   const { toast } = useToast();
@@ -108,54 +107,50 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
     <form
       ref={experienceFormRef}
       onSubmit={handleAddExperience}
-      className="lg:flex-1 min-w-96 w-full sm:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
+      className="bg-card lg:flex-1 min-w-96 w-full sm:w-full flex flex-col justify-start items-start gap-2 p-4 rounded-md border"
     >
       <label
-        className="w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
+        className="cursor-pointer hover:bg-secondary  duration-150 w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"
         htmlFor="expLogo"
       >
         <span className="text-muted-foreground">
-          <FiFilePlus size={30} />
+          <LuImagePlus size={20} />
         </span>
-        <h1 className="text-center text-sm w-full p-2 text-muted-foreground flex flex-col justify-center items-center gap-1">
-          <span className="font-bold">upload your image here</span>{" "}
-          <span className="w-full  text-sm font-normal">
-            supported Images formats JPEG | PNG | GIF | JPG, <br /> with max
-            size (4MB)
-          </span>{" "}
-        </h1>
+        <p className="text-center text-sm w-3/4 max-md:w-full p-2 flex flex-col justify-center items-center gap-1">
+          upload company logo here <br /> supported formats, JPEG | PNG | GIF |
+          JPG (4MB).
+        </p>
       </label>
       <input
         type="file"
         onChange={(e) => setExpCompanyLogo(e.target.files[0])}
         id="expLogo"
         name="expLogo"
+        className={
+          expCompanyLogo ? "w-full p-2 bg-secondary rounded-md" : "hidden"
+        }
         accept="image/png, image/jpeg, image/jpg, image/gif"
         required
       />
 
-      {error ? (
-        <div className="p-2 rounded-md  text-start">
-          <span className="text-red-500">{error}</span>
-        </div>
-      ) : (
-        <>
-          {loading && (
-            <div
-              className={
-                "w-full my-4 flex flex-col justify-start items-start gap-2"
-              }
-            >
-              <h1 className="flex gap-2 justify-center items-center">
-                <Loader />
-                <span>Uploading...</span>
-              </h1>
-            </div>
-          )}
-        </>
-      )}
+      <div>
+        {error && <div className="error_message">{error}</div>}
+
+        {loading && (
+          <div
+            className={
+              "w-full my-4 flex flex-col justify-start items-start gap-2"
+            }
+          >
+            <h1 className="flex gap-2 justify-center items-center">
+              <Loader />
+              <span>Uploading...</span>
+            </h1>
+          </div>
+        )}
+      </div>
       <input
-        className="p-2 w-full rounded-md "
+        className="input "
         type="text"
         name="cName"
         placeholder="company name"
@@ -166,7 +161,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
       />
 
       <input
-        className="p-2 w-full rounded-md"
+        className="input"
         type="text"
         name="position"
         placeholder="your position or Job-title"
@@ -179,7 +174,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         required
       />
       <textarea
-        className="w-full  p-2 rounded-md"
+        className="input"
         placeholder="my role "
         minLength="10"
         maxLength="300"
@@ -193,7 +188,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         <label className="w-full text-sm">
           Start Date
           <input
-            className="p-2 w-full rounded-md "
+            className="input "
             type="date"
             name="start"
             required
@@ -204,16 +199,11 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
               })
             }
           />
-          {/* {state?.error && (
-            <div className="text-destructive p-1 w-full">
-              <p>{state?.fieldErrors?.start}</p>
-            </div>
-          )} */}
         </label>
         <label className="w-full text-sm ">
           End Date
           <input
-            className="p-2 w-full rounded-md "
+            className="input "
             type="date"
             name="end"
             required
@@ -227,7 +217,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         </label>
       </div>
       <input
-        className="p-2 w-full rounded-md "
+        className="input "
         type="text"
         name="location"
         required
@@ -240,7 +230,7 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
         }
       />
       <input
-        className={`w-full hover:bg-zinc-900 duration-150 disabled:bg-gray-400 disabled:cursor-not-allowed p-2  border rounded-md`}
+        className={`submit_button`}
         type="submit"
         disabled={loading}
         value={loading ? "creating..." : "add"}

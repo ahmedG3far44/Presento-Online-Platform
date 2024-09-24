@@ -65,7 +65,7 @@ function BioForm({ bio, setBio }) {
     <div>
       <button
         className={`${
-          !updateBioState ? "bg-primary-foreground" : "bg-card "
+          !updateBioState ? "bg-card " : "bg-primary-foreground"
         } px-4 py-2 hover:bg-primary-foreground border  rounded-md`}
         onClick={() => setUpdateBioState(!updateBioState)}
       >
@@ -107,7 +107,7 @@ function BioForm({ bio, setBio }) {
           onChange={(e) => setBio({ ...bio, layoutStyle: e.target.value })}
           required
           name="layout"
-          className="appearance-none w-full p-2 rounded-md read-only:bg-zinc-700 bg-card"
+          className="appearance-none w-full p-2 rounded-md bg-card border cursor-pointer disabled:bg-secondary hover:bg-secondary disabled:cursor-not-allowed"
           placeholder="select your layout"
           disabled={updateBioState}
         >

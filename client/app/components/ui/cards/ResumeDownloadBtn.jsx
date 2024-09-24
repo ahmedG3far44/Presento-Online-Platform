@@ -36,8 +36,7 @@ const ResumeDownloadBtn = () => {
       {resume && (
         <Link
           target="_blank"
-          className=" px-4 py-2 rounded-md border my-4 hover:bg-primary-foreground duration-150"
-          download
+          className="px-4 py-2 min-w-56 text-center rounded-md border my-4 hover:bg-secondary bg-card duration-150"
           href={resume}
         >
           Resume

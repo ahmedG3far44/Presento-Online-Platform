@@ -16,8 +16,10 @@ function HeroLayoutOne({
   return (
     <section className="hero_section">
       <div className={"hero_info"}>
-        <GradientText>{!!name ? name : "change your name...."}</GradientText>
-        <h3 className="secondary_text">
+        <h1 className="hero_heading_text">
+          {!!name ? name : "change your name...."}
+        </h1>
+        <h3 className="hero_secondary_text">
           {!!jobTitle ? jobTitle : "change your job title..."}
         </h3>
         <ContactsCard contacts={contacts} />
@@ -25,6 +27,7 @@ function HeroLayoutOne({
       </div>
       <div className={"hero_img"}>
         <Image
+          priority
           height={320}
           width={320}
           src={
