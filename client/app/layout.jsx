@@ -3,14 +3,15 @@ import { Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import NextTopLoader from "nextjs-toploader";
-
+import credentials from "./credentials/credentials";
 const pop = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "400", "500", "600", "700", "800", "900"],
 });
 
+const { user, isLogged } = await credentials();
 export const metadata = {
-  title: "Presento App",
+  title: isLogged ? `${user.given_name} Portfolio` : "Presento Portfolio App",
   description: "create your own portfolio with less code experience",
 };
 

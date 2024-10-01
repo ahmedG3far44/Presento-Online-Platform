@@ -20,10 +20,8 @@ import {
 import { useState } from "react";
 import DeleteBtn from "../profile/forms/DeleteBtn";
 import UpdateBtn from "../profile/forms/UpdateBtn";
-import { AiFillLike } from "react-icons/ai";
 import { LuTrash, LuSearch } from "react-icons/lu";
 import { MdOutlineSearchOff } from "react-icons/md";
-import { LuEye } from "react-icons/lu";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import SkillCard from "../cards/SkillCard";
@@ -32,7 +30,7 @@ function ItemsList({ list, sectionName }) {
   const [search, setSearch] = useState("");
 
   const { userId } = useParams();
-  const filteredList = list.filter((item) => {
+  const filteredList = list?.filter((item) => {
     switch (sectionName) {
       case "experiences":
         return item.cName.toLowerCase().includes(search.toLowerCase());
@@ -67,7 +65,7 @@ function ItemsList({ list, sectionName }) {
       </div>
 
       <div className="w-full   my-10 ">
-        {!!filteredList.length ? (
+        {!!filteredList?.length ? (
           <div className="w-full flex flex-col justify-start items-center gap-2 ">
             {filteredList.map((item) => {
               const lastUpdate =

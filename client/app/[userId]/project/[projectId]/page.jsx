@@ -1,11 +1,12 @@
 "use client";
-import Container from "@/app/components/ui/containers/Container";
-import Image from "next/image";
+
 import Link from "next/link";
 import { LiaLongArrowAltLeftSolid } from "react-icons/lia";
-import LikeBtn from "@/app/components/ui/profile/forms/LikeBtn";
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { GoHeart } from "react-icons/go";
+import { LuEye } from "react-icons/lu";
+// import { GoHeartFill } from "react-icons/go";
 import "../../../globals.css";
 
 function ProjectDetailsPage() {
@@ -19,7 +20,7 @@ function ProjectDetailsPage() {
         const request = await fetch(
           `http://localhost:4000/api/${userId}/project/${projectId}`
         );
-        const data = request.json();
+        const data = await request.json();
         return data;
       } catch (error) {
         return {
@@ -39,77 +40,99 @@ function ProjectDetailsPage() {
       });
   }, []);
   return (
-    <Container
+    <section
       className={
-        "m-auto relative min-h-screen max-h-screen no-scrollbar overflow-y-scroll"
+        "w-3/4 flex justify-center items-start max-md:flex-wrap  gap-4 m-auto my-20 max-md:my-4 relative max-md:flex-col-reverse max-md:w-full p-8"
       }
     >
-      <div className="sticky left-10 top-10 cursor-pointer hover:text-muted duration-150">
-        <Link href={`/${userId}`}>
-          <span>
-            <LiaLongArrowAltLeftSolid size={30} />
-          </span>
-        </Link>
-      </div>
-      <div
-        className={
-          "p-4 border absolute right-10 top-10 flex justify-center items-center gap-4 rounded-3xl"
-        }
+      <Link
+        className="absolute -left-28 top-0 hover:bg-secondary duration-150 p-2 rounded-md"
+        href={`/${userId}`}
       >
-        <LikeBtn views={project?.views} likes={project?.likes} />
-      </div>
-
-      <div className="w-full flex flex-col justify-center items-center gap-10  m-auto">
-        <h1 className={"w-full text-5xl text-center font-mono font-bold "}>
-          {project?.title}
-        </h1>
-        <div className="w-1/2 m-auto p-4 rounded-md border flex flex-col justify-start items-start gap-2">
-          <span className={"text-start self-start"}>project description:</span>
-          <p className={"w-full text-wrap "}>{project?.description}</p>
-        </div>
-        <div className="w-full max-h-[500] flex justify-center items-center  overflow-hidden">
-          <Image
-            src={!!activeImage ? activeImage : project?.thumbnail}
-            width={600}
-            height={600}
-            className={"rounded-md slide"}
-            alt="project thumbnail "
-          />
-        </div>
-        <div
-          className={"flex justify-start items-center gap-4 flex-wrap w-1/2 "}
-        >
-          {project?.tags.map((tag) => {
-            return (
-              <div className={"p-1 px-3 rounded-3xl border-2"} key={tag?.id}>
-                <h1 className={"text-muted-foreground"}>#{tag?.tagName}</h1>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className={"p-4 flex justify-center items-center gap-2"}>
-        {project?.ImagesList.map((img) => {
+        <LiaLongArrowAltLeftSolid size={30} />
+      </Link>
+      <div className="w-[60%] max-md:w-full flex flex-col justify-center items-center gap-8 ">
+        {project?.ImagesList.map((image) => {
           return (
             <div
               className={
-                img.url === activeImage && "border  rounded-xl scale-110"
+                "w-full h-full  overflow-hidden border shadow-sm rounded-xl p-4 bg-card"
               }
-              onClick={() => setImage(img.url)}
             >
-              <Image
-                key={img.id}
-                src={img.url}
+              <img
+                lazy
+                preload
+                className="w-full max-w-full min-w-full object-cover h-full max-h-full min-h-full bg-secondary rounded-xl"
+                src={image?.url}
                 width={200}
                 height={200}
-                className="rounded-md scale-95 hover:scale-100 duration-150 cursor-pointer border-2 border-transparent p-2"
-                alt="project thumbnail"
               />
             </div>
           );
         })}
+        <Link
+          className={
+            "flex justify-center items-center gap-2 px-4 py-2 rounded-xl hover:bg-secondary duration-150 border bg-card"
+          }
+          href={`/${userId}`}
+        >
+          <LiaLongArrowAltLeftSolid size={30} />
+          Back Home
+        </Link>
       </div>
-    </Container>
+      <div className="max-md:w-full w-[40%] min-w-[30%] flex flex-col justify-start items-start gap-4  bg-card p-4 rounded-md border max-md:static sticky top-0 right-0 ">
+        <h1 className={"text-2xl font-bold"}>{project?.title}</h1>
+        <div className="border rounded-md w-full overflow-hidden bg-secondary">
+          <img
+            src={project?.thumbnail}
+            width={150}
+            height={150}
+            alt={"projects thumbnail"}
+            className={"w-full h-full object-cover"}
+          />
+        </div>
+        <div>
+          <p>{project?.description}</p>
+        </div>
+        <div className={"flex justify-start items-center gap-2 flex-wrap"}>
+          {!!project?.tags.length ? (
+            <>
+              {project?.tags.map((tag) => {
+                return (
+                  <>
+                    {tag.tagName !== "" && (
+                      <span
+                        className={"px-4 py-1 rounded-3xl border bg-secondary "}
+                        key={tag.id}
+                      >
+                        #{tag.tagName}
+                      </span>
+                    )}
+                  </>
+                );
+              })}
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="flex justify-start items-center gap-4  w-full border rounded-md p-4">
+          <div className="flex justify-start items-center gap-2">
+            <span>
+              <GoHeart size={20} />
+            </span>
+            <span>18.4k</span>
+          </div>
+          <div className="flex justify-start items-center gap-2">
+            <span>
+              {" "}
+              <LuEye size={20} />
+            </span>
+            <span>60.9k</span>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -14,7 +14,7 @@ function HeroLayoutOne({
   isLogged,
 }) {
   return (
-    <section className="hero_section">
+    <section className="flex justify-center items-start gap-4 w-full">
       <div className={"hero_info"}>
         <h1 className="hero_heading_text">
           {!!name ? name : "change your name...."}

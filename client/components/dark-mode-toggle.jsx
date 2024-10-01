@@ -19,10 +19,10 @@ export function ModeToggle({ theme }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className={`w-full flex  hover:bg-secondary gap-2 p-2 ${
+          className={`flex  hover:bg-secondary gap-2 p-2 ${
             theme === "show"
-              ? "justify-start items-start"
-              : "justify-center items-center"
+              ? "w-full justify-start items-start"
+              : "w-fit justify-center items-center"
           }`}
           variant={theme === "show" ? "outline" : "none"}
           size="icon"

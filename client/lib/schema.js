@@ -107,3 +107,13 @@ export const layoutsSchema = z.object({
     .length(1, { message: "not valid projects layout" }),
   skillsLayout: z.string().length(1, { message: "not valid skills layout" }),
 });
+export const feedBackSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "not valid name data" })
+    .max(80, { message: "too large data" }),
+  position: z
+    .string()
+    .min(1, { message: "not valid position data" })
+    .max(80, { message: "too large data" }),
+});

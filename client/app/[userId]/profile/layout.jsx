@@ -43,6 +43,11 @@ function layout({ children }) {
       name: "Skills",
       icon: <LuLayers size={20} />,
     },
+    {
+      path: `/${userId}/profile/testimonials`,
+      name: "Testimonials",
+      icon: <LuLayers size={20} />,
+    },
   ];
   return (
     <section className="w-screen max-w-full h-auto min-h-screen flex justify-center items-start gap-10 relative max-sm:static max-sm:flex-col max-sm:items-center max-md:flex-col max-md:items-center">

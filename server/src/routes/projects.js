@@ -25,7 +25,6 @@ router.post(
       const projectImages = req.files;
       const projectId = crypto.randomUUID();
       let keysArray = [];
-      let project;
 
       const projectNumbers = await prisma.projects.count({
         where: {
@@ -58,22 +57,26 @@ router.post(
 
       const { title, description, sourceUrl, tags } = validProjectData?.data;
 
-      let pathKey;
+      let thumbnailKey;
+      let imageKey;
       projectImages.map(async (image, index) => {
         if (image.fieldname === "images") {
-          pathKey = `${userId}/projects/${projectId}/photo-${index + 1}`;
-          keysArray.push(pathKey);
+          imageKey = `${userId}/projects/${projectId}/photo-${index + 1}`;
+          keysArray.push(imageKey);
         } else {
-          pathKey = `${userId}/projects/${projectId}/thumbnail-photo`;
+          thumbnailKey = `${userId}/projects/${projectId}/thumbnail-photo`;
         }
-        await uploadToS3(image, pathKey);
+        await uploadToS3(
+          image,
+          image.fieldname === "images" ? imageKey : thumbnailKey
+        );
       });
 
-      project = await prisma.projects.create({
+      const project = await prisma.projects.create({
         data: {
           title,
           description,
-          thumbnail: `${process.env.AWS_S3_BUCKET_DOMAIN}/${pathKey}`,
+          thumbnail: `${process.env.AWS_S3_BUCKET_DOMAIN}/${thumbnailKey}`,
           source: sourceUrl,
           ImagesList: {
             createMany: {
@@ -322,7 +325,11 @@ export async function uploadToS3(image, path) {
     const uploadProjectImages = await s3Client
       .send(command)
       .then(() => {
-        console.log("image uploaded success");
+        console.log(
+          "image uploaded success",
+          image.originalname,
+          image.fieldname
+        );
       })
       .catch((error) => {
         console.log(error.message);

@@ -43,11 +43,11 @@ function ProjectsLayout({ ProjectsList, layouts, setLayouts, isLogged }) {
         <>
           {isLogged && (
             <div className="w-full p-4 flex flex-col-reverse justify-center items-center rounded-md border gap-2">
-              <h2 className="text-muted-foreground flex gap-2 justify-center items-center">
+              <h2 className="flex gap-2 justify-center items-center">
                 <MdErrorOutline size={15} />{" "}
                 <span>no projects added yet!!</span>
               </h2>
-              <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-muted duration-150">
+              <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-secondary duration-150">
                 <Link href={`/${layouts?.usersId}/profile/projects`}>
                   <span>
                     <LuPlus size={50} />

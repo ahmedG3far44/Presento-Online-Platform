@@ -59,6 +59,7 @@ router.get("/:userId/user", async (req, res) => {
         ExperiencesList: true,
         ProjectsList: true,
         SkillsList: true,
+        Testimonials: true,
         createdAt: true,
       },
     });

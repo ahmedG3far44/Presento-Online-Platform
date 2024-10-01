@@ -32,10 +32,10 @@ function SkillsLayout({ SkillsList, layouts, setLayouts, isLogged }) {
         <>
           {isLogged && (
             <div className="w-full p-4 rounded-md border flex flex-col-reverse justify-center items-center gap-2">
-              <h2 className="text-muted-foreground flex gap-2 justify-center items-center">
+              <h2 className="flex gap-2 justify-center items-center">
                 <MdErrorOutline size={15} /> <span>no skills added yet!!</span>
               </h2>
-              <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-muted duration-150">
+              <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-secondary duration-150">
                 <Link href={`/${userId}/profile/skills`}>
                   <span>
                     <LuPlus size={50} />

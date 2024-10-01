@@ -105,3 +105,13 @@ export const layoutsSchema = z.object({
     .length(1, { message: "not valid projects layout" }),
   skillsLayout: z.string().length(1, { message: "not valid skills layout" }),
 });
+export const feedbackSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "this field is required" })
+    .max(100, { message: "too long input field" }),
+  position: z
+    .string()
+    .min(1, { message: "this field is required" })
+    .max(100, { message: "too long input field" }),
+});

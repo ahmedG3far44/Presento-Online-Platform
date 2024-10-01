@@ -31,7 +31,7 @@ function ProjectCard({
       }`}
     >
       <div
-        className={` border p-2
+        className={` border
           ${
             layoutStyle === "1"
               ? "w-full  overflow-hidden rounded-md mb-4"
@@ -45,8 +45,8 @@ function ProjectCard({
           }
         `}
       >
-        <Image
-          priority
+        <img
+          priority="true"
           width={250}
           height={250}
           src={

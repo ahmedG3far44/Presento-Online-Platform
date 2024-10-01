@@ -2,7 +2,7 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useState } from "react";
-import { experienceSchema } from "@/lib/schema";
+import { experienceSchema } from "../../../../../lib/schema";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/app/components/loaders/Loader";
 import { LuImagePlus } from "react-icons/lu";

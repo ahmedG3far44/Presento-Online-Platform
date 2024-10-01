@@ -8,20 +8,21 @@ datasource db {
 }
 
 model Users {
-  id              String        @id @unique
+  id              String         @id @unique
   name            String
-  email           String        @unique
+  email           String         @unique
   picture         String?
-  role            String        @default("user")
+  role            String         @default("user")
   resume          String?
   ExperiencesList Experiences[]
   ProjectsList    Projects[]
   SkillsList      Skills[]
+  Testimonials    Testimonials[]
   ContactsList    Contacts[]
   Bio             Bio[]
   Layouts         Layouts[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 }
 
 model Bio {
@@ -54,7 +55,7 @@ model Projects {
   id          String       @id @default(uuid())
   title       String
   description String?
-  thumbnail   String?
+  thumbnail   String?      @db.Text
   tags        Tags[]
   ImagesList  ImagesList[]
   likes       Int          @default(0)
@@ -92,6 +93,21 @@ model Skills {
   updatedAt DateTime @updatedAt
 }
 
+// ====================================================
+model Testimonials {
+  id        String   @id @default(uuid())
+  profile   String
+  name      String
+  feedback  String?  @db.Text
+  video     String?
+  position  String
+  userId    Users    @relation(fields: [usersId], references: [id])
+  usersId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ====================================================
 model Contacts {
   id       String  @id @default(uuid())
   linkedin String?

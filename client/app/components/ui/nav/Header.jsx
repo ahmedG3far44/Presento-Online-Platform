@@ -1,27 +1,31 @@
 import Link from "next/link";
-import credentials from "@/app/credentials/credentials";
+import credentials from "../../../credentials/credentials";
 import ShareBtn from "../cards/ShareBtn";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Image from "next/image";
 import { ModeToggle } from "../../../../components/dark-mode-toggle";
+import { HiOutlineLogout } from "react-icons/hi";
+import { LuSettings } from "react-icons/lu";
 
-async function Header({ userInfo }) {
-  const { isLogged } = await credentials();
-  const { getPermission } = await getKindeServerSession();
-  const admin = await getPermission("admin:create");
+async function Header() {
+  const { isLogged, user, isAdmin } = await credentials();
+
   return (
     <header className="w-3/4 m-auto p-4 flex justify-center items-center   max-sm:w-full ">
       <div className="mr-auto">
         <div className="flex justify-start items-center gap-4">
           <Image
-            src={userInfo?.picture}
+            src={
+              user?.picture
+                ? user?.picture
+                : "https://superstarsculture.com/wp-content/uploads/2023/10/unknown-1-3.jpg"
+            }
             width={40}
             height={40}
             alt="profile user image"
-            className="w-10 h-10 rounded-full border-2 "
+            className="w-10 h-10 rounded-full object-cover border-2 "
           />
-          <h1 className="text-muted-foreground">{userInfo?.name}</h1>
+          <h1 className="text-muted-foreground">{user?.given_name}</h1>
         </div>
       </div>
 
@@ -30,37 +34,36 @@ async function Header({ userInfo }) {
           isLogged ? "justify-end" : "justify-center"
         }`}
       >
-        <Link href={`/${userInfo?.id}/#about`}>About</Link>
-        <Link href={`/${userInfo?.id}/#experiences`}>Experiences</Link>
-        <Link href={`/${userInfo?.id}/#projects`}>Projects</Link>
-        <Link href={`/${userInfo?.id}/#skills`}>Skills</Link>
+        <Link href={`/${user?.id}/#about`}>About</Link>
+        <Link href={`/${user?.id}/#experiences`}>Experiences</Link>
+        <Link href={`/${user?.id}/#projects`}>Projects</Link>
+        <Link href={`/${user?.id}/#skills`}>Skills</Link>
       </nav>
 
       <div className="ml-auto ">
         {isLogged ? (
-          <div className="flex-1 flex justify-center items-center gap-4">
+          <div className="flex-1 flex justify-center items-center gap-2 max-md:gap-0">
             <ModeToggle theme={"none"} />
-            {admin?.isGranted && isLogged ? (
+            {isAdmin && isLogged ? (
               <Link
-                className="duration-150 bg-black text-white p-2 rounded-md"
-                href={`/${userInfo?.id}/dashboard/users`}
+                className="hover:bg-secondary p-2 rounded-md duration-150"
+                href={`/${user?.id}/dashboard/users`}
               >
                 Dashboard
               </Link>
             ) : (
               <>
                 <Link
-                  className="hover:text-muted-foreground duration-150"
-                  href={`/${userInfo?.id}/profile/bio`}
+                  className="hover:bg-secondary p-2 rounded-md duration-150"
+                  href={`/${user?.id}/profile/bio`}
                 >
-                  Profile
+                  <LuSettings size={20} />
                 </Link>
               </>
             )}
-            <LogoutLink className="hover:text-muted-foreground duration-150">
-              logout
+            <LogoutLink className="hover:bg-secondary p-2 rounded-md duration-150">
+              <HiOutlineLogout size={20} />
             </LogoutLink>
-
             <ShareBtn />
           </div>
         ) : (

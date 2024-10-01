@@ -1,14 +1,14 @@
 "use server";
-import credentials from "@/app/credentials/credentials";
+import credentials from "../../credentials/credentials";
 import {
   bioSchema,
   experienceSchema,
   projectSchema,
   skillsSchema,
   layoutsSchema,
-} from "@/lib/schema";
+} from "../../../lib/schema";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 
 export async function updateExperience(id) {
   const { user, isLogged } = await credentials();

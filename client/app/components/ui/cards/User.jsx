@@ -5,7 +5,11 @@ function User({ name, picture, isAdmin }) {
   return (
     <div className="w-full flex  justify-center items-center   gap-4 max-sm:flex-col max-md:flex-col">
       <Image
-        src={picture}
+        src={
+          !picture
+            ? "https://superstarsculture.com/wp-content/uploads/2023/10/unknown-1-3.jpg"
+            : picture
+        }
         width={40}
         height={40}
         alt="user profile picture"

@@ -259,18 +259,30 @@ admin dashboard
 }
 
 .heading_text {
-  @apply text-3xl w-3/4 text-center max-md:text-xl font-bold   text-transparent bg-clip-text bg-gradient-to-br from-purple-500 via-sky-600;
+  @apply text-3xl w-[65%] text-center max-md:text-xl font-bold   text-transparent bg-clip-text bg-gradient-to-br from-purple-500 via-sky-600;
 }
 .secondary_text {
-  @apply text-base text-wrap text-center w-1/2 max-md:text-sm font-semibold;
+  @apply text-sm text-primary text-wrap text-center w-full max-md:text-sm font-semibold;
 }
 .gradient_shape_one {
-  @apply absolute top-0 right-20 z-0 w-72 h-72 animate-pulse rounded-full max-md:hidden  bg-gradient-to-br from-orange-500 via-sky-600 blur-[90px];
+  @apply absolute delay-1000 top-0 right-20 z-0 w-72 h-72 animate-pulse rounded-full max-md:hidden  bg-gradient-to-br from-orange-500 via-sky-600 blur-[90px];
 }
 .gradient_shape_two {
   @apply absolute top-0 left-20 z-0  w-72 h-72 text-secondary max-md:hidden   animate-pulse rounded-full  bg-gradient-to-br from-orange-500 via-purple-600 blur-[90px];
 }
 
 .cta_button {
-  @apply w-72 rounded-lg px-4 py-2 bg-gradient-to-bl from-orange-500 via-purple-600   hover:text-sky-100 duration-150;
+  @apply w-72 rounded-lg px-4 py-2 bg-gradient-to-bl from-sky-500 via-purple-600   hover:text-sky-100 duration-150;
+}
+
+.primary_button {
+  @apply px-4 py-2 rounded-md  w-full bg-purple-500 text-white text-nowrap text-center min-w-24 hover:bg-purple-700 duration-150;
+}
+
+.secondary_button {
+  @apply px-4 py-2 rounded-md  w-full bg-transparent border border-purple-500  text-purple-500 text-nowrap text-center min-w-24 hover:text-white hover:bg-purple-700 duration-150;
+}
+
+.github_button {
+  @apply rounded-md px-4 py-2 text-center border bg-card hover:bg-secondary duration-150;
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useToast } from "@/components/ui/use-toast";
-import { contactsSchema } from "@/lib/schema";
+import { contactsSchema } from "../../../../../lib/schema";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 

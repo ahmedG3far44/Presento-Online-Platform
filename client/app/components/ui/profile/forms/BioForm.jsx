@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { bioSchema } from "@/lib/schema";
+import { bioSchema } from "../../../../../lib/schema";
 
 function BioForm({ bio, setBio }) {
   const router = useRouter();

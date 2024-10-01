@@ -9,7 +9,11 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { experienceSchema, projectSchema, skillsSchema } from "@/lib/schema";
+import {
+  experienceSchema,
+  projectSchema,
+  skillsSchema,
+} from "../../../../../lib/schema";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { LuFileEdit } from "react-icons/lu";

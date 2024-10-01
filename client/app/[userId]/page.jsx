@@ -4,8 +4,6 @@ import { revalidatePath } from "next/cache";
 import credentials from "../credentials/credentials";
 import Footer from "../components/ui/sections/Footer";
 import MainProfilePreviewSection from "../components/ui/heroProfile/MainProfilePreviewSection";
-import "../globals.css";
-import layout from "./dashboard/layout";
 
 const getUserLayouts = async (userId) => {
   try {
@@ -29,31 +27,39 @@ const getUserInfo = async (userId) => {
   }
 };
 
-async function UserPage({ params }) {
-  const { userId } = params;
+async function UserPage() {
+  const { user } = await credentials();
   const { isLogged } = await credentials();
-  const userInfo = await getUserInfo(userId);
-  const layouts = await getUserLayouts(userId);
-  const { bio, ExperiencesList, ProjectsList, SkillsList, contacts } = userInfo;
+  const userInfo = await getUserInfo(user?.id);
+  const layouts = await getUserLayouts(user?.id);
+  const {
+    bio,
+    ExperiencesList,
+    ProjectsList,
+    SkillsList,
+    contacts,
+    Testimonials,
+  } = userInfo;
 
   return (
     <div
       className="
      flex flex-col justify-start items-center gap-10 m-auto w-full max-w-full overflow-x-hidden overflow-y-auto no-scrollbar"
     >
-      <Header userInfo={userInfo} />
+      <Header />
       <Container className="w-full m-auto flex flex-col gap-8">
         <MainProfilePreviewSection
           layouts={layouts}
           ExperiencesList={ExperiencesList}
           ProjectsList={ProjectsList}
           SkillsList={SkillsList}
+          TestimonialsList={Testimonials}
           bio={bio}
           contacts={contacts}
           isLogged={isLogged}
         />
       </Container>
-      <Footer userInfo={userInfo} />
+      <Footer />
     </div>
   );
 }

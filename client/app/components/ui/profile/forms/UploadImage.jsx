@@ -1,9 +1,9 @@
 "use client";
 import { useRouter, useParams } from "next/navigation";
 import { useState, useRef } from "react";
-import { cn } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
-import Loader from "@/app/components/loaders/Loader";
+import { cn } from "../../../../../lib/utils";
+import { useToast } from "../../../../../components/ui/use-toast";
+import Loader from "../../../loaders/Loader";
 import { LuImagePlus } from "react-icons/lu";
 
 function UploadImage({ id, url, className, fileFormName, acceptedTypes }) {
@@ -21,10 +21,14 @@ function UploadImage({ id, url, className, fileFormName, acceptedTypes }) {
     setLoading(true);
     try {
       if (!file) {
-        setError("your not uploaded a file yet!!");
+        // setError("your not uploaded a file yet!!");
+        throw new Error("your not uploaded a file yet!!");
       }
       if (!validAcceptedFiles(file, acceptedTypes)) {
-        setError(
+        // setError(
+        //   "not valid file maybe the file type not supported or size is more than (4MB)."
+        // );
+        throw new Error(
           "not valid file maybe the file type not supported or size is more than (4MB)."
         );
       }
@@ -38,30 +42,27 @@ function UploadImage({ id, url, className, fileFormName, acceptedTypes }) {
           body: formData,
         }
       );
+      if (!uploadFile.ok) {
+        throw new Error("connection error");
+      }
       const data = await uploadFile.json();
 
-      if (!data.success) {
-        toast({
-          variant: "destructive",
-          title: "uploaded file success",
-          description: data.message,
-        });
-        setError(data.message);
-        return { success: false, message: data.message };
-      } else {
-        toast({
-          title: "uploaded file success",
-          description: data.message,
-        });
-        setSuccessUpload("upload completed success");
-        setTimeout(() => setSuccessUpload(null), 1000);
-        uploadFileRef?.current?.reset();
-        setError(null);
-        router.refresh();
-        return { success: true, message: "uploaded successful" };
-      }
+      toast({
+        title: "success upload",
+        description: "image uploaded success",
+      });
+      fileFormName === "hero-image"
+        ? router.refresh(`/${userId}`)
+        : router.refresh(`/bio`);
+
+      return { success: true, message: data?.message };
     } catch (error) {
       setError(error.message);
+      toast({
+        variant: "destructive",
+        title: "can't upload file",
+        description: error.message,
+      });
       return { success: false, message: error.message };
     } finally {
       setLoading(false);
@@ -75,7 +76,6 @@ function UploadImage({ id, url, className, fileFormName, acceptedTypes }) {
       className={cn(
         className,
         ` duration-150  p-8 bg-card border rounded-md border-none  flex flex-col justify-start items-start gap-2
-        ${error && "border-rose-500"}
         ${loading && "opacity-1"}`
       )}
     >
@@ -118,6 +118,7 @@ function UploadImage({ id, url, className, fileFormName, acceptedTypes }) {
       )}
 
       {error && <div className="error_message"> {error}</div>}
+
       {successUpload && <div className="success_message"> {successUpload}</div>}
 
       <input

@@ -4,11 +4,10 @@ import {
   experienceSchema,
   projectSchema,
   skillsSchema,
-} from "@/lib/schema";
-import credentials from "@/app/credentials/credentials";
+} from "../../../lib/schema";
+import credentials from "../../credentials/credentials";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
-import { CgLaptop } from "react-icons/cg";
 
 export async function addExperience(newExperience) {
   const { user, isLogged } = await credentials();
@@ -67,22 +66,17 @@ export async function addProject(formData, tags) {
   try {
     const validProjectData = projectSchema.safeParse(project);
 
-    // console.log(formData);
-    // console.log(validateImages(thumbnail, images));
     if (!validateImages(thumbnail, images)) {
-      console.log("wrong image format or size is very large");
-      return {
-        success: false,
-        message:
-          "your images aren't valid maybe the format is wrong or size is to large",
-      };
+      throw new Error(
+        "your images aren't valid maybe the format is wrong or size is to large"
+      );
     }
     if (!validProjectData?.success) {
-      console.log(validProjectData.error.flatten().fieldErrors);
-      return {
-        success: false,
-        message: "not valid data inputs",
-      };
+      // console.log(validProjectData.error.flatten().fieldErrors);
+      validProjectData.error.errors.push((error) => {
+        console.log(error);
+        throw new Error(error);
+      });
     }
     const request = await fetch(
       `http://localhost:4000/api/${user?.id}/project`,
@@ -91,15 +85,16 @@ export async function addProject(formData, tags) {
         body: formData,
       }
     );
-    if (request.status === 201) {
-      const data = await request.json();
-      revalidatePath("/projects");
-      console.log(data);
-      return {
-        success: true,
-        message: data.message,
-      };
+    if (!request.status === 201) {
+      throw new Error("connection error failed to add project");
     }
+
+    const data = await request.json();
+    revalidatePath("/projects");
+    return {
+      success: true,
+      message: data.message,
+    };
   } catch (error) {
     return {
       success: false,

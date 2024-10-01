@@ -20,24 +20,24 @@ function ProjectsForm({ project, setProject }) {
 
   const addProjectAction = async (formData) => {
     setLoading(true);
-    const results = await addProject(formData, tagList);
+    let results = await addProject(formData, tagList);
 
-    if (!results.success) {
+    if (!results?.success) {
       // error
-      setErrorMessage(results.message);
+      setErrorMessage(results?.message);
       setLoading(false);
       toast({
         variant: "destructive",
-        title: error.error,
-        description: error.message,
+        title: "can't create a new project",
+        description: results?.message,
       });
     } else {
       // success
       setErrorMessage("");
-      setSuccessAddMessage(results.message);
+      setSuccessAddMessage(results?.message);
       toast({
         title: "success added",
-        description: results.message,
+        description: results?.message,
       });
       setTimeout(() => {
         setSuccessAddMessage("");
@@ -134,16 +134,13 @@ function ProjectsForm({ project, setProject }) {
         {tagList.length > 0 &&
           tagList.map((tag, index) => {
             return (
-              <>
+              <div key={index}>
                 {tag !== "" && (
-                  <h1
-                    className="my-2 px-4 rounded-3xl border bg-secondary "
-                    key={index}
-                  >
+                  <h1 className="my-2 px-4 rounded-3xl border bg-secondary ">
                     #{tag}
                   </h1>
                 )}
-              </>
+              </div>
             );
           })}
       </div>

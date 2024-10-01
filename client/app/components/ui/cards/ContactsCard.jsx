@@ -12,7 +12,7 @@ function ContactsCard({ contacts }) {
       {contacts?.twitter && (
         <div
           className={
-            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
+            "flex hover:bg-card bg-secondary justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.twitter}>
@@ -25,7 +25,7 @@ function ContactsCard({ contacts }) {
       {contacts?.linkedin && (
         <div
           className={
-            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
+            "flex hover:bg-card bg-secondary justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.linkedin}>
@@ -38,7 +38,7 @@ function ContactsCard({ contacts }) {
       {contacts?.youtube && (
         <div
           className={
-            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
+            "flex hover:bg-card bg-secondary justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.youtube}>
@@ -51,7 +51,7 @@ function ContactsCard({ contacts }) {
       {contacts?.github && (
         <div
           className={
-            "flex hover:bg-secondary bg-card  justify-center items-center p-1 rounded-md border   duration-150"
+            "flex hover:bg-card bg-secondary justify-center items-center p-1 rounded-md border   duration-150"
           }
         >
           <Link target="_blank" href={contacts?.github}>

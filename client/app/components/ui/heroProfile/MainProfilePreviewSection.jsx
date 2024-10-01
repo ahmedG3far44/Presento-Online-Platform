@@ -4,6 +4,7 @@ import Hero from "./Hero";
 import ExpLayout from "./ExpLayout";
 import ProjectsLayout from "./ProjectsLayout";
 import SkillsLayout from "./SkillsLayout";
+import Testimonials from "./Testimonials";
 
 function MainProfilePreviewSection({
   layouts,
@@ -11,6 +12,7 @@ function MainProfilePreviewSection({
   ProjectsList,
   SkillsList,
   contacts,
+  TestimonialsList,
   bio,
   isLogged,
 }) {
@@ -44,6 +46,7 @@ function MainProfilePreviewSection({
         SkillsList={SkillsList}
         isLogged={isLogged}
       />
+      <Testimonials TestimonialsList={TestimonialsList} isLogged={isLogged} />
     </>
   );
 }
