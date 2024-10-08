@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = "mysql://root:@Ranaa125@localhost:3306/portfolio?schema=public"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Users {
