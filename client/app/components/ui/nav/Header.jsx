@@ -15,6 +15,7 @@ async function Header() {
       <div className="mr-auto">
         <div className="flex justify-start items-center gap-4">
           <Image
+            priority
             src={
               user?.picture
                 ? user?.picture

@@ -30,18 +30,20 @@ function ItemsList({ list, sectionName }) {
   const [search, setSearch] = useState("");
 
   const { userId } = useParams();
-  const filteredList = list?.filter((item) => {
-    switch (sectionName) {
-      case "experiences":
-        return item.cName.toLowerCase().includes(search.toLowerCase());
-      case "projects":
-        return item.title.toLowerCase().includes(search.toLowerCase());
-      case "skills":
-        return item.skillName.toLowerCase().includes(search.toLowerCase());
-      default:
-        break;
-    }
-  });
+  const filteredList =
+    typeof list === "array" &&
+    list?.filter((item) => {
+      switch (sectionName) {
+        case "experiences":
+          return item.cName.toLowerCase().includes(search.toLowerCase());
+        case "projects":
+          return item.title.toLowerCase().includes(search.toLowerCase());
+        case "skills":
+          return item.skillName.toLowerCase().includes(search.toLowerCase());
+        default:
+          break;
+      }
+    });
 
   return (
     <div className="flex flex-col justify-start items-start gpa-4 ">

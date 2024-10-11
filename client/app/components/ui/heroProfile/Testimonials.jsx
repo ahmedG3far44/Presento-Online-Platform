@@ -1,5 +1,4 @@
 import TestimonialsCard from "../cards/TestimonialsCard";
-
 function Testimonials({ TestimonialsList, isLogged }) {
   return (
     <section
@@ -7,20 +6,23 @@ function Testimonials({ TestimonialsList, isLogged }) {
         "grid grid-cols-4 grid-flow-row max-md:grid-cols-2 max-sm:grid-cols-1 w-full gap-4 my-8"
       }
     >
-      {TestimonialsList.map((testimonials) => {
-        return (
-          <TestimonialsCard
-            id={testimonials.id}
-            key={testimonials.id}
-            profile={testimonials.profile}
-            name={testimonials.name}
-            video={testimonials.video}
-            position={testimonials.position}
-            feedback={testimonials.feedback}
-            isLogged={isLogged}
-          />
-        );
-      })}
+      {typeof TestimonialsList === "array" &&
+        TestimonialsList.length > 0 &&
+        TestimonialsList.map((testimonials) => {
+          const { id, name, profile, video, position, feedback } = testimonials;
+          return (
+            <TestimonialsCard
+              id={id}
+              key={id}
+              profile={profile}
+              name={name}
+              video={video}
+              position={position}
+              feedback={feedback}
+              isLogged={isLogged}
+            />
+          );
+        })}
     </section>
   );
 }
