@@ -20,6 +20,7 @@ function HeroLayoutThree({
     <section className={"hero_section"}>
       <div className="hero_img">
         <Image
+          priority
           height={320}
           width={320}
           src={

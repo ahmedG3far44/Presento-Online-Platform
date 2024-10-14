@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 
 import { useParams, useRouter } from "next/navigation";
-import UploadCvForm from "../../../components/ui/profile/forms/UploadCvForm";
-import ContactsForm from "../../../components/ui/profile/forms/ContactsForm";
-import BioForm from "../../../components/ui/profile/forms/BioForm";
-import HeroLayout from "../../../components/ui/cards/HeroLayout";
+import UploadCvForm from "@/app/components/ui/profile/forms/UploadCvForm";
+import ContactsForm from "@/app/components/ui/profile/forms/ContactsForm";
+import BioForm from "@/app/components/ui/profile/forms/BioForm";
+import HeroLayout from "@/app/components/ui/cards/HeroLayout";
 
 function BioPage() {
   const router = useRouter();

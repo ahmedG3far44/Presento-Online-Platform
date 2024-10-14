@@ -1,6 +1,6 @@
-import credentials from "../../../credentials/credentials";
-import ProjectsSection from "../../../components/ui/sections/ProjectsSection";
-import ItemsList from "../../../components/ui/nav/ItemsList";
+import credentials from "@/app/credentials/credentials";
+import ProjectsSection from "@/app/components/ui/sections/ProjectsSection";
+import ItemsList from "@/app/components/ui/nav/ItemsList";
 
 async function ProjectsPage() {
   const { user } = await credentials();
@@ -17,12 +17,17 @@ async function ProjectsPage() {
 }
 async function getProjectsList(userId) {
   try {
-    const request = fetch(`http://localhost:4000/api/${userId}/project`);
-    const data = request.then((res) => res.json());
+    const request = await fetch(`http://localhost:4000/api/${userId}/project`);
+    if (!request.status === 200) {
+      throw new Error(
+        "request projects list failed, check your network connection."
+      );
+    }
+    const data = await request.json();
     return data;
   } catch (error) {
     return {
-      error: "fetch project lis error",
+      error: "fetch project list error",
       message: error.message,
     };
   }

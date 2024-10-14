@@ -1,9 +1,9 @@
-function Loader() {
+function Loader({ large }) {
   return (
     <div
-      className={
-        "spin w-3 h-3 rounded-full border  border-t-transparent border-primary"
-      }
+      className={`spin ${
+        large ? "w-12 h-12 border-4" : " w-3 h-3 border"
+      } rounded-full  border-primary  border-t-transparent  border-r-transparent `}
     ></div>
   );
 }

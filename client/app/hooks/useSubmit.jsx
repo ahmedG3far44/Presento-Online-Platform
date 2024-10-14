@@ -1,21 +1,29 @@
 "use client";
-import { useState, useEffect } from "react";
-export default function useSubmit(submitFunction) {
+import { useState } from "react";
+
+export default function GetData(url) {
   const [pending, setPending] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
   try {
     setPending(true);
-    submitFunction();
-    setSuccess("success message ");
+    const request = fetch(`${url}`);
+    const data = request.then((res) => {
+      if (!res.status === 200) {
+        throw new Error("request failed error 404");
+      }
+      const response = request.json();
+      setSuccess(response.message);
+      return response;
+    });
   } catch (error) {
     setError(error.message);
   } finally {
     setPending(false);
   }
 
-  return [pending, success, error];
+  return [pending, success, error, data];
 }
 
 useSubmit;

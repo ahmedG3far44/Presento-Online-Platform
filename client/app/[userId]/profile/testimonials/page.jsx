@@ -3,9 +3,9 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { LuCopy } from "react-icons/lu";
 import { LuCheckCheck } from "react-icons/lu";
-import TestimonialsCard from "../../../components/ui/cards/TestimonialsCard";
+import TestimonialsCard from "@/app/components/ui/cards/TestimonialsCard";
 function Testimonials() {
-  const url = "";
+  // const url = "";
   const { userId } = useParams();
   const [copyState, setCopy] = useState(false);
   const [urlLink, setUrlLink] = useState("");
@@ -25,14 +25,17 @@ function Testimonials() {
         const request = await fetch(
           `http://localhost:4000/api/${userId}/feedback`
         );
-        if (!request.ok) {
-          throw new Error("connection error ");
+        if (!request.status === 200) {
+          throw new Error(
+            "can't get the user feedbacks, check you network connection."
+          );
         }
         const data = await request.json();
         setFeedbackList(data);
         return data;
       } catch (error) {
         console.log(error.message);
+        return error;
       }
     }
     getTestimonialsList(userId);
@@ -77,9 +80,9 @@ function Testimonials() {
           </div>
         )}
       </div>
-      <div className="grid grid-cols-3 grid-flow-row gap-4 max-md:grid-cols-2 max-sm:grid-cols-1">
-        {!!feedbackList.length ? (
-          feedbackList.map((feedback) => {
+      {!!feedbackList?.length ? (
+        <div className="grid grid-cols-3 grid-flow-row gap-4 max-md:grid-cols-2 max-sm:grid-cols-1">
+          {feedbackList?.map((feedback) => {
             return (
               <TestimonialsCard
                 id={feedback.id}
@@ -91,14 +94,14 @@ function Testimonials() {
                 feedback={feedback.feedback}
               />
             );
-          })
-        ) : (
-          <div className="text-center m-auto">
-            <span>there is no feedback yet</span>
-            <span>share your link to your customers to rank up.</span>
-          </div>
-        )}
-      </div>
+          })}
+        </div>
+      ) : (
+        <div className="w-full text-center m-auto">
+          <span>there is no feedback yet</span>
+          <span>share your link to your customers to rank up.</span>
+        </div>
+      )}
     </section>
   );
 }

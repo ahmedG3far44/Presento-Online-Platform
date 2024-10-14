@@ -29,6 +29,7 @@ function HeroLayoutTwo({
 
       <div className="hero_img">
         <Image
+          priority
           height={320}
           width={320}
           src={

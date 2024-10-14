@@ -12,7 +12,7 @@ function SkillLayoutsWrapper({ skillLayoutStyle, children }) {
             }
             ${
               skillLayoutStyle === "3" &&
-              " flex justify-start items-center gap-4 flex-wrap"
+              " flex justify-center items-center gap-4 "
             }
             ${
               skillLayoutStyle === "4" &&

@@ -1,56 +1,70 @@
 "use client";
-import { useRef } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { addProject } from "../../../../actions/create/actions";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { LuImage } from "react-icons/lu";
 import { PiImagesSquare } from "react-icons/pi";
+import { Plus } from "lucide-react";
+import Loader from "@/app/components/loaders/Loader";
+import { useToast } from "@/components/ui/use-toast";
+import { addProject } from "@/app/actions/create/actions";
 
 function ProjectsForm({ project, setProject }) {
   const { toast } = useToast();
   const addProjectRef = useRef(null);
   const tagRef = useRef(null);
-  const [loading, setLoading] = useState(false);
   const [error, setErrorMessage] = useState(null);
+  const [pending, setPending] = useState(false);
   const [successMessage, setSuccessAddMessage] = useState(null);
   const [tag, setTag] = useState("");
   const [tagList, setTagsList] = useState([]);
   const [projectImages, setProjectImages] = useState([]);
   const [thumbnail, setThumbnail] = useState("");
 
-  const addProjectAction = async (formData) => {
-    setLoading(true);
-    let results = await addProject(formData, tagList);
+  // const addProjectAction = async (formData) => {
+  //   let results = await addProject(formData, tagList);
+  //   setPending(true);
 
-    if (!results?.success) {
-      // error
-      setErrorMessage(results?.message);
-      setLoading(false);
-      toast({
-        variant: "destructive",
-        title: "can't create a new project",
-        description: results?.message,
-      });
-    } else {
-      // success
-      setErrorMessage("");
-      setSuccessAddMessage(results?.message);
-      toast({
-        title: "success added",
-        description: results?.message,
-      });
-      setTimeout(() => {
-        setSuccessAddMessage("");
-      }, 1000);
-      setTagsList([]);
-      addProjectRef.current?.reset();
-      setLoading(false);
-    }
-  };
+  //   console.log(pending);
+  //   if (results.success !== true) {
+  //     // error
+  //     setErrorMessage(results?.message);
+  //     setPending(false);
+  //     toast({
+  //       variant: "destructive",
+  //       title: "can't create a new project",
+  //       description: results?.message,
+  //     });
+  //   } else {
+  //     // success
+  //     // setErrorMessage("");
+  //     setSuccessAddMessage(results?.message);
+  //     toast({
+  //       title: "success added",
+  //       description: results?.message,
+  //     });
+  //     setTimeout(() => {
+  //       setSuccessAddMessage("");
+  //     }, 1000);
+  //     setPending(false);
+  //     setTagsList([]);
+  //     addProjectRef.current?.reset();
+  //   }
+  // };
   return (
     <form
       ref={addProjectRef}
-      action={addProjectAction}
+      action={async (formData) => {
+        setPending(true);
+        await addProject(formData, tagList)
+          .then((response) => {
+            console.log(response.success);
+            console.log(response.message);
+            setPending(false);
+          })
+          .catch((error) => {
+            console.log(error.message);
+            setPending(false);
+          });
+      }}
       className="bg-card flex-1 max-h-auto  rounded-md flex flex-col justify-start items-start gap-2 p-4 border"
     >
       <label
@@ -96,9 +110,9 @@ function ProjectsForm({ project, setProject }) {
         multiple
       />
 
-      {loading && (
-        <div className="flex justify-start items-center gap-2 w-full p-2">
-          <span className="w-4 h-4 rounded-full bg-transparent border-r-0 border-t-0 border-l-2 border-b-2 border-primary animate-spin"></span>{" "}
+      {pending && (
+        <div className="flex justify-start items-center gap-2 w-full p-2 bg-secondary rounded-md">
+          <Loader />
           <h1>uploading...</h1>
         </div>
       )}
@@ -120,15 +134,21 @@ function ProjectsForm({ project, setProject }) {
           ref={tagRef}
           onChange={(e) => setTag(e.target.value)}
         />
-        <span
+        <button
+          type="button"
           onClick={(e) => {
             setTagsList([...tagList, tag]);
             setTag("");
           }}
-          className={"!w-1/4 !text-center submit_button"}
+          className={
+            "!w-1/4 !text-center submit_button flex justify-center items-center gap-2"
+          }
         >
-          Add Tag
-        </span>
+          <span>
+            <Plus size={20} />
+          </span>{" "}
+          <span>tag</span>
+        </button>
       </div>
       <div className="flex justify-start items-center gap-2 flex-wrap">
         {tagList.length > 0 &&
@@ -168,8 +188,8 @@ function ProjectsForm({ project, setProject }) {
       {error && <div className="error_message">{error}</div>}
       <input
         type="submit"
-        disabled={loading}
-        value={loading ? "creating..." : "Add"}
+        disabled={pending}
+        value={pending ? "creating..." : "Add"}
         className="submit_button"
       />
     </form>
