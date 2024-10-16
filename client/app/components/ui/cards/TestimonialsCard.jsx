@@ -11,6 +11,7 @@ function TestimonialsCard({
   name,
   video,
   isLogged,
+  feedbackState,
 }) {
   const { userId } = useParams();
   const { toast } = useToast();
@@ -52,7 +53,7 @@ function TestimonialsCard({
   return (
     <div
       className={
-        "flex flex-col justify-start items-start gap-4 p-4 rounded-md border bg-card"
+        "w-full flex flex-col justify-start items-start gap-4 p-4 rounded-md border bg-card"
       }
     >
       <div className={"flex justify-between items-center w-full"}>
@@ -85,10 +86,21 @@ function TestimonialsCard({
       </div>
 
       <div className={"w-full p-2 rounded-md overflow-hidden"}>
-        {!video ? (
+        {feedbackState === "text" ? (
           <p className="text-start text-sm">{feedback}</p>
         ) : (
-          <video ref={videoRef} onClick={playPause} controls src={video} />
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            onClick={playPause}
+            muted
+            // controls
+            width={200}
+            height={200}
+            className="rounded-lg m-auto "
+            src={video}
+          />
         )}
       </div>
     </div>

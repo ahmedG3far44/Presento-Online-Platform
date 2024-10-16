@@ -164,7 +164,7 @@ function layout({ children }) {
           </li>
         </ul>
       </MobileMenuBar>
-      <main className="w-3/4 mt-4 max-sm:w-full max-md:w-full  max-w-full ml-auto  absolute top-0 right-0 max-sm:static max-md:static">
+      <main className="w-4/5 mt-4 max-sm:w-full max-md:w-full  max-w-full ml-auto  absolute top-0 right-0 max-sm:static max-md:static">
         {children}
       </main>
     </section>

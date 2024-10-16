@@ -12,6 +12,7 @@ function SkillsForm({ skillState, setSkill }) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setErrorMessage] = useState("");
+  const [skillLogoImage, setUploadedSkillLogo] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const skillFormRef = useRef(null);
   const handleAddNewSkill = async (e) => {
@@ -19,8 +20,11 @@ function SkillsForm({ skillState, setSkill }) {
     setLoading(true);
     const formData = new FormData();
 
-    formData.append("file", skillState.skillLogo);
+    formData.append("file", skillLogoImage);
     formData.append("skillName", skillState.skillName);
+
+    // console.log(formData.get("skillLogo"));
+    // console.log(formData.get("skillName"));
 
     try {
       const file = formData.get("file");
@@ -58,12 +62,12 @@ function SkillsForm({ skillState, setSkill }) {
           title: "a new skill was added",
           description: data.message,
         });
+        skillFormRef?.current.reset();
         setErrorMessage(null);
         setSuccessMessage("uploaded done successful");
         setTimeout(() => {
           setSuccessMessage("");
         }, 1000);
-        skillFormRef?.current.reset();
         router.refresh();
         return;
       }
@@ -71,7 +75,7 @@ function SkillsForm({ skillState, setSkill }) {
       setLoading(false);
       toast({
         variant: "destructive",
-        title: "not added skill",
+        title: "can't add a new skill",
         description: error.message,
       });
       setErrorMessage(error.message);
@@ -99,9 +103,13 @@ function SkillsForm({ skillState, setSkill }) {
       </label>
       <input
         type="file"
-        onChange={(e) =>
-          setSkill({ ...skillState, skillLogo: e.target.files[0] })
-        }
+        onChange={(e) => {
+          setUploadedSkillLogo(e.target.files[0]);
+          setSkill({
+            ...skillState,
+            skillLogo: URL.createObjectURL(e.target.files[0]),
+          });
+        }}
         id="skillLogo"
         name="skillLogo"
         className={

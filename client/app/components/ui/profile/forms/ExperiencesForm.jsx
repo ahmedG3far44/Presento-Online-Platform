@@ -2,7 +2,7 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useState } from "react";
-import { experienceSchema } from "../../../../../lib/schema";
+import { experienceSchema } from "@/lib/schema";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/app/components/loaders/Loader";
 import { LuImagePlus } from "react-icons/lu";
@@ -41,7 +41,6 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
       );
     }
     const fileTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
-
     if (!fileTypes.includes(file.type)) {
       setLoading(false);
       setErrorMessage(
@@ -123,7 +122,13 @@ function ExperiencesForm({ experiencesObject, setExperiencesObject }) {
       </label>
       <input
         type="file"
-        onChange={(e) => setExpCompanyLogo(e.target.files[0])}
+        onChange={(e) => {
+          setExpCompanyLogo(e.target.files[0]);
+          setExperiencesObject({
+            ...experiencesObject,
+            cLogo: URL.createObjectURL(e.target.files[0]),
+          });
+        }}
         id="expLogo"
         name="expLogo"
         className={

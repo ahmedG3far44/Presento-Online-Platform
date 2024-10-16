@@ -44,12 +44,12 @@ function ExpLayout({ ExperiencesList, layouts, setLayouts, isLogged }) {
       ) : (
         <>
           {isLogged && (
-            <div className="flex flex-col-reverse justify-center items-center gap-2 p-4 border rounded-md w-full ">
+            <div className="flex flex-col-reverse justify-center items-center gap-2 p-4 border rounded-md w-full  ">
               <h2 className="flex gap-2 justify-center items-center">
                 <MdErrorOutline size={15} />{" "}
                 <span>no experiences added yet!!</span>
               </h2>
-              <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-secondary duration-150">
+              <div className="w-40 h-40 border bg-card flex justify-center items-center rounded-md hover:bg-secondary duration-150">
                 <Link href={`/${userId}/profile/experiences`}>
                   <span>
                     <LuPlus size={50} />

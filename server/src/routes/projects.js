@@ -234,80 +234,84 @@ router.delete(
     const { userId, projectId } = req.params;
 
     let deletedProjectImageUrls = [];
-
-    const project = await prisma.projects.findUnique({
-      where: {
-        id: projectId,
-        usersId: userId,
-      },
-      select: {
-        ImagesList: true,
-        id: true,
-        tags: true,
-        thumbnail: true,
-      },
-    });
-
-    if (!project) {
-      return res
-        .status(404)
-        .json(new Exceptions(404, "this project doesn't exist"));
-    }
-
-    // const deleteProjectImagesPath = project.thumbnail
-    //   .split("/")
-    //   .slice(0, 3)
-    //   .join("/");
-
-    deletedProjectImageUrls.push(splitImageUrl(project.thumbnail));
-
-    project.ImagesList.map((image) => {
-      let key = splitImageUrl(image?.url);
-      deletedProjectImageUrls.push(key);
-    });
-
-    console.log(deletedProjectImageUrls);
-
-    deletedProjectImageUrls.map(async (keyUrl) => {
-      const command = new DeleteObjectCommand({
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: keyUrl,
+    try {
+      const project = await prisma.projects.findUnique({
+        where: {
+          id: projectId,
+          usersId: userId,
+        },
+        select: {
+          ImagesList: true,
+          id: true,
+          tags: true,
+          thumbnail: true,
+        },
       });
 
-      await s3Client
-        .send(command)
-        .then(async () => {
-          console.log(`${keyUrl}, was deleted from s3`);
-        })
-        .catch((s3Error) => {
-          return res.status(500).json(new Exceptions(500, s3Error.message));
+      if (!project) {
+        return res
+          .status(404)
+          .json(new Exceptions(404, "this project doesn't exist"));
+      }
+
+      // const deleteProjectImagesPath = project.thumbnail
+      //   .split("/")
+      //   .slice(0, 3)
+      //   .join("/");
+
+      deletedProjectImageUrls.push(splitImageUrl(project.thumbnail));
+
+      project.ImagesList.map((image) => {
+        let key = splitImageUrl(image?.url);
+        deletedProjectImageUrls.push(key);
+      });
+
+      console.log(deletedProjectImageUrls);
+
+      deletedProjectImageUrls.map(async (keyUrl) => {
+        const command = new DeleteObjectCommand({
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Key: keyUrl,
         });
-    });
 
-    await prisma.tags.deleteMany({
-      where: {
-        projectsId: projectId,
-      },
-    });
-    console.log("all tags deleted");
-    await prisma.imagesList.deleteMany({
-      where: {
-        projectsId: projectId,
-      },
-    });
-    console.log("all images deleted");
+        await s3Client
+          .send(command)
+          .then(async () => {
+            console.log(`${keyUrl}, was deleted from s3`);
+          })
+          .catch((s3Error) => {
+            return res.status(500).json(new Exceptions(500, s3Error.message));
+          });
+      });
 
-    await prisma.projects.delete({
-      where: {
-        id: projectId,
-        usersId: userId,
-      },
-    });
-    console.log("the project deleted successful");
+      await prisma.tags.deleteMany({
+        where: {
+          projectsId: projectId,
+        },
+      });
+      console.log("all tags deleted");
+      await prisma.imagesList.deleteMany({
+        where: {
+          projectsId: projectId,
+        },
+      });
+      console.log("all images deleted");
 
-    return res
-      .status(200)
-      .json(new Exceptions(200, "project deleted successful"));
+      await prisma.projects.delete({
+        where: {
+          id: projectId,
+          usersId: userId,
+        },
+      });
+      console.log("the project deleted successful");
+
+      return res
+        .status(200)
+        .json(new Exceptions(200, "project deleted successful"));
+    } catch (error) {
+      console.log(error.message);
+      return res.status(400).json(new Exceptions(400, error.message));
+    }
   }
 );
 

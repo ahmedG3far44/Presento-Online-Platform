@@ -27,11 +27,7 @@ function SkillCard({ skillName, skillLogo, layoutStyle }) {
               ${layoutStyle === "3" && "block"}
               ${layoutStyle === "5" && "hidden"}
               `}
-          src={
-            !!skillLogo
-              ? skillLogo
-              : "https://st2.depositphotos.com/1561359/12101/v/380/depositphotos_121012076-stock-illustration-blank-photo-icon.jpg"
-          }
+          src={skillLogo}
           width={40}
           height={40}
           alt="skill logo"

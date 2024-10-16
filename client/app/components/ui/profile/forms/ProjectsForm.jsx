@@ -86,7 +86,14 @@ function ProjectsForm({ project, setProject }) {
         accept="image/png, image/jpeg, image/jpg,  image/gif"
         name="thumbnail"
         className={thumbnail ? "input" : "hidden"}
-        onChange={(e) => setThumbnail(e.target.files[0])}
+        onChange={(e) => {
+          setThumbnail(e.target.files[0]);
+          // console.log(URL?.createObjectURL(thumbnail));
+          setProject({
+            ...project,
+            thumbnail: URL.createObjectURL(e.target.files[0]),
+          });
+        }}
       />
       <label
         className="cursor-pointer hover:bg-secondary duration-150 w-full border-2 border-dashed bg-primary-foreground rounded-md p-4 flex flex-col justify-center items-center gap-4p"

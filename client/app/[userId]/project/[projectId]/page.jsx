@@ -106,16 +106,20 @@ function ProjectDetailsPage() {
             <div>
               <p>{project?.description}</p>
             </div>
-            <div className={"flex justify-start items-center gap-2 flex-wrap"}>
+            <>
               {!!project?.tags.length ? (
-                <>
+                <div
+                  className={
+                    "w-full flex justify-start items-start gap-4 flex-wrap"
+                  }
+                >
                   {project?.tags.map((tag) => {
                     return (
                       <div key={tag.id}>
                         {tag.tagName !== "" && (
                           <span
                             className={
-                              "px-4 py-1 rounded-3xl border bg-secondary "
+                              "px-4 py-1 rounded-3xl border bg-secondary text-purple-500"
                             }
                             key={tag.id}
                           >
@@ -125,11 +129,11 @@ function ProjectDetailsPage() {
                       </div>
                     );
                   })}
-                </>
+                </div>
               ) : (
                 <></>
               )}
-            </div>
+            </>
             <div className="flex justify-start items-center gap-4  w-full border rounded-md p-4">
               <LoveBtn likes={project?.likes} />
               <div className="flex justify-start items-center gap-2">

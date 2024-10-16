@@ -9,14 +9,14 @@ dotenv.config();
 
 const app = express();
 
-// const corsOptions = {
-//   origin:
-//     process.env.NODE_ENV === "development"
-//       ? "http://localhost:3000"
-//       : window.location.origin, // Allow only requests from this origin
-//   methods: "GET,POST, PUT, DELETE", // Allow only these methods
-//   allowedHeaders: ["Content-Type", "Authorization"], // Allow only these headers
-// };
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : process.env.HOST, // Allow only requests from this origin
+  methods: "GET,POST, PUT, DELETE", // Allow only these methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow only these headers
+};
 
 prisma
   .$connect()
@@ -27,7 +27,7 @@ prisma
     console.log("db connection error");
   });
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api", rootRouter);

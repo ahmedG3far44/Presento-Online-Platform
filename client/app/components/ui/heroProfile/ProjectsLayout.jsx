@@ -47,7 +47,7 @@ function ProjectsLayout({ ProjectsList, layouts, setLayouts, isLogged }) {
                 <MdErrorOutline size={15} />{" "}
                 <span>no projects added yet!!</span>
               </h2>
-              <div className="w-40 h-40 border flex justify-center items-center rounded-md hover:bg-secondary duration-150">
+              <div className="w-40 h-40 border bg-card flex justify-center items-center rounded-md hover:bg-secondary duration-150">
                 <Link href={`/${layouts?.usersId}/profile/projects`}>
                   <span>
                     <LuPlus size={50} />

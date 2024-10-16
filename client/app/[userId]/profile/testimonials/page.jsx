@@ -81,7 +81,7 @@ function Testimonials() {
         )}
       </div>
       {!!feedbackList?.length ? (
-        <div className="grid grid-cols-3 grid-flow-row gap-4 max-md:grid-cols-2 max-sm:grid-cols-1">
+        <div className="w-full grid grid-cols-3 grid-flow-row gap-2 max-md:grid-cols-2 max-sm:grid-cols-1">
           {feedbackList?.map((feedback) => {
             return (
               <TestimonialsCard

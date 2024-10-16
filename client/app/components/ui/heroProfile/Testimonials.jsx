@@ -6,8 +6,7 @@ function Testimonials({ TestimonialsList, isLogged }) {
         "grid grid-cols-4 grid-flow-row max-md:grid-cols-2 max-sm:grid-cols-1 w-full gap-4 my-8"
       }
     >
-      {typeof TestimonialsList === "array" &&
-        TestimonialsList.length > 0 &&
+      {!!TestimonialsList?.length &&
         TestimonialsList.map((testimonials) => {
           const { id, name, profile, video, position, feedback } = testimonials;
           return (
