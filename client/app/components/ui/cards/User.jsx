@@ -13,7 +13,7 @@ function User({ name, picture, isAdmin }) {
         width={40}
         height={40}
         alt="user profile picture"
-        className="rounded-full overflow-hidden border"
+        className="rounded-full overflow-hidden border object-cover "
       />
 
       <div className="w-full flex flex-col justify-start items-start gap-2 flex-wrap max-sm:justify-center max-md:justify-center max-sm:items-center max-md:items-center">

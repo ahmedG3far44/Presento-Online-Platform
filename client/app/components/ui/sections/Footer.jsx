@@ -2,12 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import ContactsCard from "../cards/ContactsCard";
 import Container from "../containers/Container";
-import credentials from "../../../credentials/credentials";
-async function Footer() {
+async function Footer({ picture, username, userId }) {
   const year = new Date().getFullYear();
-  const { user } = await credentials();
   const contacts = await (
-    await fetch(`http://localhost:4000/api/${user?.id}/contacts`)
+    await fetch(`http://localhost:4000/api/${userId}/contacts`)
   ).json();
   return (
     <footer className="footer">
@@ -16,15 +14,15 @@ async function Footer() {
           <Image
             className="rounded-full object-cover border-2 w-10 h-10 overflow-hidden"
             src={
-              user?.picture
-                ? user?.picture
+              picture
+                ? picture
                 : "https://superstarsculture.com/wp-content/uploads/2023/10/unknown-1-3.jpg"
             }
             alt={"profile user picture"}
             width={40}
             height={40}
           />
-          <h1 className="text-nowrap mr-10">{user?.given_name}</h1>
+          <h1 className="text-nowrap mr-10">{username}</h1>
         </div>
 
         <div className="flex flex-1">
@@ -32,7 +30,7 @@ async function Footer() {
         </div>
 
         <div className="">
-          <span> &copy; all rights are reserved {year} to the creator </span>
+          <span> all &copy; rights are reserved, designed & created by </span>
           <Link
             className="bg-gradient-to-br text-lg from-purple-500 via-sky-600 text-transparent bg-clip-text hover:text-purple-500 duration-150"
             target="_blank"

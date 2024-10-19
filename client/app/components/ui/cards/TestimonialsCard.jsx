@@ -16,11 +16,7 @@ function TestimonialsCard({
   const { userId } = useParams();
   const { toast } = useToast();
   const router = useRouter();
-  const videoRef = useRef();
-  const playPause = () => {
-    console.log(videoRef);
-    console.log("first");
-  };
+
   const handleDeleteFeedback = async () => {
     try {
       const request = await fetch(
@@ -86,16 +82,11 @@ function TestimonialsCard({
       </div>
 
       <div className={"w-full p-2 rounded-md overflow-hidden"}>
-        {feedbackState === "text" ? (
-          <p className="text-start text-sm">{feedback}</p>
+        {feedback ? (
+          <p className="text-start text-md">{feedback}</p>
         ) : (
           <video
-            ref={videoRef}
-            autoPlay
-            loop
-            onClick={playPause}
-            muted
-            // controls
+            controls
             width={200}
             height={200}
             className="rounded-lg m-auto "

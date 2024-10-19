@@ -56,7 +56,7 @@ function BioForm({ bio, setBio }) {
       });
       return;
     } finally {
-      setLoading(true);
+      setLoading(false);
       return;
     }
   };

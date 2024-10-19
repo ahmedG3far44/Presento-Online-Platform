@@ -1,15 +1,16 @@
 "use client";
 import { useToast } from "@/components/ui/use-toast";
-import { contactsSchema } from "../../../../../lib/schema";
+import { contactsSchema } from "@/lib/schema";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 
 function ContactsForm({ contacts, setContacts }) {
   const { toast } = useToast();
-  const status = useFormStatus();
+  const [pending, setPending] = useState(false);
   const [updateContactsState, setUpdateContacts] = useState(true);
   const updateContactsUrl = async (e) => {
     e.preventDefault();
+    setPending(true);
     console.log(contacts);
     try {
       const validContactsData = contactsSchema.safeParse(contacts);
@@ -29,18 +30,20 @@ function ContactsForm({ contacts, setContacts }) {
           body: JSON.stringify(validContactsData?.data),
         }
       );
-      if (!request.ok) {
+      if (!request.status === 200) {
         toast({
           title: "update contacts request error",
         });
       }
-      const data = request.json();
-      setUpdateContacts(true);
-      data.then((res) => {
-        toast({
-          description: res.message,
-        });
+      const data = await request.json();
+
+      // setUpdateContacts(true);
+
+      toast({
+        description: data.message,
       });
+
+      setPending(false);
       setUpdateContacts(true);
       return data;
     } catch (error) {
@@ -104,8 +107,8 @@ function ContactsForm({ contacts, setContacts }) {
         />
         <input
           type="submit"
-          disabled={status.pending}
-          value={status.pending ? "saving..." : "save changes"}
+          disabled={pending}
+          value={pending ? "updating..." : "save changes"}
           className="submit_button"
         />
       </form>

@@ -5,7 +5,6 @@ import { LuCopy } from "react-icons/lu";
 import { LuCheckCheck } from "react-icons/lu";
 import TestimonialsCard from "@/app/components/ui/cards/TestimonialsCard";
 function Testimonials() {
-  // const url = "";
   const { userId } = useParams();
   const [copyState, setCopy] = useState(false);
   const [urlLink, setUrlLink] = useState("");
@@ -92,6 +91,7 @@ function Testimonials() {
                 video={feedback.video}
                 position={feedback.position}
                 feedback={feedback.feedback}
+                isLogged={true}
               />
             );
           })}

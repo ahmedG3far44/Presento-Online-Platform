@@ -110,7 +110,7 @@ function ProjectDetailsPage() {
               {!!project?.tags.length ? (
                 <div
                   className={
-                    "w-full flex justify-start items-start gap-4 flex-wrap"
+                    "w-full flex justify-start items-center gap-4 flex-wrap"
                   }
                 >
                   {project?.tags.map((tag) => {
@@ -119,11 +119,11 @@ function ProjectDetailsPage() {
                         {tag.tagName !== "" && (
                           <span
                             className={
-                              "px-4 py-1 rounded-3xl border bg-secondary text-purple-500"
+                              "px-4 py-1 rounded-3xl border bg-secondary"
                             }
                             key={tag.id}
                           >
-                            #{tag.tagName}
+                            {tag.tagName}
                           </span>
                         )}
                       </div>

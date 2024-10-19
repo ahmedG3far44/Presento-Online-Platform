@@ -7,7 +7,7 @@ import { ModeToggle } from "../../../../components/dark-mode-toggle";
 import { HiOutlineLogout } from "react-icons/hi";
 import { LuSettings } from "react-icons/lu";
 
-async function Header() {
+async function Header({ picture, username, userId }) {
   const { isLogged, user, isAdmin } = await credentials();
 
   return (
@@ -17,8 +17,8 @@ async function Header() {
           <Image
             priority
             src={
-              user?.picture
-                ? user?.picture
+              picture
+                ? picture
                 : "https://superstarsculture.com/wp-content/uploads/2023/10/unknown-1-3.jpg"
             }
             width={40}
@@ -26,7 +26,7 @@ async function Header() {
             alt="profile user image"
             className="w-10 h-10 rounded-full object-cover border-2 "
           />
-          <h1 className="text-muted-foreground">{user?.given_name}</h1>
+          <h1 className="text-muted-foreground">{username}</h1>
         </div>
       </div>
 
@@ -35,10 +35,10 @@ async function Header() {
           isLogged ? "justify-end" : "justify-center"
         }`}
       >
-        <Link href={`/${user?.id}/#about`}>About</Link>
-        <Link href={`/${user?.id}/#experiences`}>Experiences</Link>
-        <Link href={`/${user?.id}/#projects`}>Projects</Link>
-        <Link href={`/${user?.id}/#skills`}>Skills</Link>
+        <Link href={`/${userId}/#about`}>About</Link>
+        <Link href={`/${userId}/#experiences`}>Experiences</Link>
+        <Link href={`/${userId}/#projects`}>Projects</Link>
+        <Link href={`/${userId}/#skills`}>Skills</Link>
       </nav>
 
       <div className="ml-auto ">
@@ -48,7 +48,7 @@ async function Header() {
             {isAdmin && isLogged ? (
               <Link
                 className="hover:bg-secondary p-2 rounded-md duration-150"
-                href={`/${user?.id}/dashboard/users`}
+                href={`/${userId}/dashboard/users`}
               >
                 Dashboard
               </Link>
@@ -56,7 +56,7 @@ async function Header() {
               <>
                 <Link
                   className="hover:bg-secondary p-2 rounded-md duration-150"
-                  href={`/${user?.id}/profile/bio`}
+                  href={`/${userId}/profile/bio`}
                 >
                   <LuSettings size={20} />
                 </Link>

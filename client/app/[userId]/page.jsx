@@ -27,12 +27,15 @@ const getUserInfo = async (userId) => {
   }
 };
 
-async function UserPage() {
+async function UserPage({ params }) {
+  const { userId } = params;
   const { user } = await credentials();
   const { isLogged } = await credentials();
-  const userInfo = await getUserInfo(user?.id);
-  const layouts = await getUserLayouts(user?.id);
+  const userInfo = await getUserInfo(user?.id || userId);
+  const layouts = await getUserLayouts(user?.id || userId);
   const {
+    name,
+    picture,
     bio,
     ExperiencesList,
     ProjectsList,
@@ -46,8 +49,8 @@ async function UserPage() {
       className="
      flex flex-col justify-start items-center gap-10 m-auto w-full max-w-full overflow-x-hidden overflow-y-auto no-scrollbar"
     >
-      <Header />
-      <Container className="w-full m-auto flex flex-col gap-8">
+      <Header userId={userId} picture={picture} username={name} />
+      <Container className="w-full m-auto flex flex-col gap-16">
         <MainProfilePreviewSection
           layouts={layouts}
           ExperiencesList={ExperiencesList}
@@ -59,7 +62,7 @@ async function UserPage() {
           isLogged={isLogged}
         />
       </Container>
-      <Footer />
+      <Footer userId={userId} picture={picture} username={name} />
     </div>
   );
 }

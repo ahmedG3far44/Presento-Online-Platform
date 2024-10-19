@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import { useToast } from "../../../components/ui/use-toast";
 import Loader from "../../components/loaders/Loader";
 import TestimonialsCard from "@/app/components/ui/cards/TestimonialsCard";
-import { MdOutlineCelebration } from "react-icons/md";
+// import { MdOutlineCelebration } from "react-icons/md";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 
 function FeedBackPage() {

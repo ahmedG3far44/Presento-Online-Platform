@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { LuImage } from "react-icons/lu";
 import { PiImagesSquare } from "react-icons/pi";
 import { Plus } from "lucide-react";
@@ -18,52 +18,34 @@ function ProjectsForm({ project, setProject }) {
   const [tagList, setTagsList] = useState([]);
   const [projectImages, setProjectImages] = useState([]);
   const [thumbnail, setThumbnail] = useState("");
-
-  // const addProjectAction = async (formData) => {
-  //   let results = await addProject(formData, tagList);
-  //   setPending(true);
-
-  //   console.log(pending);
-  //   if (results.success !== true) {
-  //     // error
-  //     setErrorMessage(results?.message);
-  //     setPending(false);
-  //     toast({
-  //       variant: "destructive",
-  //       title: "can't create a new project",
-  //       description: results?.message,
-  //     });
-  //   } else {
-  //     // success
-  //     // setErrorMessage("");
-  //     setSuccessAddMessage(results?.message);
-  //     toast({
-  //       title: "success added",
-  //       description: results?.message,
-  //     });
-  //     setTimeout(() => {
-  //       setSuccessAddMessage("");
-  //     }, 1000);
-  //     setPending(false);
-  //     setTagsList([]);
-  //     addProjectRef.current?.reset();
-  //   }
-  // };
   return (
     <form
       ref={addProjectRef}
       action={async (formData) => {
         setPending(true);
-        await addProject(formData, tagList)
-          .then((response) => {
-            console.log(response.success);
-            console.log(response.message);
-            setPending(false);
-          })
-          .catch((error) => {
-            console.log(error.message);
-            setPending(false);
+
+        const result = await addProject(formData, tagList);
+
+        if (!result?.success) {
+          setErrorMessage(result?.message);
+          toast({
+            variant: "destructive",
+            title: "can't add a new project",
+            description: result?.message,
           });
+          setPending(false);
+        }
+
+        setSuccessAddMessage(result?.message);
+        setTimeout(() => {
+          setSuccessAddMessage("");
+        }, 1000);
+        toast({
+          title: "a new project was added successful",
+        });
+        setPending(false);
+        setErrorMessage("");
+        addProjectRef?.current.reset();
       }}
       className="bg-card flex-1 max-h-auto  rounded-md flex flex-col justify-start items-start gap-2 p-4 border"
     >
@@ -143,12 +125,13 @@ function ProjectsForm({ project, setProject }) {
         />
         <button
           type="button"
-          onClick={(e) => {
+          disabled={tag.length === 0}
+          onClick={() => {
             setTagsList([...tagList, tag]);
             setTag("");
           }}
           className={
-            "!w-1/4 !text-center submit_button flex justify-center items-center gap-2"
+            "!w-1/4 !text-center submit_button flex justify-center items-center gap-2 disabled:cursor-not-allowed disabled:bg-secondary"
           }
         >
           <span>
@@ -164,7 +147,7 @@ function ProjectsForm({ project, setProject }) {
               <div key={index}>
                 {tag !== "" && (
                   <h1 className="my-2 px-4 rounded-3xl border bg-secondary ">
-                    #{tag}
+                    {tag}
                   </h1>
                 )}
               </div>
@@ -177,6 +160,7 @@ function ProjectsForm({ project, setProject }) {
         placeholder="enter your project description here..."
         name="description"
         className="input h-[130px] "
+        maxLength={300}
         onChange={(e) =>
           setProject({ ...project, description: e.target.value })
         }
@@ -195,7 +179,7 @@ function ProjectsForm({ project, setProject }) {
       {error && <div className="error_message">{error}</div>}
       <input
         type="submit"
-        disabled={pending}
+        aria-disabled={pending}
         value={pending ? "creating..." : "Add"}
         className="submit_button"
       />

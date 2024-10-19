@@ -1,5 +1,5 @@
 import TestimonialsCard from "../cards/TestimonialsCard";
-function Testimonials({ TestimonialsList, isLogged }) {
+function Testimonials({ TestimonialsList }) {
   return (
     <section
       className={
@@ -18,7 +18,7 @@ function Testimonials({ TestimonialsList, isLogged }) {
               video={video}
               position={position}
               feedback={feedback}
-              isLogged={isLogged}
+              isLogged={false}
             />
           );
         })}

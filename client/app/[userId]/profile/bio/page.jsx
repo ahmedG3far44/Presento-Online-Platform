@@ -35,7 +35,7 @@ function BioPage() {
   }, []);
   return (
     <div className="w-full flex flex-col justify-start items-start gap-4 overflow-x-hidden overflow-y-scroll no-scrollbar p-4">
-      <div className="bg-secondary w-full max-sm:w-full max-md:w-full  m-auto mt-4  rounded-md p-8 border-2 border-dashed">
+      <div className="bg-card border-2 border-dashed border-secondary w-full max-sm:w-full max-md:w-full  m-auto mt-4  rounded-md p-8 ">
         {isLoading ? (
           <div className="w-full h-full min-w-full min-h-1/2 flex justify-center items-center p-8">
             <h1 className="text-4xl">Loading...</h1>

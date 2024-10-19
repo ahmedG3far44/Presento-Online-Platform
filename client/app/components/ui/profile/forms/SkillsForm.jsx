@@ -113,7 +113,7 @@ function SkillsForm({ skillState, setSkill }) {
         id="skillLogo"
         name="skillLogo"
         className={
-          skillState.skillLogo ? "p-2 w-full bg-secondary rounded-md" : "hidden"
+          skillLogoImage ? "p-2 w-full bg-secondary rounded-md" : "hidden"
         }
         accept="image/png, image/jpeg, image/jpg, image/gif"
         required

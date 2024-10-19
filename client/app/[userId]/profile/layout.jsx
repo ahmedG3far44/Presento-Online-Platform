@@ -4,11 +4,17 @@ import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useParams, usePathname } from "next/navigation";
 import Link from "next/link";
-import { ModeToggle } from "../../../components/dark-mode-toggle";
-import { LuLayers, LuLogOut } from "react-icons/lu";
-import AsideProfile from "../../components/ui/nav/AsideProfile";
-import MobileMenuBar from "../../components/ui/nav/MobileMenuBar";
-import User from "../../components/ui/cards/User";
+import { ModeToggle } from "@/components/dark-mode-toggle";
+import { LuLogOut } from "react-icons/lu";
+import AsideProfile from "@/app/components/ui/nav/AsideProfile";
+import MobileMenuBar from "@/app/components/ui/nav/MobileMenuBar";
+import User from "@/app/components/ui/cards/User";
+import { BiHomeSmile } from "react-icons/bi";
+import { LuUser } from "react-icons/lu";
+import { LuNewspaper } from "react-icons/lu";
+import { LuWand2 } from "react-icons/lu";
+import { VscFeedback } from "react-icons/vsc";
+import { LuBox } from "react-icons/lu";
 function layout({ children }) {
   // console.log(path);
   const { getUser, getPermission } = useKindeBrowserClient();
@@ -21,32 +27,32 @@ function layout({ children }) {
     {
       path: `/${userId}`,
       name: "Home",
-      icon: <LuLayers size={20} />,
+      icon: <BiHomeSmile size={20} />,
     },
     {
       path: `/${userId}/profile/bio`,
       name: "Bio",
-      icon: <LuLayers size={20} />,
+      icon: <LuUser size={20} />,
     },
     {
       path: `/${userId}/profile/experiences`,
       name: "Experiences",
-      icon: <LuLayers size={20} />,
+      icon: <LuNewspaper size={20} />,
     },
     {
       path: `/${userId}/profile/projects`,
       name: "Projects",
-      icon: <LuLayers size={20} />,
+      icon: <LuBox size={20} />,
     },
     {
       path: `/${userId}/profile/skills`,
       name: "Skills",
-      icon: <LuLayers size={20} />,
+      icon: <LuWand2 size={20} />,
     },
     {
       path: `/${userId}/profile/testimonials`,
       name: "Testimonials",
-      icon: <LuLayers size={20} />,
+      icon: <VscFeedback size={20} />,
     },
   ];
   return (
@@ -88,9 +94,12 @@ function layout({ children }) {
                     </Link>
                   ) : (
                     <Link
-                      className={`w-full flex gap-2 rounded-md`}
+                      className={`w-full flex justify-start items-center gap-2 rounded-md`}
                       href={route.path}
                     >
+                      <span className="  font-semibold text-md">
+                        {route.icon}
+                      </span>
                       <span className="font-semibold text-md">
                         {route.name}
                       </span>
